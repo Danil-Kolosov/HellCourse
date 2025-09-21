@@ -7,17 +7,14 @@ public class LineElement : FigureElement
 {
     private float _length;
 
-    public event Action<float> OnChangedLenght; // Событие изменения
-    //public event Action<FigureElement> OnChanged;
     public float Length {
         get => _length;
         set
         {
             if (_length != value)
             {
-                OnChangedLenght?.Invoke(Length - value); // Вызываем событие
                 _length = value;
-                OnPropertyChanged();
+                OnPropertyChanged(); // Вызываем событие
             }
         }
     }
@@ -52,20 +49,10 @@ public class LineElement : FigureElement
             graphics.DrawLine(pen, Position, EndPoint);
         }
     }
-    public override void LinkLenghtChange(float deltaL/*, float deltaA*/)
-    {
-        Position = new PointF(Position.X,Position.Y + deltaL);
-        //Rotation += deltaA;
-    }
 
     public override void LinkChange(FigureElement el)
     {
         if (el is LineElement line)
             Position = line.EndPoint;
     }
-    //public override bool ContainsPoint(PointF point)
-    //{
-    //    // Упрощённая проверка - считаем что линия не кликабельна
-    //    return false;
-    //}
 }

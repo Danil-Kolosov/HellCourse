@@ -22,17 +22,17 @@ public class RectangleElement : FigureElement
                 Size.Width,
                 Size.Height);
 
-            // Поворот прямоугольника
+            //Поворот прямоугольника
             if (Rotation != 0)
             {
-                graphics.TranslateTransform(Position.X, Position.Y);
-                graphics.RotateTransform(Rotation);
-                graphics.FillRectangle(brush,
-                    -Size.Width / 2,
-                    -Size.Height / 2,
-                    Size.Width,
-                    Size.Height);
-                graphics.ResetTransform();
+                //graphics.TranslateTransform(Position.X, Position.Y);
+                //graphics.RotateTransform(Rotation);
+                //graphics.FillRectangle(brush,
+                //    -Size.Width / 2,
+                //    -Size.Height / 2,
+                //    Size.Width,
+                //    Size.Height);
+                //graphics.ResetTransform();
             }
             else
             {
@@ -40,24 +40,10 @@ public class RectangleElement : FigureElement
             }
         }
     }
-    public override void LinkLenghtChange(float deltaL/*, float deltaA*/)
-    {
-        //!!!!!!!!!!!!!!!
-    }
 
     public override void LinkChange(FigureElement el)
     {
         if (el is LineElement line)
             Position = line.EndPoint;
     }
-
-    //public override bool ContainsPoint(PointF point)
-    //{
-    //    RectangleF rect = new RectangleF(
-    //        Position.X - Size.Width / 2,
-    //        Position.Y - Size.Height / 2,
-    //        Size.Width,
-    //        Size.Height);
-    //    return rect.Contains(point);
-    //}
 }

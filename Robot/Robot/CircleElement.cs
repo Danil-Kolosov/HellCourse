@@ -25,23 +25,9 @@ public class CircleElement : FigureElement
         }
     }
 
-    public override void LinkLenghtChange(float deltaL/*, float deltaA*/)
-    {
-        Position = new PointF(Position.X + deltaL, Position.Y);
-        //!!!!!!!!!!!!!!!!
-    }
-
     public override void LinkChange(FigureElement el)
     {
         if (el is LineElement line)
             Position = line.EndPoint;
     }
-
-    //public override bool ContainsPoint(PointF point)
-    //{
-    //    float distance = (float)Math.Sqrt(
-    //        Math.Pow(point.X - Position.X, 2) +
-    //        Math.Pow(point.Y - Position.Y, 2));
-    //    return distance <= Radius;
-    //}
 }

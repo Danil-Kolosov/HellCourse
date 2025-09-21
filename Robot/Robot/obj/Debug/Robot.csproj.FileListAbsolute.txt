@@ -8,3 +8,13 @@ D:\pnrpu\git\Robot\Robot\obj\Debug\Robot.csproj.GenerateResource.cache
 D:\pnrpu\git\Robot\Robot\obj\Debug\Robot.csproj.CoreCompileInputs.cache
 D:\pnrpu\git\Robot\Robot\obj\Debug\Robot.exe
 D:\pnrpu\git\Robot\Robot\obj\Debug\Robot.pdb
+D:\pnrpu\git\HellCourse\Robot\Robot\bin\Debug\Robot.exe.config
+D:\pnrpu\git\HellCourse\Robot\Robot\bin\Debug\Robot.exe
+D:\pnrpu\git\HellCourse\Robot\Robot\bin\Debug\Robot.pdb
+D:\pnrpu\git\HellCourse\Robot\Robot\obj\Debug\Robot.csproj.AssemblyReference.cache
+D:\pnrpu\git\HellCourse\Robot\Robot\obj\Debug\Robot.MainForm.resources
+D:\pnrpu\git\HellCourse\Robot\Robot\obj\Debug\Robot.Properties.Resources.resources
+D:\pnrpu\git\HellCourse\Robot\Robot\obj\Debug\Robot.csproj.GenerateResource.cache
+D:\pnrpu\git\HellCourse\Robot\Robot\obj\Debug\Robot.csproj.CoreCompileInputs.cache
+D:\pnrpu\git\HellCourse\Robot\Robot\obj\Debug\Robot.exe
+D:\pnrpu\git\HellCourse\Robot\Robot\obj\Debug\Robot.pdb

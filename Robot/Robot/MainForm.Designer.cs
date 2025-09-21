@@ -35,7 +35,6 @@ namespace Robot
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.labelArmLength = new System.Windows.Forms.Label();
             this.trackBarArmLength = new System.Windows.Forms.TrackBar();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarMove)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarBoomLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarSubArmAngle)).BeginInit();
@@ -160,13 +159,11 @@ namespace Robot
             // 
             this.trackBarArmAngle.Location = new System.Drawing.Point(21, 35);
             this.trackBarArmAngle.Maximum = 180;
-            this.trackBarArmAngle.Minimum = 0;
             this.trackBarArmAngle.Name = "trackBarArmAngle";
             this.trackBarArmAngle.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.trackBarArmAngle.Size = new System.Drawing.Size(45, 200);
             this.trackBarArmAngle.TabIndex = 2;
             this.trackBarArmAngle.TickFrequency = 5;
-            this.trackBarArmAngle.Value = 0;
             this.trackBarArmAngle.Scroll += new System.EventHandler(this.TrackBar_Scroll);
             // 
             // groupBox2
@@ -223,19 +220,9 @@ namespace Robot
             this.trackBarArmLength.Value = 100;
             this.trackBarArmLength.Scroll += new System.EventHandler(this.TrackBar_Scroll);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(400, 550);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "label1";
-            // 
             // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(1073, 721);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
             this.DoubleBuffered = true;
             this.Name = "MainForm";
@@ -258,7 +245,6 @@ namespace Robot
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarArmLength)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -280,6 +266,5 @@ namespace Robot
         private TrackBar trackBarArmAngle;
         private Label labelArmAngle;
         private Label labelArmLength;
-        private Label label1;
     }
 }

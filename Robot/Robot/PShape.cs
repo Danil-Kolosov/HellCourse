@@ -41,7 +41,7 @@ namespace Robot
                 endPoint.Y + Width / 2 * (float)Math.Sin(angleRad)
             );
 
-            // Обновляем существующие LineElement вместо создания новых
+            // Обновляем существующие LineElement
             TopLine.Position = topLineStart;
             TopLine.Length = Width;
             TopLine.Rotation = parentAngle;
@@ -75,17 +75,6 @@ namespace Robot
         public override void LinkChange(FigureElement el)
         {
             UpdatePosition(((LineElement)el).EndPoint, ((LineElement)el).Rotation - 90);
-            //OnPropertyChanged(TopLine);
-            //OnPropertyChanged(LeftLine);
-            //OnPropertyChanged(RightLine);
-            //с улом вопрос однако
-        }
-
-        
-
-        public override void LinkLenghtChange(float deltaL)
-        {
-            //TopLine.LinkLenghtChange(deltaL);
-        }
+        }       
     }
 }
