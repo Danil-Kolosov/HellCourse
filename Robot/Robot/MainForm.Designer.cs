@@ -99,7 +99,7 @@ namespace Robot
             // 
             this.labelBoomLength.Location = new System.Drawing.Point(6, 247);
             this.labelBoomLength.Name = "labelBoomLength";
-            this.labelBoomLength.Size = new System.Drawing.Size(100, 23);
+            this.labelBoomLength.Size = new System.Drawing.Size(93, 23);
             this.labelBoomLength.TabIndex = 4;
             this.labelBoomLength.Text = "Длина: 100";
             // 
@@ -134,7 +134,7 @@ namespace Robot
             this.groupBox4.Size = new System.Drawing.Size(105, 280);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Поворот башни";
+            this.groupBox4.Text = "Поворот              рукояти";
             // 
             // groupBox6
             // 
@@ -145,7 +145,7 @@ namespace Robot
             this.groupBox6.Size = new System.Drawing.Size(105, 280);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Поворот стрелы";
+            this.groupBox6.Text = "Поворот               манипулятора";
             // 
             // labelArmAngle
             // 
@@ -186,7 +186,7 @@ namespace Robot
             this.Башня.Size = new System.Drawing.Size(105, 280);
             this.Башня.TabIndex = 8;
             this.Башня.TabStop = false;
-            this.Башня.Text = "Длина башни";
+            this.Башня.Text = "Длина стрелы";
             // 
             // groupBox5
             // 
@@ -197,7 +197,7 @@ namespace Robot
             this.groupBox5.Size = new System.Drawing.Size(105, 280);
             this.groupBox5.TabIndex = 10;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Длина стрелы";
+            this.groupBox5.Text = "Длина               манипулятора";
             // 
             // labelArmLength
             // 
