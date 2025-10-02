@@ -100,6 +100,8 @@ namespace RSACipher.Pages
                 PrivateKey = TempData[PrivateKeyTemp]?.ToString() ?? "";
                 Modulus = TempData[ModulusTemp]?.ToString() ?? "";
 
+
+
                 if (string.IsNullOrEmpty(InputText) || string.IsNullOrEmpty(PublicKey) || string.IsNullOrEmpty(Modulus))
                 {
                     TempData["Error"] = "Введите текст и сгенерируйте ключи!";
@@ -113,6 +115,41 @@ namespace RSACipher.Pages
 
                 BigInteger e = BigInteger.Parse(PublicKey);
                 BigInteger n = BigInteger.Parse(Modulus);
+
+                //Или нужно всегда новые генерировать?
+                //if (string.IsNullOrEmpty(InputText))
+                //{
+                //    TempData["Error"] = "Введите текст!";
+                //    return Page();
+                //}
+                //BigInteger p = GenerateLargePrime(128);
+                //BigInteger q = GenerateLargePrime(128);
+                //while (p == q)
+                //{
+                //    q = GenerateLargePrime(128);
+                //}
+
+                //BigInteger n = p * q;
+                //BigInteger phi = (p - 1) * (q - 1);
+                //BigInteger e = 65537;
+
+                //if (BigInteger.GreatestCommonDivisor(e, phi) != 1)
+                //{
+                //    TempData["Error"] = "Не удалось подобрать p и q. Попробуйте еще раз.";
+                //    return Page();
+                //}
+
+                //BigInteger d = ModInverse(e, phi);
+                //// Сохраняем ключи в свойствах и TempData
+                //PublicKey = e.ToString();
+                //PrivateKey = d.ToString();
+                //Modulus = n.ToString();
+
+                //TempData[PublicKeyTemp] = PublicKey;
+                //TempData[PrivateKeyTemp] = PrivateKey;
+                //TempData[ModulusTemp] = Modulus;
+
+                //TempData["Message"] = "Ключи успешно сгенерированы!";
 
                 // Преобразуем текст в байты
                 byte[] bytes = Encoding.UTF8.GetBytes(InputText);
