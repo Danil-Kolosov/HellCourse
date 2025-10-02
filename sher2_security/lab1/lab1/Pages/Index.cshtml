@@ -1,0 +1,61 @@
+﻿@page
+@model lab1.Pages.IndexModel
+@{
+    ViewData["Title"] = "Шифр Виженера";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Шифр Виженера</h1>
+
+    <form method="post" class="card p-4 shadow">
+        <div class="mb-3">
+            <label for="InputText" class="form-label">Исходный текст:</label>
+            <textarea class="form-control" id="InputText" name="InputText" rows="4" 
+                      placeholder="Введите текст на русском языке">@Model.InputText</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="Key" class="form-label">Ключ:</label>
+            <input type="text" class="form-control" id="Key" name="Key" 
+                   placeholder="Введите ключевое слово" value="@Model.Key">
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button type="submit" asp-page-handler="Encrypt" class="btn btn-primary me-md-2">
+                <i class="bi bi-lock-fill"></i> Зашифровать
+            </button>
+            <button type="submit" asp-page-handler="Decrypt" class="btn btn-secondary">
+                <i class="bi bi-unlock-fill"></i> Расшифровать
+            </button>
+        </div>
+    </form>
+
+    @if (!string.IsNullOrEmpty(Model.Result))
+    {
+            <div class="card mt-4 p-4 shadow">
+                <h5 class="card-title">Результат:</h5>
+                <div class="alert alert-info">
+                    <p class="lead">@Model.Result</p>
+                </div>
+            </div>
+    }
+</div>
+
+<style>
+    .container {
+        max-width: 800px;
+    }
+    .card {
+        border: none;
+        border-radius: 15px;
+    }
+    .btn {
+        border-radius: 25px;
+        padding: 10px 25px;
+    }
+    .alert-info {
+        background-color: #d1ecf1;
+        border-color: #bee5eb;
+        color: #0c5460;
+    }
+</style>
