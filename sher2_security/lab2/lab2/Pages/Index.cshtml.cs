@@ -49,8 +49,8 @@ namespace RSACipher.Pages
             try
             {
                 // Генерация простых чисел p и q разрядностью не менее 12 бит
-                BigInteger p = GenerateLargePrime(12/*8*/);
-                BigInteger q = GenerateLargePrime(12/*8*/);
+                BigInteger p = GenerateLargePrime(128);//12 мин
+                BigInteger q = GenerateLargePrime(128);//12 мин
 
                 while (p == q)
                 {

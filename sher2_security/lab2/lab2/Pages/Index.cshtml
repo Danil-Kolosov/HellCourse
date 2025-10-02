@@ -9,18 +9,18 @@
 
     @if (TempData["Message"] != null)
     {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
             @TempData["Message"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
     }
 
     @if (TempData["Error"] != null)
     {
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
             @TempData["Error"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
     }
 
     <!-- Генерация ключей -->
@@ -65,10 +65,10 @@
 
         @if (!string.IsNullOrEmpty(Model.EncryptedText))
         {
-                <div class="mt-3">
-                    <label class="form-label">Зашифрованный текст:</label>
-                    <textarea class="form-control" rows="3" readonly>@Model.EncryptedText</textarea>
-                </div>
+                    <div class="mt-3">
+                        <label class="form-label">Зашифрованный текст:</label>
+                        <textarea class="form-control" rows="3" readonly>@Model.EncryptedText</textarea>
+                    </div>
         }
     </div>
 
@@ -88,10 +88,10 @@
 
         @if (!string.IsNullOrEmpty(Model.DecryptedText))
         {
-                <div class="mt-3">
-                    <label class="form-label">Расшифрованный текст:</label>
-                    <textarea class="form-control" rows="3" readonly>@Model.DecryptedText</textarea>
-                </div>
+                    <div class="mt-3">
+                        <label class="form-label">Расшифрованный текст:</label>
+                        <textarea class="form-control" rows="3" readonly>@Model.DecryptedText</textarea>
+                    </div>
         }
     </div>
 
@@ -99,10 +99,10 @@
     <div class="card mt-4 p-4 shadow">
         <h5 class="card-title">Информация о RSA</h5>
         <ul class="list-unstyled">
-            <li><strong>p и q:</strong> Случайные простые числа (≥128 бит)</li>
+            <li><strong>p и q:</strong> Случайные простые числа (≤128 бит)</li>
             <li><strong>n = p × q:</strong> Модуль</li>
             <li><strong>φ(n) = (p-1)(q-1):</strong> Функция Эйлера</li>
-            <li><strong>e:</strong> Открытая экспонента (обычно 65537)</li>
+            <li><strong>e:</strong> Открытая экспонента (обычно 65537 - простое число, подходит в большинстве вариантов)</li>
             <li><strong>d = e⁻¹ mod φ(n):</strong> Закрытая экспонента</li>
         </ul>
     </div>

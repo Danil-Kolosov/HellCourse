@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\pnrpu\\sher2_security\\prog\\lab2\\lab2\\lab2.csproj": {}
+    "D:\\pnrpu\\git\\HellCourse\\sher2_security\\lab2\\lab2\\lab2.csproj": {}
   },
   "projects": {
-    "D:\\pnrpu\\sher2_security\\prog\\lab2\\lab2\\lab2.csproj": {
+    "D:\\pnrpu\\git\\HellCourse\\sher2_security\\lab2\\lab2\\lab2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\pnrpu\\sher2_security\\prog\\lab2\\lab2\\lab2.csproj",
+        "projectUniqueName": "D:\\pnrpu\\git\\HellCourse\\sher2_security\\lab2\\lab2\\lab2.csproj",
         "projectName": "lab2",
-        "projectPath": "D:\\pnrpu\\sher2_security\\prog\\lab2\\lab2\\lab2.csproj",
+        "projectPath": "D:\\pnrpu\\git\\HellCourse\\sher2_security\\lab2\\lab2\\lab2.csproj",
         "packagesPath": "C:\\Users\\Данил\\.nuget\\packages\\",
-        "outputPath": "D:\\pnrpu\\sher2_security\\prog\\lab2\\lab2\\obj\\",
+        "outputPath": "D:\\pnrpu\\git\\HellCourse\\sher2_security\\lab2\\lab2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
