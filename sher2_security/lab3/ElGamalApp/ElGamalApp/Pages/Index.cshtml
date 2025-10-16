@@ -1,0 +1,120 @@
+﻿@page
+@model IndexModel
+
+<div class="container mt-4">
+    <h2>Шифр Эль-Гамаля</h2>
+
+    <form method="post">
+        <div class="row">
+            <!-- Левая часть - Шифрование -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Шифрование
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label>Текст для шифрования:</label>
+                            <textarea class="form-control" asp-for="Model.InputText" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" name="action" value="encrypt">
+                            Зашифровать
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правая часть - Дешифрование -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        Дешифрование
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label>Зашифрованный текст:</label>
+                            <textarea class="form-control" asp-for="Model.EncryptedText" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success" name="action" value="decrypt">
+                            Дешифровать
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Зашифрованный текст -->
+    @if (!string.IsNullOrEmpty(Model.Model.EncryptedText))
+    {
+            <div class="card mt-3">
+                <div class="card-header bg-warning">
+                    Зашифрованный текст
+                </div>
+                <div class="card-body">
+                    <div style="max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 0.8em;">
+                    @Model.Model.EncryptedText
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary mt-2" onclick="copyToClipboard('encryptedText')">
+                        Копировать
+                    </button>
+                </div>
+            </div>
+    }
+
+    <!-- Ключи -->
+    @if (!string.IsNullOrEmpty(Model.Model.PublicKey))
+    {
+            <div class="card mt-3">
+                <div class="card-header">
+                    Ключи (сохраните для дешифрования)
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Открытый ключ:</strong>
+                            <div class="border p-2 bg-light">
+                                <small>@Model.Model.PublicKey</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Закрытый ключ:</strong>
+                            <div class="border p-2 bg-light">
+                                <small>@Model.Model.PrivateKey</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Model.DecryptedText))
+    {
+            <div class="card mt-3">
+                <div class="card-header bg-info text-white">
+                    Результат дешифрования
+                </div>
+                <div class="card-body">
+                    <p>@Model.Model.DecryptedText</p>
+                </div>
+            </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Model.Error))
+    {
+            <div class="alert alert-danger mt-3">
+            @Model.Model.Error
+            </div>
+    }
+</div>
+
+@section Scripts {
+        <script>
+            function copyToClipboard() {
+                const text = `@Model.Model.EncryptedText`;
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Текст скопирован!');
+                });
+            }
+        </script>
+}

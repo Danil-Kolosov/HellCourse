@@ -1,0 +1,10 @@
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\bin\Debug\GrafRedactor.exe.config
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\bin\Debug\GrafRedactor.exe
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\bin\Debug\GrafRedactor.pdb
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\obj\Debug\GrafRedactor.csproj.AssemblyReference.cache
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\obj\Debug\GrafRedactor.MainForm.resources
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\obj\Debug\GrafRedactor.Properties.Resources.resources
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\obj\Debug\GrafRedactor.csproj.GenerateResource.cache
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\obj\Debug\GrafRedactor.csproj.CoreCompileInputs.cache
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\obj\Debug\GrafRedactor.exe
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\obj\Debug\GrafRedactor.pdb

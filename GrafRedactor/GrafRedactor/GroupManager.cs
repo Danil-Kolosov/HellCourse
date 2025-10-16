@@ -1,0 +1,319 @@
+﻿using GrafRedactor;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+
+namespace GrafRedactor
+{
+    public class GroupManager
+    {
+        private Dictionary<string, List<FigureElement>> groups = new Dictionary<string, List<FigureElement>>();
+        private int groupCounter = 1;
+
+        public string CreateGroup(List<FigureElement> elements)
+        {
+            if (elements == null || elements.Count < 2)
+                return null;
+
+            // Убираем из групп элементы, которые уже состоят в других группах
+            var elementsToGroup = new List<FigureElement>();
+            foreach (var element in elements)
+            {
+                if (element.IsGrouped)
+                {
+                    // Если элемент уже в группе, разгруппируем его сначала
+                    UngroupElementFromAllGroups(element);
+                }
+                elementsToGroup.Add(element);
+            }
+
+            string groupId = $"Group_{groupCounter++}";
+
+            foreach (var element in elementsToGroup)
+            {
+                element.IsGrouped = true;
+                element.GroupId = groupId;
+            }
+
+            groups[groupId] = elementsToGroup;
+            return groupId;
+        }
+
+        private void UngroupElementFromAllGroups(FigureElement element)
+        {
+            var groupsToRemove = new List<string>();
+            foreach (var group in groups)
+            {
+                if (group.Value.Contains(element))
+                {
+                    group.Value.Remove(element);
+                    if (group.Value.Count == 0)
+                    {
+                        groupsToRemove.Add(group.Key);
+                    }
+                }
+            }
+
+            foreach (var groupId in groupsToRemove)
+            {
+                groups.Remove(groupId);
+            }
+
+            element.IsGrouped = false;
+            element.GroupId = null;
+        }
+
+        public void Ungroup(string groupId)
+        {
+            if (groups.ContainsKey(groupId))
+            {
+                foreach (var element in groups[groupId])
+                {
+                    element.IsGrouped = false;
+                    element.GroupId = null;
+                }
+                groups.Remove(groupId);
+            }
+        }
+
+        public void UngroupSelected(List<FigureElement> selectedElements)
+        {
+            if (selectedElements == null) return;
+
+            var groupsToUngroup = new HashSet<string>();
+            foreach (var element in selectedElements)
+            {
+                if (element.IsGrouped && !string.IsNullOrEmpty(element.GroupId))
+                {
+                    groupsToUngroup.Add(element.GroupId);
+                }
+            }
+
+            foreach (var groupId in groupsToUngroup)
+            {
+                Ungroup(groupId);
+            }
+        }
+
+        public List<FigureElement> GetGroupElements(string groupId)
+        {
+            return groups.ContainsKey(groupId) ? new List<FigureElement>(groups[groupId]) : new List<FigureElement>();
+        }
+
+        public string GetSelectedGroupId(List<FigureElement> selectedElements)
+        {
+            if (selectedElements == null || selectedElements.Count == 0)
+                return null;
+
+            // Проверяем, все ли выделенные элементы принадлежат одной группе
+            var groupIds = selectedElements
+                .Where(e => e.IsGrouped)
+                .Select(e => e.GroupId)
+                .Distinct()
+                .ToList();
+
+            return groupIds.Count == 1 ? groupIds[0] : null;
+        }
+
+        public bool IsGroupSelected(List<FigureElement> selectedElements)
+        {
+            if (selectedElements == null || selectedElements.Count == 0)
+                return false;
+
+            // Группа считается выделенной, если выделены все ее элементы
+            var groupId = GetSelectedGroupId(selectedElements);
+            if (groupId == null) return false;
+
+            var groupElements = GetGroupElements(groupId);
+            return selectedElements.Count == groupElements.Count &&
+                   groupElements.All(ge => selectedElements.Contains(ge));
+        }
+
+        // Остальные методы остаются без изменений...
+        public void MoveGroup(string groupId, PointF delta, float height, float weight)
+        {
+            if (groups.ContainsKey(groupId))
+            {
+                foreach (var element in groups[groupId])
+                {
+                    element.Move(delta, height, weight);
+                }
+            }
+        }
+
+        public void RotateGroup(string groupId, float angle)
+        {
+            if (groups.ContainsKey(groupId))
+            {
+                var groupElements = groups[groupId];
+                PointF center = GetGroupCenter(groupElements);
+
+                foreach (var element in groupElements)
+                {
+                    if (element is LineElement line)
+                    {
+                        RotateLineAroundPoint(line, center, angle);
+                    }
+                }
+            }
+        }
+
+        public void ScaleGroup(string groupId, float scaleFactor)
+        {
+            if (groups.ContainsKey(groupId))
+            {
+                var groupElements = groups[groupId];
+                PointF center = GetGroupCenter(groupElements);
+
+                foreach (var element in groupElements)
+                {
+                    if (element is LineElement line)
+                    {
+                        ScaleLineAroundPoint(line, center, scaleFactor);
+                    }
+                }
+            }
+        }
+
+        public void MirrorGroup(string groupId, bool horizontal)
+        {
+            if (groups.ContainsKey(groupId))
+            {
+                var groupElements = groups[groupId];
+                PointF center = GetGroupCenter(groupElements);
+
+                foreach (var element in groupElements)
+                {
+                    if (element is LineElement line)
+                    {
+                        MirrorLineAroundPoint(line, center, horizontal);
+                    }
+                }
+            }
+        }
+
+        private PointF GetGroupCenter(List<FigureElement> elements)
+        {
+            if (elements.Count == 0)
+                return PointF.Empty;
+
+            float minX = elements.Min(e => e.GetBoundingBox().Left);
+            float minY = elements.Min(e => e.GetBoundingBox().Top);
+            float maxX = elements.Max(e => e.GetBoundingBox().Right);
+            float maxY = elements.Max(e => e.GetBoundingBox().Bottom);
+
+            return new PointF((minX + maxX) / 2, (minY + maxY) / 2);
+        }
+
+        private void RotateLineAroundPoint(LineElement line, PointF center, float angle)
+        {
+            float angleRad = angle * (float)Math.PI / 180f;
+            float cos = (float)Math.Cos(angleRad);
+            float sin = (float)Math.Sin(angleRad);
+
+            line.StartPoint = RotatePoint(line.StartPoint, center, cos, sin);
+            line.EndPoint = RotatePoint(line.EndPoint, center, cos, sin);
+        }
+
+        private void ScaleLineAroundPoint(LineElement line, PointF center, float scaleFactor)
+        {
+            line.StartPoint = ScalePoint(line.StartPoint, center, scaleFactor);
+            line.EndPoint = ScalePoint(line.EndPoint, center, scaleFactor);
+        }
+
+        private void MirrorLineAroundPoint(LineElement line, PointF center, bool horizontal)
+        {
+            if (horizontal)
+            {
+                line.StartPoint = new PointF(2 * center.X - line.StartPoint.X, line.StartPoint.Y);
+                line.EndPoint = new PointF(2 * center.X - line.EndPoint.X, line.EndPoint.Y);
+            }
+            else
+            {
+                line.StartPoint = new PointF(line.StartPoint.X, 2 * center.Y - line.StartPoint.Y);
+                line.EndPoint = new PointF(line.EndPoint.X, 2 * center.Y - line.EndPoint.Y);
+            }
+        }
+
+        private PointF RotatePoint(PointF point, PointF center, float cos, float sin)
+        {
+            float translatedX = point.X - center.X;
+            float translatedY = point.Y - center.Y;
+
+            float rotatedX = translatedX * cos - translatedY * sin;
+            float rotatedY = translatedX * sin + translatedY * cos;
+
+            return new PointF(rotatedX + center.X, rotatedY + center.Y);
+        }
+
+        private PointF ScalePoint(PointF point, PointF center, float scaleFactor)
+        {
+            float dx = point.X - center.X;
+            float dy = point.Y - center.Y;
+
+            return new PointF(center.X + dx * scaleFactor, center.Y + dy * scaleFactor);
+        }
+
+        public void DrawGroupSelection(Graphics graphics, string groupId)
+        {
+            if (groups.ContainsKey(groupId))
+            {
+                var groupElements = groups[groupId];
+                var groupBoundingBox = GetGroupBoundingBox(groupElements);
+
+                // Рисуем bounding box вокруг всей группы
+                using (Pen groupPen = new Pen(Color.Green, 2))
+                {
+                    groupPen.DashStyle = DashStyle.DashDot;
+                    graphics.DrawRectangle(groupPen,
+                        groupBoundingBox.X, groupBoundingBox.Y,
+                        groupBoundingBox.Width, groupBoundingBox.Height);
+                }
+
+                // Рисуем маркеры для изменения размера группы
+                float handleSize = 8f;
+                using (Brush groupHandleBrush = new SolidBrush(Color.Green))
+                {
+                    // Угловые маркеры
+                    graphics.FillRectangle(groupHandleBrush,
+                        groupBoundingBox.Left - handleSize / 2, groupBoundingBox.Top - handleSize / 2,
+                        handleSize, handleSize);
+                    graphics.FillRectangle(groupHandleBrush,
+                        groupBoundingBox.Right - handleSize / 2, groupBoundingBox.Top - handleSize / 2,
+                        handleSize, handleSize);
+                    graphics.FillRectangle(groupHandleBrush,
+                        groupBoundingBox.Left - handleSize / 2, groupBoundingBox.Bottom - handleSize / 2,
+                        handleSize, handleSize);
+                    graphics.FillRectangle(groupHandleBrush,
+                        groupBoundingBox.Right - handleSize / 2, groupBoundingBox.Bottom - handleSize / 2,
+                        handleSize, handleSize);
+                }
+            }
+        }
+
+        private RectangleF GetGroupBoundingBox(List<FigureElement> elements)
+        {
+            if (elements.Count == 0)
+                return RectangleF.Empty;
+
+            float minX = elements.Min(e => e.GetBoundingBox().Left);
+            float minY = elements.Min(e => e.GetBoundingBox().Top);
+            float maxX = elements.Max(e => e.GetBoundingBox().Right);
+            float maxY = elements.Max(e => e.GetBoundingBox().Bottom);
+
+            return new RectangleF(minX, minY, maxX - minX, maxY - minY);
+        }
+
+        public List<string> GetAllGroupIds()
+        {
+            return groups.Keys.ToList();
+        }
+
+        public bool IsElementInAnyGroup(FigureElement element)
+        {
+            return element.IsGrouped && !string.IsNullOrEmpty(element.GroupId);
+        }
+    }
+}
