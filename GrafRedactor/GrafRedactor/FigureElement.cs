@@ -54,8 +54,10 @@ namespace GrafRedactor
         public abstract RectangleF GetBoundingBox();
         public abstract void Move(PointF delta, float height, float weight);
         public abstract void Rotate(float angle);
-        public abstract void Scale(float scaleFactor);
+        public abstract void ScaleAverage(float scaleFactor);
+        public abstract void Scale(PointF center, float sx, float sy);
         public abstract void Mirror(bool horizontal);
+        public abstract void Mirror(float A, float B, float C);
         public abstract void Draw(Graphics graphics);
         public abstract void DrawSelection(Graphics graphics);
 

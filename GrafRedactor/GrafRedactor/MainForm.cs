@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace GrafRedactor
 {
@@ -123,7 +124,8 @@ namespace GrafRedactor
                 Size = new Size(120, 25),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
-            comboOperation.Items.AddRange(new object[] { "", "Смещение", "Вращение", "Масштабирование", "Общ масшт", "Зеркалирование", "Проецирование" });
+            comboOperation.Items.AddRange(new object[] { "", "Смещение", "Вращение", "Масштабирование", "Общее масшт", "Зеркалирование", "Проецирование" });
+            comboOperation.Items.AddRange(new object[] { "", "Смещение", "Вращение", "Масштабирование", "Общее масшт", "Зеркалирование", "Проецирование" });
             comboOperation.SelectedIndex = 0;
             comboOperation.SelectedIndexChanged += СomboOperation_SelectedIndexChanged;
             parametersPanel.Controls.Add(comboOperation);
@@ -347,26 +349,375 @@ namespace GrafRedactor
                 switch (comboOperation.SelectedItem.ToString()) 
                 {
                     case "Смещение":
+                        ApplyTransfer();
                         //месседж боксом получить на сколько по x по y
                         break;
                     case "Вращение":
+                        ApplayRotation();
                         //месседж боксом получить угол
                         break;
                     case "Масштабирование":
+                        ApplyScaling();
                         //месседж боксом получить на сколько по x по y
                         break;
-                    case "Общ масшт":
+                    case "Общее масшт":
+                        ApplyUniformScaling();
                         //месседж боксом получить s
                         break;
                     case "Зеркалирование":
-                        //месседж боксом уведомить выбрать линию относительно котоорой будет зеркалирование
-                        break;
+                        ApplyMirroring();
+                            //месседж боксом уведомить выбрать линию относительно котоорой будет зеркалирование
+                            break;
                     case "Проецирование":
                         //месседж боксом получить на какую ось - тЧТО КОШМАР ВОБЩЕМ
                         break;
                 }
+                //масштабирование и вращение могут выкинуть линии за холст - исправить как делали с перемещением
+                UpdateParametersPanel(); //проследить чтобы обновлялось как надо!!!1 координаты выбраной линии после операции
+                //либо вензде внурти этих метдв это напихать
+                //вроде норм обновляется - проверял чуть 
                 this.Invalidate();
             }
+        }
+
+        private bool CanPerformRotation(float angle)
+        {
+            var drawingArea = GetDrawingArea();
+
+            foreach (var figure in selectedFigures)
+            {
+                if (figure is LineElement line)
+                {
+                    // Создаем копию линии для проверки
+                    var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
+                    testLine.Rotate(angle);
+
+                    if (testLine.EndPoint.X < 0 || testLine.EndPoint.X > drawingArea.Width 
+                        || testLine.EndPoint.Y < 0 || testLine.EndPoint.Y > drawingArea.Height 
+                        || testLine.StartPoint.X < 0 || testLine.StartPoint.X > drawingArea.Width
+                        || testLine.StartPoint.Y < 0 || testLine.StartPoint.Y > drawingArea.Width)
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        private bool CanPerformScaling(float scaleX, float scaleY)
+        {
+            var drawingArea = GetDrawingArea();
+
+            foreach (var figure in selectedFigures)
+            {
+                if (figure is LineElement line)
+                {
+                    // Создаем копию линии для проверки
+                    var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
+
+                    PointF center = new PointF(
+                        (testLine.StartPoint.X + testLine.EndPoint.X) / 2,
+                        (testLine.StartPoint.Y + testLine.EndPoint.Y) / 2
+                    );
+
+                    testLine.Scale(center, scaleX, scaleY);
+
+                    if (testLine.EndPoint.X < 0 || testLine.EndPoint.X > drawingArea.Width
+                        || testLine.EndPoint.Y < 0 || testLine.EndPoint.Y > drawingArea.Height
+                        || testLine.StartPoint.X < 0 || testLine.StartPoint.X > drawingArea.Width
+                        || testLine.StartPoint.Y < 0 || testLine.StartPoint.Y > drawingArea.Width)
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        private bool CanPerformMirror(float A, float B, float C)
+        {
+            var drawingArea = GetDrawingArea();
+
+            //foreach (var figure in selectedFigures)
+            //{
+                if (selectedFigures[0] is LineElement line)
+                {
+                    // Создаем копию линии для проверки
+                    var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
+                    // Зеркалируем точки линии для проверки
+                    testLine.Mirror(A, B, C);
+
+                    // Проверяем, остаются ли точки в пределах области рисования
+                    if (!drawingArea.Contains(Point.Round(testLine.StartPoint)) ||
+                        !drawingArea.Contains(Point.Round(testLine.EndPoint)))
+                    {
+                        return false;
+                    }
+                }
+            //}
+
+            return true;
+        }
+
+
+        private void ApplyTransfer()
+        {
+            // Ограничиваем область рисования
+            var drawingArea = GetDrawingArea();
+            string input = Microsoft.VisualBasic.Interaction.InputBox(
+                "Введите смещение по X и Y через запятую\n(например: 10, -5.)\nВ качестве разделителя для дробных чисел\nиспользуйте точку:",
+                "Смещение", "0, 0");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                try
+                {
+                    string[] parts = input.Split(',');
+                    // Используем CultureInfo.InvariantCulture для корректного парсинга дробных чисел
+                    float dx = float.Parse(parts[0].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+                    float dy = float.Parse(parts[1].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+
+                    PointF delta = new PointF(dx, dy);
+
+                    if (isGroupSelected && currentGroupId != null)
+                    {
+                        groupManager.MoveGroup(currentGroupId, delta, drawingArea.Height, drawingArea.Width);
+                    }
+                    else
+                    {
+                        foreach (var figure in selectedFigures)
+                        {
+                            figure.Move(delta, drawingArea.Height, drawingArea.Width);
+                        }
+                    }
+                    UpdateParametersPanel();
+                    MessageBox.Show($"Смещение применено: X={dx}, Y={dy}", "Успех",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка ввода: {ex.Message}\nВведите числа в формате: 10, -5", "Ошибка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void ApplayRotation() 
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox(
+        "Введите угол вращения в градусах\n(положительный - по часовой):",
+        "Вращение", "0");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                try
+                {
+                    float angle = float.Parse(input.Trim(), System.Globalization.CultureInfo.InvariantCulture);
+
+                    if (isGroupSelected && currentGroupId != null)
+                    {
+                        if (!groupManager.RotateGroup(currentGroupId, angle, GetDrawingArea()))
+                        {
+                            MessageBox.Show("Ошибка: вращение выносит элементы за границы экрана", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (CanPerformRotation(angle))
+                        {
+                            foreach (var figure in selectedFigures)
+                            {
+                                figure.Rotate(angle);
+                            }
+                        }
+                        else 
+                        {
+                            MessageBox.Show("Ошибка: вращение выносит элементы за границы экрана", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+
+                    MessageBox.Show($"Вращение применено: {angle}°", "Успех",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка ввода: {ex.Message}\nВведите число", "Ошибка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void ApplyScaling()
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox(
+                "Введите масштаб по X и Y через запятую (например: 1.5, 0.8):",
+                "Масштабирование", "1, 1");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                try
+                {
+                    string[] parts = input.Split(',');
+                    float sx = float.Parse(parts[0].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+                    float sy = float.Parse(parts[1].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+
+                    if (isGroupSelected && currentGroupId != null)
+                    {
+                        // Для группы применяем равномерное масштабирование по минимальному коэффициенту
+                        //Почему это? Нет
+                        //float uniformScale = Math.Min(sx, sy);
+                        //groupManager.ScaleGroup(currentGroupId, uniformScale);
+                        if (!groupManager.ScaleGroup(currentGroupId, sx, sy, GetDrawingArea()))
+                        {
+                            MessageBox.Show("Ошибка: масштабирование выносит элементы за границы экрана", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        
+                    }
+                    else
+                    {
+                        if (CanPerformScaling(sx, sy))
+                        {
+                            foreach (var figure in selectedFigures)
+                            {
+                                // Для отдельных линий - раздельное масштабирование
+                                if (figure is LineElement line)
+                                {
+                                    PointF center = new PointF(
+                                        (line.StartPoint.X + line.EndPoint.X) / 2,
+                                        (line.StartPoint.Y + line.EndPoint.Y) / 2
+                                    );
+
+                                    line.Scale(center, sx, sy);
+                                }
+                            }
+                        }
+                        else 
+                        {
+                            MessageBox.Show("Ошибка: масштабирование выносит элементы за границы экрана", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+
+                    MessageBox.Show($"Масштабирование применено: X={sx}, Y={sy}", "Успех",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка ввода: {ex.Message}\nВведите числа в формате: 1.5, 0.8", "Ошибка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void ApplyUniformScaling()
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox(
+                "Введите коэффициент масштабирования (например: 1.5 для увеличения в 1.5 раза):",
+                "Общее масштабирование", "1");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                try
+                {
+                    float scale = float.Parse(input.Trim(), System.Globalization.CultureInfo.InvariantCulture);
+
+                    if (isGroupSelected && currentGroupId != null)
+                    {
+                        if (!groupManager.ScaleGroupAverage(currentGroupId, scale, GetDrawingArea()))
+                        {
+                            MessageBox.Show("Ошибка: масштабирование выносит элементы за границы экрана", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (CanPerformScaling(scale, scale))
+                        { 
+                            foreach (var figure in selectedFigures)
+                            {
+                                figure.ScaleAverage(scale);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка: масштабирование выносит элементы за границы экрана", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+
+                    MessageBox.Show($"Масштабирование применено: коэффициент {scale}", "Успех",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка ввода: {ex.Message}\nВведите число", "Ошибка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void ApplyMirroring() 
+        {
+            if (selectedFigures.Count != 2) 
+            {
+                MessageBox.Show($"Ошибка: необходиом выбрать 2 прямые:\n1 - которую зеркалировать,\n2 - относительно которой зеркалировать", "Ошибка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            //FigureElement figure = selectedFigures[0];
+            if (selectedFigures[1] is LineElement mirrorLine) 
+            {
+                // Получаем уравнение прямой для зеркалирования
+                (float A, float B, float C) = GetLineEquation(mirrorLine.StartPoint, mirrorLine.EndPoint);
+
+                // Проверяем, не выйдут ли фигуры за границы после зеркалирования
+                if (!CanPerformMirror(A, B, C))
+                {
+                    MessageBox.Show("Зеркалирование невозможно: изображение выйдет за границы экрана", "Ошибка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Выполняем зеркалирование
+                if (isGroupSelected && currentGroupId != null)
+                {
+                    if (!groupManager.MirrorGroup(currentGroupId, A, B, C, GetDrawingArea()))
+                    {
+                        MessageBox.Show("Ошибка: зеркалиование выносит элементы за границы экрана", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                else
+                {
+                    //foreach (var figure in selectedFigures)
+                    //{
+
+                        if (selectedFigures[0] is LineElement line)
+                        {
+                            line.Mirror(A, B, C);
+                        }
+                    //}
+                }
+
+                    MessageBox.Show("Зеркалирование выполнено успешно", "Успех",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private (float A, float B, float C) GetLineEquation(PointF p1, PointF p2)
+        {
+            // Уравнение прямой: Ax + By + C = 0
+            float A = p2.Y - p1.Y;
+            float B = p1.X - p2.X;
+            float C = p2.X * p1.Y - p1.X * p2.Y;
+
+            return (A, B, C);
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
@@ -423,31 +774,33 @@ namespace GrafRedactor
                     ClearSelection();
 
                     // Сначала проверяем клик по групповым маркерам
-                    foreach (var groupId in groupManager.GetAllGroupIds())
-                    {
-                        var groupBbox = GetGroupBoundingBox(groupId);
-                        float handleSize = 8f;
+                    // Нафиг надо проверять  вообще, пусть не изменяется размер группы при растягивании за края ограничивающего группу прямоугольника
+                    //foreach (var groupId in groupManager.GetAllGroupIds())
+                    //{
+                    //    var groupBbox = GetGroupBoundingBox(groupId);
+                    //    float handleSize = 8f;
 
-                        if (IsPointInHandle(e.Location, groupBbox.Left, groupBbox.Top, handleSize) ||
-                            IsPointInHandle(e.Location, groupBbox.Right, groupBbox.Top, handleSize) ||
-                            IsPointInHandle(e.Location, groupBbox.Left, groupBbox.Bottom, handleSize) ||
-                            IsPointInHandle(e.Location, groupBbox.Right, groupBbox.Bottom, handleSize))
-                        {
-                            // Выделяем всю группу
-                            var groupElements = groupManager.GetGroupElements(groupId);
-                            foreach (var element in groupElements)
-                            {
-                                element.IsSelected = true;
-                                selectedFigures.Add(element);
-                            }
-                            currentGroupId = groupId;
-                            isGroupSelected = true;
-                            isResizing = true;
-                            UpdateParametersPanel();
-                            this.Invalidate();
-                            return;
-                        }
-                    }
+                    //    if (IsPointInHandle(e.Location, groupBbox.Left, groupBbox.Top, handleSize) ||
+                    //        IsPointInHandle(e.Location, groupBbox.Right, groupBbox.Top, handleSize) ||
+                    //        IsPointInHandle(e.Location, groupBbox.Left, groupBbox.Bottom, handleSize) ||
+                    //        IsPointInHandle(e.Location, groupBbox.Right, groupBbox.Bottom, handleSize))
+                    //    {
+                    //        // Выделяем всю группу
+                    //        var groupElements = groupManager.GetGroupElements(groupId);
+                    //        foreach (var element in groupElements)
+                    //        {
+                    //            element.IsSelected = true;
+                    //            selectedFigures.Add(element);
+                    //        }
+                    //        currentGroupId = groupId;
+                    //        isGroupSelected = true;
+                    //        isResizing = true;
+                    //        UpdateParametersPanel(); //необхдимо определить все таки выбранную линию и для нее рисовать панель - а если операции будут применяться к линии в группе - то ко всей группе
+                    //          //тут были спорности
+                    //        this.Invalidate();
+                    //        return;
+                    //    }
+                    //}
 
                     // Проверяем клик по элементам
                     FigureElement clickedFigure = null;
@@ -474,6 +827,8 @@ namespace GrafRedactor
                             currentGroupId = clickedFigure.GroupId;
                             isGroupSelected = true;
                             isDragging = true;
+                            selectedFigure = clickedFigure; //чтобы отображалась панель параметров при выборе линии в группе
+                            //операции примененные к линии в группе будут применяться ко всей группе
                         }
                         else
                         {
@@ -527,6 +882,11 @@ namespace GrafRedactor
                     drawingStartPoint = e.Location;
                 }
             }
+        }
+
+        void AddSelectedFigures(FigureElement clickedFigure) 
+        {
+
         }
 
         private void ClearSelection()
@@ -677,6 +1037,7 @@ namespace GrafRedactor
                         ClearSelection(); // Сначала сбрасываем старое выделение
                         selectedFigure = newLine;
                         selectedFigure.IsSelected = true;
+                        selectedFigures.Add(newLine); //чтобы после создания линии не было необходимости заново ее выделять для создания группы
                         UpdateParametersPanel();
                     }
                     isDrawing = false;

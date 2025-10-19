@@ -151,13 +151,13 @@ namespace GrafRedactor
                 delta.Y = height - _endPoint.Y;
 
             if (_startPoint.X + delta.X < 0)
-                delta.X = _startPoint.X;
+                delta.X = -_startPoint.X;
             if (_startPoint.Y + delta.Y < 0)
-                delta.Y = _startPoint.Y;
+                delta.Y = -_startPoint.Y;
             if (_endPoint.X + delta.X < 0)
-                delta.X = _endPoint.X;
+                delta.X = -_endPoint.X;
             if (_endPoint.Y + delta.Y < 0)
-                delta.Y = _endPoint.Y;
+                delta.Y = -_endPoint.Y;
 
 
             StartPoint = new PointF(/*Math.Max(0, Math.Min(*/_startPoint.X + delta.X/*, weight))*/, /*Math.Max(0, Math.Min(*/_startPoint.Y + delta.Y/*, height))*/);
@@ -172,7 +172,12 @@ namespace GrafRedactor
                 (_startPoint.Y + _endPoint.Y) / 2
             );
 
-            float angleRad = angle * (float)Math.PI / 180f;
+            float angleRad = angle * (float)Math.PI / 180f; //Из-за того, что система координат экрана перевернутая
+                                                             //- в нормальной системе будет выглядеть что формула вращает
+                                                             //при положительном по часововй,
+                                                             //но на самом деле все правильно - она против, но в перевернутой
+                                                             //системе координат
+                                                             //решение - минус у угла
             float cos = (float)Math.Cos(angleRad);
             float sin = (float)Math.Sin(angleRad);
 
@@ -183,7 +188,7 @@ namespace GrafRedactor
 
         private PointF RotatePoint(PointF point, PointF center, float cos, float sin)
         {
-            // Переносим точку в систему координат с центром в center
+            //Переносим точку в систему координат с центром в center
             float translatedX = point.X - center.X;
             float translatedY = point.Y - center.Y;
 
@@ -193,9 +198,27 @@ namespace GrafRedactor
 
             // Возвращаем в исходную систему координат
             return new PointF(rotatedX + center.X, rotatedY + center.Y);
+            //return new PointF(point.X*cos - point.Y*sin, point.X*sin + point.Y*cos);
         }
 
-        public override void Scale(float scaleFactor)
+        public override void Scale(PointF center, float sx, float sy)
+        {            
+            StartPoint = ScalePoint(_startPoint, center, sx, sy);
+            EndPoint = ScalePoint(_endPoint, center, sx, sy);
+        }
+
+        private PointF ScalePoint(PointF point, PointF center, float sx, float sy)
+        {
+            float dx = point.X - center.X;
+            float dy = point.Y - center.Y;
+
+            return new PointF(
+                center.X + dx * sx,
+                center.Y + dy * sy
+            );
+        }
+
+        public override void ScaleAverage(float scaleFactor)
         {
             PointF center = new PointF(
                 (_startPoint.X + _endPoint.X) / 2,
@@ -236,6 +259,48 @@ namespace GrafRedactor
                 StartPoint = new PointF(_startPoint.X, 2 * center.Y - _startPoint.Y);
                 EndPoint = new PointF(_endPoint.X, 2 * center.Y - _endPoint.Y);
             }
+        }
+
+        public override void Mirror(float A, float B, float C)
+        {
+            StartPoint = MirrorPoint(StartPoint, A, B, C);
+            EndPoint = MirrorPoint(EndPoint, A, B, C);
+        }
+
+        private PointF MirrorPoint(PointF point, float A, float B, float C)
+        {
+            // Формула отражения точки относительно прямой Ax + By + C = 0
+            float denominator = A * A + B * B;
+
+            if (Math.Abs(denominator) < 0.0001f)
+                return point; // Прямая вырождена
+
+            //float x = point.X;
+            //float y = point.Y;
+
+            //// Вычисляем отраженную точку
+            //float mirroredX = x - 2 * A * (A * x + B * y + C) / denominator;
+            //float mirroredY = y - 2 * B * (A * x + B * y + C) / denominator;
+
+            // Нормализуем коэффициенты чтобы избежать численных ошибок
+            float length = (float)Math.Sqrt(A * A + B * B);
+            if (length < 0.0001f) return point;
+
+            A /= length;
+            B /= length;
+            C /= length;
+
+            // Расстояние от точки до прямой (со знаком)
+            float distance = A * point.X + B * point.Y + C;
+
+            // Отраженная точка
+            PointF mirrored = new PointF(
+                point.X - 2 * A * distance,
+                point.Y - 2 * B * distance
+            );
+
+            //return new PointF(mirroredX, mirroredY);
+            return mirrored;
         }
 
         public override void Draw(Graphics graphics)

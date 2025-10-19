@@ -143,40 +143,119 @@ namespace GrafRedactor
             }
         }
 
-        public void RotateGroup(string groupId, float angle)
+        public bool RotateGroup(string groupId, float angle, Rectangle drawingArea)
         {
             if (groups.ContainsKey(groupId))
             {
                 var groupElements = groups[groupId];
                 PointF center = GetGroupCenter(groupElements);
-
-                foreach (var element in groupElements)
+                if (CanPerformRotation(angle, center, drawingArea, groupId))
                 {
-                    if (element is LineElement line)
+                    foreach (var element in groupElements)
                     {
-                        RotateLineAroundPoint(line, center, angle);
+                        if (element is LineElement line)
+                        {
+                            RotateLineAroundPoint(line, center, angle);
+                        }
                     }
+                    return true;
                 }
             }
+            return false;
         }
 
-        public void ScaleGroup(string groupId, float scaleFactor)
+        private bool CanPerformRotation(float angle, PointF center, Rectangle drawingArea, string groupId)
+        {
+            var groupElements = groups[groupId];
+            foreach (var figure in groupElements)
+            {
+                if (figure is LineElement line)
+                {
+                    // Создаем копию линии для проверки
+                    var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
+                    testLine.Rotate(angle);
+
+                    if (testLine.EndPoint.X < 0 || testLine.EndPoint.X > drawingArea.Width
+                        || testLine.EndPoint.Y < 0 || testLine.EndPoint.Y > drawingArea.Height
+                        || testLine.StartPoint.X < 0 || testLine.StartPoint.X > drawingArea.Width
+                        || testLine.StartPoint.Y < 0 || testLine.StartPoint.Y > drawingArea.Width)
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        private bool CanPerformScaling(float scaleX, float scaleY, Rectangle drawingArea, string groupId)
+        {
+            var groupElements = groups[groupId];
+            foreach (var figure in groupElements)
+            {
+                if (figure is LineElement line)
+                {
+                    // Создаем копию линии для проверки
+                    var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
+
+                    PointF center = new PointF(
+                        (testLine.StartPoint.X + testLine.EndPoint.X) / 2,
+                        (testLine.StartPoint.Y + testLine.EndPoint.Y) / 2
+                    );
+
+                    testLine.Scale(center, scaleX, scaleY);
+
+                    if (testLine.EndPoint.X < 0 || testLine.EndPoint.X > drawingArea.Width
+                        || testLine.EndPoint.Y < 0 || testLine.EndPoint.Y > drawingArea.Height
+                        || testLine.StartPoint.X < 0 || testLine.StartPoint.X > drawingArea.Width
+                        || testLine.StartPoint.Y < 0 || testLine.StartPoint.Y > drawingArea.Width)
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        public bool ScaleGroupAverage(string groupId, float scaleFactor, Rectangle drawingArea)
         {
             if (groups.ContainsKey(groupId))
             {
-                var groupElements = groups[groupId];
-                PointF center = GetGroupCenter(groupElements);
-
-                foreach (var element in groupElements)
+                if(CanPerformScaling(scaleFactor, scaleFactor, drawingArea, groupId))
                 {
-                    if (element is LineElement line)
+                    var groupElements = groups[groupId];
+                    PointF center = GetGroupCenter(groupElements);
+
+                    foreach (var element in groupElements)
                     {
-                        ScaleLineAroundPoint(line, center, scaleFactor);
+                        if (element is LineElement line)
+                        {
+                            ScaleLineAroundPoint(line, center, scaleFactor);
+                        }
                     }
+                    return true;
                 }
             }
+            return false;
         }
 
+
+        public bool ScaleGroup(string groupId, float sx, float sy, Rectangle drawingArea)
+        {
+            if (groups.ContainsKey(groupId))
+            {
+                if(CanPerformScaling(sx, sy, drawingArea, groupId))
+                {
+                    var groupElements = groups[groupId];
+                    PointF center = GetGroupCenter(groupElements);
+
+                    foreach (var element in groupElements)
+                    {
+                        if (element is LineElement line)
+                        {
+                            line.Scale(center, sx, sy);
+                        }
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
         public void MirrorGroup(string groupId, bool horizontal)
         {
             if (groups.ContainsKey(groupId))
@@ -192,6 +271,49 @@ namespace GrafRedactor
                     }
                 }
             }
+        }
+
+        public bool MirrorGroup(string groupId, float A, float B, float C, Rectangle drawingArea) 
+        {
+            if (groups.ContainsKey(groupId))
+            {
+                if (CanPerformMirror(groupId, drawingArea, A, B, C))
+                {
+                    var groupElements = groups[groupId];
+
+                    foreach (var element in groupElements)
+                    {
+                        if (element is LineElement line)
+                        {
+                            line.Mirror(A, B, C);
+                        }
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool CanPerformMirror(string groupId, Rectangle drawingArea, float A, float B, float C)
+        {
+            var groupElements = groups[groupId];
+            foreach (var figure in groupElements)
+            {
+                if (figure is LineElement line)
+                {
+                    var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
+                    // Зеркалируем точки линии для проверки
+                    testLine.Mirror(A, B, C);
+
+                    // Проверяем, остаются ли точки в пределах области рисования
+                    if (!drawingArea.Contains(Point.Round(testLine.StartPoint)) ||
+                        !drawingArea.Contains(Point.Round(testLine.EndPoint)))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         private PointF GetGroupCenter(List<FigureElement> elements)
