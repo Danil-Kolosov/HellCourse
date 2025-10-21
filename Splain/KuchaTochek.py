@@ -21,10 +21,16 @@ def GetPolinomKoef(x1,x2,x3,x4):
     
 matrixBoss = [[1,6],[3,5],[6,7],[8,5],[11,5],[15,3],[9,1],[6,2],[5,4],[2,5],[1,6]]
 #matrixBoss = [[4,1],[6,1],[7,3],[7,4],[6,5],[4,6],[2,5],[2,4],[2.5,3],[4,2],[4,1]]
-
+# matrixBoss = [
+#     [5, 4], [4.5, 5], [4, 6], [3, 7], [2, 7], [1, 6], [1, 5], [2, 4], 
+#     [3, 3], [4, 2], [5, 1], [6, 2], [7, 3], [8, 4], [9, 5], [9, 6], 
+#     [8, 7], [7, 7], [6, 6], [5, 4]
+# ]
+# numPoints = 21
 matrixLineBoss = []
-percentDevider=8
+
 numPoints = 10
+percentDevider=numPoints-2
 scale = 50
 def scale_matrix(matrix, scale_factor):
     return [[element * scale_factor for element in row] for row in matrix]
@@ -44,7 +50,8 @@ class DrawingWidget(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)  # Сглаживание
-        
+        painter.translate(0, self.height())  # Сдвигаем начало в левый нижний угол
+        painter.scale(1, -1)  # Инвертируем ось Y (теперь она растет вверх)
         # Данные точек заполняем
         FullMatrixLineBoss()
 
