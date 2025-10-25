@@ -337,6 +337,16 @@ namespace GrafRedactor
             }
         }
 
+        public (float A, float B, float C, float Z) GetEquation()
+        {
+            // Уравнение прямой: Ax + By + C = 0
+            float A = StartPoint.Y - EndPoint.Y;
+            float B = EndPoint.X - StartPoint.X;
+            float C = StartPoint.X * EndPoint.Y - EndPoint.X * StartPoint.Y;
+
+            return (A, B, C, 0);
+        }
+
         public override void LinkChange(FigureElement el)
         {
             if (el is LineElement line)

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
+using System.Threading.Tasks;
 
 namespace GrafRedactor
 {
@@ -31,7 +32,7 @@ namespace GrafRedactor
         private ComboBox comboColor;
         private ComboBox comboOperation;
         private Button btnDelete;
-        private Label lblStartPoint, lblEndPoint, lblThickness, lblColor, lblOperations;
+        private Label lblStartPoint, lblEndPoint, lblThickness, lblColor, lblOperations, lblEquation;
 
         // Константы для размеров
         private const int PARAMETERS_PANEL_WIDTH = 350;
@@ -71,7 +72,7 @@ namespace GrafRedactor
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right // Якоря для автоматического изменения размера
             };
 
-            int y = 20;
+            int y = 10;
 
             // Заголовок панели параметров
             var lblTitle = new Label
@@ -83,6 +84,17 @@ namespace GrafRedactor
                 ForeColor = Color.DarkBlue
             };
             parametersPanel.Controls.Add(lblTitle);
+            y += 10;
+
+            lblEquation = new Label
+            {
+                Text = "Уравнение прямой\n",
+                Location = new Point(20, y+20),
+                Size = new Size(400, 25),
+                Font = new Font("Arial", 12),
+                //ForeColor = Color.Black
+            };
+            parametersPanel.Controls.Add(lblEquation);
             y += 40;
 
             // Координаты начальной точки
@@ -124,8 +136,7 @@ namespace GrafRedactor
                 Size = new Size(120, 25),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
-            comboOperation.Items.AddRange(new object[] { "", "Смещение", "Вращение", "Масштабирование", "Общее масшт", "Зеркалирование", "Проецирование" });
-            comboOperation.Items.AddRange(new object[] { "", "Смещение", "Вращение", "Масштабирование", "Общее масшт", "Зеркалирование", "Проецирование" });
+            comboOperation.Items.AddRange(new object[] { "", "Смещение", "Вращение", "Масштабирование", "Общее масштабирование", "Зеркалирование", "Проецирование" });
             comboOperation.SelectedIndex = 0;
             comboOperation.SelectedIndexChanged += СomboOperation_SelectedIndexChanged;
             parametersPanel.Controls.Add(comboOperation);
@@ -296,6 +307,8 @@ namespace GrafRedactor
                 numStartY.Maximum = drawingArea.Height;
                 numEndX.Maximum = drawingArea.Width;
                 numEndY.Maximum = drawingArea.Height;
+                (float a, float b, float c, float d) = line.GetEquation();
+                lblEquation.Text = $"Уравнение прямой {a}x+{b}y+{c}=0"; //для 3 д тут z использовать еще
 
                 // Временно отключаем события чтобы избежать рекурсии
                 numStartX.ValueChanged -= Parameters_ValueChanged;
@@ -325,9 +338,14 @@ namespace GrafRedactor
         {
             if (selectedFigure is LineElement line && !isDragging && !isResizing)
             {
+                //тут флаг если не 3 д, то 2 мерный поинт иначе - 3 мерный
+                //а может и без флага просто брать это преропредленно е и все,
+                //а из получиь уравнение для 2 д линииивообще убрать z
                 line.StartPoint = new PointF((float)numStartX.Value, (float)numStartY.Value);
                 line.EndPoint = new PointF((float)numEndX.Value, (float)numEndY.Value);
                 line.Thickness = (float)numThickness.Value;
+                //(float a, float b, float c, float d) = line.GetEquation();
+                //lblEquation.Text = $"Уравнение прямой {a}x+{b}y+{c}=0"; //для 3 д тут z использовать еще
                 this.Invalidate();
             }
         }
@@ -360,23 +378,23 @@ namespace GrafRedactor
                         ApplyScaling();
                         //месседж боксом получить на сколько по x по y
                         break;
-                    case "Общее масшт":
+                    case "Общее масштабирование":
                         ApplyUniformScaling();
                         //месседж боксом получить s
                         break;
                     case "Зеркалирование":
                         ApplyMirroring();
-                            //месседж боксом уведомить выбрать линию относительно котоорой будет зеркалирование
-                            break;
+                        //месседж боксом уведомить выбрать линию относительно котоорой будет зеркалирование
+                        break;
                     case "Проецирование":
                         //месседж боксом получить на какую ось - тЧТО КОШМАР ВОБЩЕМ
                         break;
                 }
                 //масштабирование и вращение могут выкинуть линии за холст - исправить как делали с перемещением
-                UpdateParametersPanel(); //проследить чтобы обновлялось как надо!!!1 координаты выбраной линии после операции
+                //UpdateParametersPanel(); //проследить чтобы обновлялось как надо!!!1 координаты выбраной линии после операции
                 //либо вензде внурти этих метдв это напихать
                 //вроде норм обновляется - проверял чуть 
-                this.Invalidate();
+                //this.Invalidate(); внутри методов делается, чтобы не после подтверждения сообщения отображжался результат
             }
         }
 
@@ -487,6 +505,8 @@ namespace GrafRedactor
                         }
                     }
                     UpdateParametersPanel();
+                    this.Invalidate();
+                    UpdateParametersPanel();
                     MessageBox.Show($"Смещение применено: X={dx}, Y={dy}", "Успех",
                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -535,7 +555,8 @@ namespace GrafRedactor
                             return;
                         }
                     }
-
+                    UpdateParametersPanel();
+                    this.Invalidate();
                     MessageBox.Show($"Вращение применено: {angle}°", "Успех",
                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -600,7 +621,8 @@ namespace GrafRedactor
                             return;
                         }
                     }
-
+                    UpdateParametersPanel();
+                    this.Invalidate();
                     MessageBox.Show($"Масштабирование применено: X={sx}, Y={sy}", "Успех",
                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -649,7 +671,8 @@ namespace GrafRedactor
                             return;
                         }
                     }
-
+                    UpdateParametersPanel();
+                    this.Invalidate();
                     MessageBox.Show($"Масштабирование применено: коэффициент {scale}", "Успех",
                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -663,17 +686,17 @@ namespace GrafRedactor
 
         private void ApplyMirroring() 
         {
-            if (selectedFigures.Count != 2) 
+            if (selectedFigures.Count != 2 & !(isGroupSelected && currentGroupId != null & selectedFigures.Count == groupManager.GetGroupElements(currentGroupId).Count + 1)) 
             {
                 MessageBox.Show($"Ошибка: необходиом выбрать 2 прямые:\n1 - которую зеркалировать,\n2 - относительно которой зеркалировать", "Ошибка",
                                   MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             //FigureElement figure = selectedFigures[0];
-            if (selectedFigures[1] is LineElement mirrorLine) 
+            if (selectedFigures.Last() is LineElement mirrorLine) 
             {
                 // Получаем уравнение прямой для зеркалирования
-                (float A, float B, float C) = GetLineEquation(mirrorLine.StartPoint, mirrorLine.EndPoint);
+                (float A, float B, float C, float tempZ) = mirrorLine.GetEquation(); //а может и без флага
 
                 // Проверяем, не выйдут ли фигуры за границы после зеркалирования
                 if (!CanPerformMirror(A, B, C))
@@ -705,31 +728,25 @@ namespace GrafRedactor
                     //}
                 }
 
-                    MessageBox.Show("Зеркалирование выполнено успешно", "Успех",
+                UpdateParametersPanel();
+                this.Invalidate();
+
+                MessageBox.Show("Зеркалирование выполнено успешно", "Успех",
                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
-        private (float A, float B, float C) GetLineEquation(PointF p1, PointF p2)
-        {
-            // Уравнение прямой: Ax + By + C = 0
-            float A = p2.Y - p1.Y;
-            float B = p1.X - p2.X;
-            float C = p2.X * p1.Y - p1.X * p2.Y;
+        //private (float A, float B, float C) GetLineEquation(PointF p1, PointF p2)
+        //{
+        //    // Уравнение прямой: Ax + By + C = 0
+        //    float A = p2.Y - p1.Y;
+        //    float B = p1.X - p2.X;
+        //    float C = p2.X * p1.Y - p1.X * p2.Y;
 
-            return (A, B, C);
-        }
+        //    return (A, B, C);
+        //}
 
-        private void BtnDelete_Click(object sender, EventArgs e)
-        {
-            if (selectedFigure != null)
-            {
-                figures.Remove(selectedFigure);
-                selectedFigure = null;
-                parametersPanel.Visible = false;
-                this.Invalidate();
-            }
-        }
+        
 
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
@@ -756,12 +773,28 @@ namespace GrafRedactor
 
                     if (clickedFigure != null)
                     {
-                        clickedFigure.IsSelected = !clickedFigure.IsSelected;
-                        if (clickedFigure.IsSelected && !selectedFigures.Contains(clickedFigure))
-                            selectedFigures.Add(clickedFigure);
-                        else if (!clickedFigure.IsSelected)
-                            selectedFigures.Remove(clickedFigure);
-
+                        // Если кликнули на элемент группы - выделяем всю группу
+                        if (clickedFigure.IsGrouped && !string.IsNullOrEmpty(clickedFigure.GroupId))
+                        {
+                            var groupElements = groupManager.GetGroupElements(clickedFigure.GroupId);
+                            foreach (var element in groupElements)
+                            {
+                                element.IsSelected = true;
+                                selectedFigures.Add(element);
+                            }
+                            currentGroupId = clickedFigure.GroupId;
+                            isGroupSelected = true;
+                            isDragging = true;
+                            selectedFigure = clickedFigure; //чтобы отображалась панель параметров при выборе линии в группе
+                        }                                  //операции примененные к линии в группе будут применяться ко всей группе
+                        else                    
+                        {
+                            clickedFigure.IsSelected = !clickedFigure.IsSelected;
+                            if (clickedFigure.IsSelected && !selectedFigures.Contains(clickedFigure))
+                                selectedFigures.Add(clickedFigure);
+                            else if (!clickedFigure.IsSelected)
+                                selectedFigures.Remove(clickedFigure);
+                        }
                         UpdateGroupSelectionState();
                     }
 
@@ -1076,7 +1109,7 @@ namespace GrafRedactor
             }
 
             // Рисуем выделение групп
-            if (isGroupSelected && currentGroupId != null)
+            if (isGroupSelected && currentGroupId != null && groupManager.GetGroupElements(currentGroupId).Count != 0)
             {
                 groupManager.DrawGroupSelection(e.Graphics, currentGroupId);
             }
@@ -1089,11 +1122,29 @@ namespace GrafRedactor
                     e.Graphics.DrawLine(tempPen, drawingStartPoint, lastMousePos);
                 }
             }
-            // Рисуем границу области рисования (опционально)
-            using (Pen borderPen = new Pen(Color.LightGray, 1))
+            // Рисуем границу области рисования (для красоты)
+            //using (Pen borderPen = new Pen(Color.LightGray, 1))
+            //{
+            //    e.Graphics.DrawRectangle(borderPen, drawingArea.X, drawingArea.Y,
+            //                           drawingArea.Width - 1, drawingArea.Height - 1);
+            //}
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            if (selectedFigure != null)
             {
-                e.Graphics.DrawRectangle(borderPen, drawingArea.X, drawingArea.Y,
-                                       drawingArea.Width - 1, drawingArea.Height - 1);
+                if (selectedFigure.IsGrouped)
+                {
+                    groupManager.RemoveItem(selectedFigure.GroupId, selectedFigure);
+                    //isGroupSelected = false;
+                    //currentGroupId = null;
+                }
+                figures.Remove(selectedFigure);
+                //selectedFigure = null;
+                ClearSelection();
+                parametersPanel.Visible = false;
+                this.Invalidate();
             }
         }
 
@@ -1101,8 +1152,15 @@ namespace GrafRedactor
         {
             if (e.KeyCode == Keys.Delete && selectedFigure != null)
             {
+                if (selectedFigure.IsGrouped)
+                { 
+                    groupManager.RemoveItem(selectedFigure.GroupId, selectedFigure);
+                    //isGroupSelected = false;
+                    //currentGroupId = null;                    
+                }
                 figures.Remove(selectedFigure);
-                selectedFigure = null;
+                ClearSelection();
+                //selectedFigure = null;
                 parametersPanel.Visible = false;
                 this.Invalidate();
             }
@@ -1126,9 +1184,9 @@ namespace GrafRedactor
             if (isGroupSelected && currentGroupId != null)
             {
                 groupManager.Ungroup(currentGroupId);
-                selectedFigures.Clear();
-                isGroupSelected = false;
-                currentGroupId = null;
+                ClearSelection();
+                //isGroupSelected = false;
+                //currentGroupId = null;
                 this.Invalidate();
             }
         }

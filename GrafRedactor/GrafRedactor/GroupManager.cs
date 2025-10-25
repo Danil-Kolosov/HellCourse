@@ -19,18 +19,20 @@ namespace GrafRedactor
 
             // Убираем из групп элементы, которые уже состоят в других группах
             var elementsToGroup = new List<FigureElement>();
+            string groupId = $"Group_{groupCounter++}";
+
             foreach (var element in elements)
             {
                 if (element.IsGrouped)
                 {
-                    // Если элемент уже в группе, разгруппируем его сначала
-                    UngroupElementFromAllGroups(element);
+                    groupId = element.GroupId;
+                    // Если элемент уже в группе, разгруппируем его сначала******************
+                    //UngroupElementFromAllGroups(element);
                 }
                 elementsToGroup.Add(element);
             }
 
-            string groupId = $"Group_{groupCounter++}";
-
+            
             foreach (var element in elementsToGroup)
             {
                 element.IsGrouped = true;
@@ -39,6 +41,28 @@ namespace GrafRedactor
 
             groups[groupId] = elementsToGroup;
             return groupId;
+        }
+
+        public void RemoveItem(string groupId, FigureElement element) 
+        {
+            groups[groupId].Remove(element);
+            //Dictionary<string, List<FigureElement>> newGroups = new Dictionary<string, List<FigureElement>>();
+            //foreach (var group in groups)
+            //{
+            //    if (group.Value.Contains(element))
+            //    {
+            //        List<FigureElement> newGroup = new List<FigureElement>();
+            //        foreach (var item in group.Value)
+            //        {
+            //            if (item != element)
+            //                newGroup.Add(item);
+            //        }
+            //        newGroups.Add(group.Key, newGroup);
+            //    }
+            //    else
+            //        newGroups.Add(group.Key, group.Value);
+            //}
+            //groups = newGroups;
         }
 
         private void UngroupElementFromAllGroups(FigureElement element)
@@ -394,7 +418,7 @@ namespace GrafRedactor
                         groupBoundingBox.Width, groupBoundingBox.Height);
                 }
 
-                // Рисуем маркеры для изменения размера группы
+                // Рисуем маркеры для группы
                 float handleSize = 8f;
                 using (Brush groupHandleBrush = new SolidBrush(Color.Green))
                 {
