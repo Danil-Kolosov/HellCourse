@@ -60,6 +60,7 @@ namespace GrafRedactor
         public abstract void Mirror(float A, float B, float C);
         public abstract void Draw(Graphics graphics);
         public abstract void DrawSelection(Graphics graphics);
+        public abstract void Projection(string coordinateAxis);
 
         public virtual void LinkChange(FigureElement el)
         {

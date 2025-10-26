@@ -353,6 +353,11 @@ namespace GrafRedactor
             return new PointF((minX + maxX) / 2, (minY + maxY) / 2);
         }
 
+        public PointF GetGroupCenter(string groupId)
+        {            
+            return GetGroupCenter(GetGroupElements(groupId));
+        }
+
         private void RotateLineAroundPoint(LineElement line, PointF center, float angle)
         {
             float angleRad = angle * (float)Math.PI / 180f;

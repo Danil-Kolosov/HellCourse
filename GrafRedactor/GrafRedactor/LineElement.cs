@@ -207,7 +207,7 @@ namespace GrafRedactor
             EndPoint = ScalePoint(_endPoint, center, sx, sy);
         }
 
-        private PointF ScalePoint(PointF point, PointF center, float sx, float sy)
+        protected PointF ScalePoint(PointF point, PointF center, float sx, float sy)
         {
             float dx = point.X - center.X;
             float dy = point.Y - center.Y;
@@ -225,20 +225,20 @@ namespace GrafRedactor
                 (_startPoint.Y + _endPoint.Y) / 2
             );
 
-            StartPoint = ScalePoint(_startPoint, center, scaleFactor);
-            EndPoint = ScalePoint(_endPoint, center, scaleFactor);
+            StartPoint = ScalePoint(_startPoint, center, scaleFactor, scaleFactor);
+            EndPoint = ScalePoint(_endPoint, center, scaleFactor, scaleFactor);
         }
 
-        private PointF ScalePoint(PointF point, PointF center, float scaleFactor)
-        {
-            float dx = point.X - center.X;
-            float dy = point.Y - center.Y;
+        //private PointF ScalePoint(PointF point, PointF center, float scaleFactor) ///было!
+        //{
+        //    float dx = point.X - center.X;
+        //    float dy = point.Y - center.Y;
 
-            return new PointF(
-                center.X + dx * scaleFactor,
-                center.Y + dy * scaleFactor
-            );
-        }
+        //    return new PointF(
+        //        center.X + dx * scaleFactor,
+        //        center.Y + dy * scaleFactor
+        //    );
+        //}
 
         public override void Mirror(bool horizontal)
         {
@@ -351,6 +351,23 @@ namespace GrafRedactor
         {
             if (el is LineElement line)
                 StartPoint = line.EndPoint;
+        }
+
+        public override void Projection(string coordinateAxis) 
+        {
+            switch (coordinateAxis) 
+            {
+                case "x":
+                    _startPoint.X = 0;
+                    _endPoint.X = 0;
+                    break;
+                case "y":
+                    _startPoint.Y = 0;
+                    _endPoint.Y = 0;
+                    break;
+                default:
+                    throw new ArgumentException("Выбрана не правильная ось");
+            }
         }
     }
 }

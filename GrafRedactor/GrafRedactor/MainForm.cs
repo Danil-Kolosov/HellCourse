@@ -5,11 +5,14 @@ using System.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 using System.Threading.Tasks;
-
+using System.Windows.Forms.DataVisualization.Charting;
 namespace GrafRedactor
 {
     public partial class MainForm : Form
     {
+        private bool is3DMode = false;
+        private ToolStripStatusLabel statusLabel;
+        private StatusStrip statusStrip;
         private List<FigureElement> figures = new List<FigureElement>();
         private FigureElement selectedFigure;
         private PointF lastMousePos;
@@ -27,15 +30,15 @@ namespace GrafRedactor
 
         // Элементы управления для панели параметров
         private Panel parametersPanel;
-        private NumericUpDown numStartX, numStartY, numEndX, numEndY;
+        private NumericUpDown numStartX, numStartY, numEndX, numEndY, numStartZ, numEndZ;
         private NumericUpDown numThickness;
         private ComboBox comboColor;
         private ComboBox comboOperation;
         private Button btnDelete;
-        private Label lblStartPoint, lblEndPoint, lblThickness, lblColor, lblOperations, lblEquation;
+        private Label lblStartPoint, lblEndPoint, lblThickness, lblColor, lblOperations, lblEquation, lblStartZ, lblEndZ;
 
         // Константы для размеров
-        private const int PARAMETERS_PANEL_WIDTH = 350;
+        private const int PARAMETERS_PANEL_WIDTH = 450;
         private const int MIN_DRAWING_WIDTH = 500;
 
         public MainForm()
@@ -43,6 +46,7 @@ namespace GrafRedactor
             InitializeComponent(); // Вызов метода из Designer
             InitializeCustomComponents(); // Своя инициализация
             selectedFigures = new List<FigureElement>();
+            UpdateModeVisuals(); // Обновляем визуальное отображение режима
         }
 
         private void InitializeCustomComponents()
@@ -50,7 +54,6 @@ namespace GrafRedactor
             this.DoubleBuffered = true; // Убираем мерцание
             this.ResizeRedraw = true; // Важно: перерисовывать при изменении размера
             InitializeParametersPanel();
-
             // Обработчики событий мыши и клавиатуры
             this.MouseDown += MainForm_MouseDown;
             this.MouseMove += MainForm_MouseMove;
@@ -59,6 +62,10 @@ namespace GrafRedactor
             this.KeyDown += MainForm_KeyDown;
             this.KeyPreview = true; // Для обработки клавиш Delete
             this.Resize += MainForm_Resize; // Обработчик изменения размера
+            this.MouseWheel += MainForm_MouseWheel;
+
+            InitializeStatusBar(); // Добавляем строку состояния
+            UpdateModeVisuals(); // Обновляем интерфейс под текущий режим
         }
 
         private void InitializeParametersPanel()
@@ -66,7 +73,7 @@ namespace GrafRedactor
             parametersPanel = new Panel
             {
                 Location = new Point(650, 0),
-                Size = new Size(350, 600),
+                Size = new Size(PARAMETERS_PANEL_WIDTH, 600),
                 BackColor = Color.LightGray,
                 Visible = false,
                 Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right // Якоря для автоматического изменения размера
@@ -107,6 +114,12 @@ namespace GrafRedactor
             AddLabel("Y:", 160, y);
             numStartY = AddNumericUpDown(190, y, 0, 1000, 100);
             numStartY.ValueChanged += Parameters_ValueChanged;
+
+            lblStartZ = AddLabel("Z:", 280, y);
+            lblStartZ.Visible = false;
+            numStartZ = AddNumericUpDown(330, y, -1000000000, 1000000000, 0); //??????!
+            numStartZ.ValueChanged += Parameters_ValueChanged;
+            parametersPanel.Controls.Add(numStartZ);//******
             y += 40;
 
             // Координаты конечной точки
@@ -119,6 +132,12 @@ namespace GrafRedactor
             AddLabel("Y:", 160, y);
             numEndY = AddNumericUpDown(190, y, 0, 1000, 200);
             numEndY.ValueChanged += Parameters_ValueChanged;
+
+            lblEndZ = AddLabel("Z:", 280, y);
+            lblEndZ.Visible = false;
+            numEndZ = AddNumericUpDown(330, y, -1000000000, 1000000000, 0); //??????!
+            numEndZ.ValueChanged += Parameters_ValueChanged;
+            parametersPanel.Controls.Add(numEndZ);//****
             y += 40;
 
             // Толщина линии
@@ -315,13 +334,32 @@ namespace GrafRedactor
                 numStartY.ValueChanged -= Parameters_ValueChanged;
                 numEndX.ValueChanged -= Parameters_ValueChanged;
                 numEndY.ValueChanged -= Parameters_ValueChanged;
-                numThickness.ValueChanged -= Parameters_ValueChanged;
+                numThickness.ValueChanged -= Parameters_ValueChanged;                
+                numStartZ.ValueChanged -= Parameters_ValueChanged;
+                numEndZ.ValueChanged -= Parameters_ValueChanged;
 
                 numStartX.Value = (decimal)line.StartPoint.X;
                 numStartY.Value = (decimal)line.StartPoint.Y;
                 numEndX.Value = (decimal)line.EndPoint.X;
                 numEndY.Value = (decimal)line.EndPoint.Y;
                 numThickness.Value = (decimal)line.Thickness;
+                if (line is LineElement3D line3D)
+                {
+                    numStartZ.Value = (decimal)line3D.StartZ;
+                    numEndZ.Value = (decimal)line3D.EndZ;
+
+                    lblStartZ.Visible = true;
+                    lblEndZ.Visible = true;
+                    numStartZ.Visible = true;
+                    numEndZ.Visible = true;
+                }
+                else 
+                {
+                    lblStartZ.Visible = false;
+                    lblEndZ.Visible = false;
+                    numStartZ.Visible = false;
+                    numEndZ.Visible = false;
+                }
 
                 // Восстанавливаем обработчики
                 numStartX.ValueChanged += Parameters_ValueChanged;
@@ -329,6 +367,8 @@ namespace GrafRedactor
                 numEndX.ValueChanged += Parameters_ValueChanged;
                 numEndY.ValueChanged += Parameters_ValueChanged;
                 numThickness.ValueChanged += Parameters_ValueChanged;
+                numStartZ.ValueChanged += Parameters_ValueChanged;
+                numEndZ.ValueChanged += Parameters_ValueChanged;
 
                 comboColor.SelectedItem = line.Color.Name;
             }
@@ -346,6 +386,11 @@ namespace GrafRedactor
                 line.Thickness = (float)numThickness.Value;
                 //(float a, float b, float c, float d) = line.GetEquation();
                 //lblEquation.Text = $"Уравнение прямой {a}x+{b}y+{c}=0"; //для 3 д тут z использовать еще
+                if(line is LineElement3D line3D) 
+                {
+                    line3D.SetStartZ(GetDrawingArea(), groupManager, (float)numStartZ.Value);
+                    line3D.SetEndZ(GetDrawingArea(), groupManager, (float)numEndZ.Value);
+                }
                 this.Invalidate();
             }
         }
@@ -357,6 +402,84 @@ namespace GrafRedactor
 
                 line.Color = Color.FromName(comboColor.SelectedItem.ToString());
                 this.Invalidate();
+            }
+        }
+
+        private void InitializeStatusBar()
+        {
+            statusStrip = new StatusStrip();
+            statusLabel = new ToolStripStatusLabel();
+            statusStrip.Items.Add(statusLabel);
+
+            this.Controls.Add(statusStrip);
+            UpdateStatusBar();
+        }
+
+        // Обработчики меню
+        private void Mode2DToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Set2DMode();
+        }
+
+        private void Mode3DToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Set3DMode();
+        }
+
+        private void Set2DMode()
+        {
+            is3DMode = false;
+            UpdateModeVisuals();
+
+            // Снимаем выделение с 3D фигур при переходе в 2D режим
+            foreach (var figure in figures.Where(f => f is LineElement3D))
+            {
+                figure.IsSelected = false;
+            }
+            selectedFigures.RemoveAll(f => f is LineElement3D);
+
+            this.Invalidate();
+        }
+
+        private void Set3DMode()
+        {
+            is3DMode = true;
+            UpdateModeVisuals();
+
+            // Снимаем выделение с 2D фигур при переходе в 3D режим
+            foreach (var figure in figures.Where(f => !(f is LineElement3D)))
+            {
+                figure.IsSelected = false;
+            }
+            selectedFigures.RemoveAll(f => !(f is LineElement3D));
+
+            this.Invalidate();
+        }
+
+        private void UpdateModeVisuals()
+        {
+            // Обновляем галочки в меню
+            mode2DToolStripMenuItem.Checked = !is3DMode;
+            mode3DToolStripMenuItem.Checked = is3DMode;
+
+            // Обновляем заголовок окна
+            this.Text = $"Графический редактор - {(is3DMode ? "3D" : "2D")} Режим";
+
+            // Обновляем строку состояния
+            UpdateStatusBar();
+
+            // Обновляем панель параметров
+            UpdateParametersPanel();
+            //UpdateModeDependentControls();
+        }
+
+        private void UpdateStatusBar()
+        {
+            if (statusLabel != null)
+            {
+                string modeText = is3DMode ? "3D Режим" : "2D Режим";
+                string hintText = is3DMode ? " | Ctrl+Колесо: изменить Z" : "";
+                statusLabel.Text = $"{modeText}{hintText}";
             }
         }
 
@@ -387,6 +510,7 @@ namespace GrafRedactor
                         //месседж боксом уведомить выбрать линию относительно котоорой будет зеркалирование
                         break;
                     case "Проецирование":
+                        ApplyProjection();
                         //месседж боксом получить на какую ось - тЧТО КОШМАР ВОБЩЕМ
                         break;
                 }
@@ -736,6 +860,34 @@ namespace GrafRedactor
             }
         }
 
+        private void ApplyProjection() 
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox(
+                "Введите ось проецирования (x или y):",
+                "Общее масштабирование", "1");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                try
+                {
+                    string axis = input.ToLower();
+                    foreach (var figure in selectedFigures)
+                    {
+                        figure.Projection(axis);
+                    }                    
+                    UpdateParametersPanel();
+                    this.Invalidate();
+                    MessageBox.Show($"Проецирование применено: ось {axis}", "Успех",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка ввода: {ex.Message}\nВведите правильное название оси координат", "Ошибка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         //private (float A, float B, float C) GetLineEquation(PointF p1, PointF p2)
         //{
         //    // Уравнение прямой: Ax + By + C = 0
@@ -746,7 +898,7 @@ namespace GrafRedactor
         //    return (A, B, C);
         //}
 
-        
+
 
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
@@ -1064,7 +1216,17 @@ namespace GrafRedactor
                         PointF drawingEndPoint = e.Location;
                         drawingEndPoint.X = Math.Max(0, Math.Min(drawingEndPoint.X, drawingArea.Width));
                         drawingEndPoint.Y = Math.Max(0, Math.Min(drawingEndPoint.Y, drawingArea.Height));
-                        var newLine = new LineElement(drawingStartPoint, drawingEndPoint, Color.Black, 3f);
+                        FigureElement newLine;
+                        if (is3DMode)
+                        {
+                            newLine = new LineElement3D(
+                                drawingStartPoint, drawingEndPoint, Color.Black, 3f);
+                        }
+                        else
+                        {
+                            newLine = new LineElement(drawingStartPoint, drawingEndPoint, Color.Black, 3f);
+                        }
+                                                
                         figures.Add(newLine);
                         // АВТОМАТИЧЕСКИ ВЫДЕЛЯЕМ новую линию и добавляем в selectedFigures
                         ClearSelection(); // Сначала сбрасываем старое выделение
@@ -1079,6 +1241,45 @@ namespace GrafRedactor
 
                 isDragging = false;
                 isResizing = false;
+            }
+        }
+
+        private void MainForm_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (Control.ModifierKeys == Keys.Control && selectedFigures.Count > 0)
+            {
+                float deltaZ = e.Delta > 0 ? 10f : -10f; // Вверх = +10, вниз = -10
+                bool changed = false;
+
+                foreach (var figure in selectedFigures)
+                {
+                    if (figure is LineElement3D line3D)
+                    {
+                        if (Control.ModifierKeys == (Keys.Control | Keys.Shift))
+                        {
+                            // Ctrl+Shift+Колесо - изменяем только начальную точку
+                            line3D.SetStartZ(GetDrawingArea(), groupManager, line3D.StartZ + deltaZ);
+                        }
+                        else if (Control.ModifierKeys == (Keys.Control | Keys.Alt))
+                        {
+                            // Ctrl+Alt+Колесо - изменяем только конечную точку
+                            line3D.SetEndZ(GetDrawingArea(), groupManager, line3D.EndZ + deltaZ);                          
+                        }
+                        else
+                        {
+                            // Просто Ctrl+Колесо - изменяем всю линию
+                            line3D.SetStartZ(GetDrawingArea(), groupManager, line3D.StartZ + deltaZ);
+                            line3D.SetEndZ(GetDrawingArea(), groupManager, line3D.EndZ + deltaZ);
+                        }
+                        changed = true;
+                    }
+                }
+
+                if (changed)
+                {
+                    this.Invalidate();
+                    UpdateParametersPanel();
+                }
             }
         }
 
