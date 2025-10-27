@@ -6,9 +6,9 @@ namespace GrafRedactor
 {
     public class LineElement : FigureElement
     {
-        private float _length;
-        private PointF _startPoint;
-        private PointF _endPoint;
+        protected float _length;
+        protected PointF _startPoint;
+        protected PointF _endPoint;
 
         public float Length
         {
@@ -85,7 +85,7 @@ namespace GrafRedactor
             );
         }
 
-        private void UpdateLengthAndRotation()
+        protected void UpdateLengthAndRotation()
         {
             float dx = _endPoint.X - _startPoint.X;
             float dy = _endPoint.Y - _startPoint.Y;

@@ -7,7 +7,10 @@ namespace GrafRedactor
     public abstract class FigureElement
     {
         private float _rotation;
-        private PointF _position;
+        protected PointF _position;
+        protected bool is3D = false;
+        public bool Is3D { get => is3D; set { is3D = value; } }
+
 
         public PointF Position
         {

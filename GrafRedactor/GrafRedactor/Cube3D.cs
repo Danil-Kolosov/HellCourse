@@ -7,95 +7,32 @@ namespace GrafRedactor
     public class Cube3D : FigureElement
     {
         private List<LineElement3D> edges = new List<LineElement3D>();
-        private Point3D position;
+        private Point3D center;
         private float size;
+        private Color color;
 
-        public bool Is3D => true;
-        public List<LineElement3D> Edges => edges;
-
-        public Point3D Position
+        public Cube3D(Point3D center, float size, Color color)
         {
-            get => position;
-            set
-            {
-                if (position != value)
-                {
-                    position = value;
-                    UpdateCubeGeometry();
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public float Size
-        {
-            get => size;
-            set
-            {
-                if (size != value)
-                {
-                    size = value;
-                    UpdateCubeGeometry();
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public Color Color { get; set; }
-
-        public Cube3D(Point3D position, float size, Color color)
-        {
-            this.position = position;
+            this.center = center;
             this.size = size;
-            this.Color = color;
+            this.color = color;
 
             InitializeEdges();
             UpdateCubeGeometry();
+            is3D = true;
         }
 
         private void InitializeEdges()
         {
+            // Очищаем старые ребра если они есть
+            edges.Clear();
+
             // Создаем 12 ребер куба
             for (int i = 0; i < 12; i++)
             {
-                var edge = new LineElement3D(new Point3D(0, 0, 0), new Point3D(0, 0, 0), Color, 2f);
-                edge.OnChanged += OnEdgeChanged; // Подписываемся на изменения ребер
+                var edge = new LineElement3D(new Point3D(0, 0, 0), new Point3D(0, 0, 0), color, 2f);
                 edges.Add(edge);
             }
-
-            // Связываем ребра между собой
-            LinkEdges();
-        }
-
-        private void LinkEdges()
-        {
-            // Ребра группируются по 4 на каждой грани
-            // Связываем смежные ребра так, чтобы при перемещении одного
-            // связанные ребра автоматически обновлялись
-
-            // Нижняя грань (Z = position.Z)
-            LinkEdge(0, 1);  // Переднее нижнее
-            LinkEdge(1, 2);  // Правое нижнее  
-            LinkEdge(2, 3);  // Заднее нижнее
-            LinkEdge(3, 0);  // Левое нижнее
-
-            // Верхняя грань (Z = position.Z + size)
-            LinkEdge(4, 5);  // Переднее верхнее
-            LinkEdge(5, 6);  // Правое верхнее
-            LinkEdge(6, 7);  // Заднее верхнее
-            LinkEdge(7, 4);  // Левое верхнее
-
-            // Вертикальные ребра
-            LinkEdge(0, 4);  // Переднее левое
-            LinkEdge(1, 5);  // Переднее правое
-            LinkEdge(2, 6);  // Заднее правое
-            LinkEdge(3, 7);  // Заднее левое
-        }
-
-        private void LinkEdge(int fromIndex, int toIndex)
-        {
-            // Связываем ребра так, чтобы конечная точка одного была начальной точкой другого
-            edges[fromIndex].LinkChange(edges[toIndex]);
         }
 
         private void UpdateCubeGeometry()
@@ -105,56 +42,146 @@ namespace GrafRedactor
 
             // Обновляем координаты ребер
             // Нижняя грань
-            edges[0].StartPointR = vertices[0]; edges[0].EndPoint = vertices[1]; // Переднее
-            edges[1].StartPoint = vertices[1]; edges[1].EndPoint = vertices[2]; // Правое
-            edges[2].StartPoint = vertices[2]; edges[2].EndPoint = vertices[3]; // Заднее
-            edges[3].StartPoint = vertices[3]; edges[3].EndPoint = vertices[0]; // Левое
+            edges[0].StartPoint3D = vertices[0]; edges[0].EndPoint3D = vertices[1];
+            edges[1].StartPoint3D = vertices[1]; edges[1].EndPoint3D = vertices[2];
+            edges[2].StartPoint3D = vertices[2]; edges[2].EndPoint3D = vertices[3];
+            edges[3].StartPoint3D = vertices[3]; edges[3].EndPoint3D = vertices[0];
 
             // Верхняя грань
-            edges[4].StartPoint = vertices[4]; edges[4].EndPoint = vertices[5]; // Переднее
-            edges[5].StartPoint = vertices[5]; edges[5].EndPoint = vertices[6]; // Правое
-            edges[6].StartPoint = vertices[6]; edges[6].EndPoint = vertices[7]; // Заднее
-            edges[7].StartPoint = vertices[7]; edges[7].EndPoint = vertices[4]; // Левое
+            edges[4].StartPoint3D = vertices[4]; edges[4].EndPoint3D = vertices[5];
+            edges[5].StartPoint3D = vertices[5]; edges[5].EndPoint3D = vertices[6];
+            edges[6].StartPoint3D = vertices[6]; edges[6].EndPoint3D = vertices[7];
+            edges[7].StartPoint3D = vertices[7]; edges[7].EndPoint3D = vertices[4];
 
             // Вертикальные ребра
-            edges[8].StartPoint = vertices[0]; edges[8].EndPoint = vertices[4]; // Переднее левое
-            edges[9].StartPoint = vertices[1]; edges[9].EndPoint = vertices[5]; // Переднее правое
-            edges[10].StartPoint = vertices[2]; edges[10].EndPoint = vertices[6]; // Заднее правое
-            edges[11].StartPoint = vertices[3]; edges[11].EndPoint = vertices[7]; // Заднее левое
+            edges[8].StartPoint3D = vertices[0]; edges[8].EndPoint3D = vertices[4];
+            edges[9].StartPoint3D = vertices[1]; edges[9].EndPoint3D = vertices[5];
+            edges[10].StartPoint3D = vertices[2]; edges[10].EndPoint3D = vertices[6];
+            edges[11].StartPoint3D = vertices[3]; edges[11].EndPoint3D = vertices[7];
         }
 
         private Point3D[] CalculateVertices()
         {
             float halfSize = size / 2;
 
-            // 8 вершин куба
             return new Point3D[]
             {
-                // Нижняя грань
-                new Point3D(position.X - halfSize, position.Y - halfSize, position.Z - halfSize), // 0: лево-перед-низ
-                new Point3D(position.X + halfSize, position.Y - halfSize, position.Z - halfSize), // 1: право-перед-низ
-                new Point3D(position.X + halfSize, position.Y + halfSize, position.Z - halfSize), // 2: право-зад-низ
-                new Point3D(position.X - halfSize, position.Y + halfSize, position.Z - halfSize), // 3: лево-зад-низ
+                // Нижняя грань (задние вершины имеют меньший Z для перспективы)
+                new Point3D(center.X - halfSize, center.Y - halfSize, center.Z - halfSize), // 0: лево-перед-низ
+                new Point3D(center.X + halfSize, center.Y - halfSize, center.Z - halfSize), // 1: право-перед-низ
+                new Point3D(center.X + halfSize, center.Y + halfSize, center.Z - halfSize * 0.7f), // 2: право-зад-низ (меньше Z)
+                new Point3D(center.X - halfSize, center.Y + halfSize, center.Z - halfSize * 0.7f), // 3: лево-зад-низ (меньше Z)
                 
                 // Верхняя грань
-                new Point3D(position.X - halfSize, position.Y - halfSize, position.Z + halfSize), // 4: лево-перед-верх
-                new Point3D(position.X + halfSize, position.Y - halfSize, position.Z + halfSize), // 5: право-перед-верх
-                new Point3D(position.X + halfSize, position.Y + halfSize, position.Z + halfSize), // 6: право-зад-верх
-                new Point3D(position.X - halfSize, position.Y + halfSize, position.Z + halfSize)  // 7: лево-зад-верх
+                new Point3D(center.X - halfSize, center.Y - halfSize, center.Z + halfSize), // 4: лево-перед-верх
+                new Point3D(center.X + halfSize, center.Y - halfSize, center.Z + halfSize), // 5: право-перед-верх
+                new Point3D(center.X + halfSize, center.Y + halfSize, center.Z + halfSize * 0.7f), // 6: право-зад-верх
+                new Point3D(center.X - halfSize, center.Y + halfSize, center.Z + halfSize * 0.7f)  // 7: лево-зад-верх
             };
         }
 
-        private void OnEdgeChanged(FigureElement changedEdge)
+        // ОБНОВЛЯЕМ ВСЕ МЕТОДЫ ДВИЖЕНИЯ И ПРЕОБРАЗОВАНИЙ
+        public override void Move(PointF delta, float height, float width)
         {
-            // Когда одно ребро изменяется, обновляем всю геометрию куба
+            center = new Point3D(center.X + delta.X, center.Y + delta.Y, center.Z);
             UpdateCubeGeometry();
-            OnPropertyChanged(); // Уведомляем об изменении куба
+            OnPropertyChanged();
         }
 
-        // Реализация абстрактных методов FigureElement
+        public void Move3D(Point3D delta)
+        {
+            center = new Point3D(center.X + delta.X, center.Y + delta.Y, center.Z + delta.Z);
+            UpdateCubeGeometry();
+            OnPropertyChanged();
+        }
+
+        public override void Rotate(float angle)
+        {
+            Rotate3D(0, 0, angle);
+        }
+
+        public void Rotate3D(float angleX, float angleY, float angleZ)
+        {
+            // Поворачиваем каждую вершину относительно центра куба
+            Point3D[] vertices = CalculateVertices();
+            Point3D[] rotatedVertices = new Point3D[8];
+
+            for (int i = 0; i < 8; i++)
+            {
+                rotatedVertices[i] = RotatePoint3D(vertices[i], center, angleX, angleY, angleZ);
+            }
+
+            // Обновляем ребра с новыми вершинами
+            UpdateEdgesWithVertices(rotatedVertices);
+            OnPropertyChanged();
+        }
+
+        private void UpdateEdgesWithVertices(Point3D[] vertices)
+        {
+            edges[0].StartPoint3D = vertices[0]; edges[0].EndPoint3D = vertices[1];
+            edges[1].StartPoint3D = vertices[1]; edges[1].EndPoint3D = vertices[2];
+            edges[2].StartPoint3D = vertices[2]; edges[2].EndPoint3D = vertices[3];
+            edges[3].StartPoint3D = vertices[3]; edges[3].EndPoint3D = vertices[0];
+            edges[4].StartPoint3D = vertices[4]; edges[4].EndPoint3D = vertices[5];
+            edges[5].StartPoint3D = vertices[5]; edges[5].EndPoint3D = vertices[6];
+            edges[6].StartPoint3D = vertices[6]; edges[6].EndPoint3D = vertices[7];
+            edges[7].StartPoint3D = vertices[7]; edges[7].EndPoint3D = vertices[4];
+            edges[8].StartPoint3D = vertices[0]; edges[8].EndPoint3D = vertices[4];
+            edges[9].StartPoint3D = vertices[1]; edges[9].EndPoint3D = vertices[5];
+            edges[10].StartPoint3D = vertices[2]; edges[10].EndPoint3D = vertices[6];
+            edges[11].StartPoint3D = vertices[3]; edges[11].EndPoint3D = vertices[7];
+        }
+
+        private Point3D RotatePoint3D(Point3D point, Point3D center, float angleX, float angleY, float angleZ)
+        {
+            // Перенос в систему координат с центром в center
+            Point3D translated = new Point3D(
+                point.X - center.X,
+                point.Y - center.Y,
+                point.Z - center.Z
+            );
+
+            Point3D rotated = translated;
+
+            // Вращение вокруг Z
+            if (Math.Abs(angleZ) > 0.001f)
+            {
+                float angleRad = angleZ * (float)Math.PI / 180f;
+                float cos = (float)Math.Cos(angleRad);
+                float sin = (float)Math.Sin(angleRad);
+
+                rotated = new Point3D(
+                    rotated.X * cos - rotated.Y * sin,
+                    rotated.X * sin + rotated.Y * cos,
+                    rotated.Z
+                );
+            }
+
+            // Вращение вокруг Y
+            if (Math.Abs(angleY) > 0.001f)
+            {
+                float angleRad = angleY * (float)Math.PI / 180f;
+                float cos = (float)Math.Cos(angleRad);
+                float sin = (float)Math.Sin(angleRad);
+
+                rotated = new Point3D(
+                    rotated.X * cos + rotated.Z * sin,
+                    rotated.Y,
+                    -rotated.X * sin + rotated.Z * cos
+                );
+            }
+
+            // Возврат в исходную систему координат
+            return new Point3D(
+                rotated.X + center.X,
+                rotated.Y + center.Y,
+                rotated.Z + center.Z
+            );
+        }
+
+        // ОСТАЛЬНЫЕ МЕТОДЫ FigureElement
         public override bool ContainsPoint(PointF point)
         {
-            // Проверяем попадание в любое из ребер
             foreach (var edge in edges)
             {
                 if (edge.ContainsPoint(point))
@@ -167,7 +194,6 @@ namespace GrafRedactor
         {
             if (edges.Count == 0) return RectangleF.Empty;
 
-            // Общий bounding box всех ребер
             RectangleF bbox = edges[0].GetBoundingBox();
             for (int i = 1; i < edges.Count; i++)
             {
@@ -176,104 +202,63 @@ namespace GrafRedactor
             return bbox;
         }
 
-        public override void Move(PointF delta)
+        public override void Scale(PointF center, float sx, float sy)
         {
-            Move3D(new Point3D(delta.X, delta.Y, 0));
+            size *= (sx + sy) / 2;
+            UpdateCubeGeometry();
+            OnPropertyChanged();
         }
 
-        public override void Move3D(Point3D delta)
+        public override void ScaleAverage(float scaleFactor)
         {
-            Position = new Point3D(
-                position.X + delta.X,
-                position.Y + delta.Y,
-                position.Z + delta.Z
-            );
-        }
-
-        public override void Rotate(float angle)
-        {
-            Rotate3D(0, 0, angle);
-        }
-
-        public override void Rotate3D(float angleX, float angleY, float angleZ)
-        {
-            Point3D center = Position;
-
-            // Поворачиваем каждую вершину относительно центра куба
-            foreach (var edge in edges)
-            {
-                edge.StartPoint = RotatePoint3D(edge.StartPoint, center, angleX, angleY, angleZ);
-                edge.EndPoint = RotatePoint3D(edge.EndPoint, center, angleX, angleY, angleZ);
-            }
-        }
-
-        private Point3D RotatePoint3D(Point3D point, Point3D center, float angleX, float angleY, float angleZ)
-        {
-            // Перенос в систему координат с центром в center
-            Point3D translated = new Point3D(
-                point.X - center.X,
-                point.Y - center.Y,
-                point.Z - center.Z
-            );
-
-            // Вращение вокруг Z (пока только Z для простоты)
-            if (Math.Abs(angleZ) > 0.001f)
-            {
-                float angleRad = angleZ * (float)Math.PI / 180f;
-                float cos = (float)Math.Cos(angleRad);
-                float sin = (float)Math.Sin(angleRad);
-
-                float newX = translated.X * cos - translated.Y * sin;
-                float newY = translated.X * sin + translated.Y * cos;
-
-                translated = new Point3D(newX, newY, translated.Z);
-            }
-
-            // Возврат в исходную систему координат
-            return new Point3D(
-                translated.X + center.X,
-                translated.Y + center.Y,
-                translated.Z + center.Z
-            );
-        }
-
-        public override void Scale(float scaleFactor)
-        {
-            Scale3D(scaleFactor, scaleFactor, scaleFactor);
-        }
-
-        public override void Scale3D(float scaleX, float scaleY, float scaleZ)
-        {
-            Size = size * ((scaleX + scaleY + scaleZ) / 3); // Усредняем масштаб
+            size *= scaleFactor;
+            UpdateCubeGeometry();
+            OnPropertyChanged();
         }
 
         public override void Mirror(bool horizontal)
         {
-            Mirror3D(horizontal, !horizontal, false);
-        }
-
-        public override void Mirror3D(bool xAxis, bool yAxis, bool zAxis)
-        {
-            Point3D center = Position;
-
-            foreach (var edge in edges)
+            // Простое зеркалирование - инвертируем соответствующие координаты
+            if (horizontal)
             {
-                edge.StartPoint = MirrorPoint3D(edge.StartPoint, center, xAxis, yAxis, zAxis);
-                edge.EndPoint = MirrorPoint3D(edge.EndPoint, center, xAxis, yAxis, zAxis);
+                center = new Point3D(-center.X, center.Y, center.Z);
             }
+            else
+            {
+                center = new Point3D(center.X, -center.Y, center.Z);
+            }
+            UpdateCubeGeometry();
+            OnPropertyChanged();
         }
 
-        private Point3D MirrorPoint3D(Point3D point, Point3D center, bool xAxis, bool yAxis, bool zAxis)
+        public override void Mirror(float A, float B, float C)
         {
+            // Зеркалирование центра куба относительно плоскости
+            Point3D mirroredCenter = MirrorPoint3D(center, A, B, C);
+            center = mirroredCenter;
+            UpdateCubeGeometry();
+            OnPropertyChanged();
+        }
+
+        private Point3D MirrorPoint3D(Point3D point, float A, float B, float C)
+        {
+            // Формула отражения точки относительно плоскости Ax + By + Cz + D = 0
+            // Для простоты считаем D = 0
+            float denominator = A * A + B * B + C * C;
+            if (Math.Abs(denominator) < 0.0001f) return point;
+
+            float distance = (A * point.X + B * point.Y + C * point.Z) / denominator;
+
             return new Point3D(
-                xAxis ? 2 * center.X - point.X : point.X,
-                yAxis ? 2 * center.Y - point.Y : point.Y,
-                zAxis ? 2 * center.Z - point.Z : point.Z
+                point.X - 2 * A * distance,
+                point.Y - 2 * B * distance,
+                point.Z - 2 * C * distance
             );
         }
 
         public override void Draw(Graphics graphics)
         {
+            // Рисуем ВСЕ ребра куба
             foreach (var edge in edges)
             {
                 edge.Draw(graphics);
@@ -282,6 +267,7 @@ namespace GrafRedactor
 
         public override void DrawSelection(Graphics graphics)
         {
+            // Рисуем выделение для ВСЕХ ребер
             foreach (var edge in edges)
             {
                 edge.DrawSelection(graphics);
@@ -296,9 +282,22 @@ namespace GrafRedactor
             }
         }
 
+        public override void Projection(string coordinateAxis)
+        {
+            // Для куба проекция применяется ко всем вершинам
+            foreach (var edge in edges)
+            {
+                edge.Projection(coordinateAxis);
+            }
+        }
+
         public override void LinkChange(FigureElement el)
         {
-            // Для куба связывание не реализовано
+            // Не реализовано для куба
         }
+
+        public Point3D Center => center;
+        public float Size => size;
+        public Color CubeColor => color;
     }
 }

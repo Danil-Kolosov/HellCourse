@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Xml.Linq;
 
 namespace GrafRedactor
 {
@@ -160,11 +161,48 @@ namespace GrafRedactor
         {
             if (groups.ContainsKey(groupId))
             {
+                    // Сначала проверяем, можно ли переместить всю группу
+                if (!CanMoveGroup(groupId, delta, height, weight))
+                {
+                    return;
+                }
+
+                // Если можно - перемещаем все элементы
                 foreach (var element in groups[groupId])
                 {
                     element.Move(delta, height, weight);
+                }       
+            }
+        }
+        public bool CanMoveGroup(string groupId, PointF delta, float height, float width)
+        {
+            if (!groups.ContainsKey(groupId)) return false;
+
+            var groupElements = groups[groupId];
+
+            foreach (var element in groupElements)
+            {
+                // Создаем временную копию для проверки
+                if (element is LineElement line)
+                {
+                    var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
+
+                    // Пробуем применить перемещение к копии
+                    testLine.Move(delta, height, width);
+
+                    // Проверяем bounding box после перемещения
+                    var testBbox = testLine.GetBoundingBox();
+
+                    // Если хотя бы один элемент выходит за границы - перемещение невозможно
+                    if (testBbox.Left < 0 || testBbox.Right > width ||
+                        testBbox.Top < 0 || testBbox.Bottom > height)
+                    {
+                        return false;
+                    }
                 }
             }
+
+            return true;
         }
 
         public bool RotateGroup(string groupId, float angle, Rectangle drawingArea)
@@ -356,6 +394,51 @@ namespace GrafRedactor
         public PointF GetGroupCenter(string groupId)
         {            
             return GetGroupCenter(GetGroupElements(groupId));
+        }
+
+        public Point3D GetGroupCenter3D(List<FigureElement> elements)
+        {
+            if (elements.Count == 0)
+                return new Point3D(0, 0, 0);
+
+            float minX = float.MaxValue, minY = float.MaxValue, minZ = float.MaxValue;
+            float maxX = float.MinValue, maxY = float.MinValue, maxZ = float.MinValue;
+
+            foreach (var element in elements)
+            {
+                // Получаем bounding box для X,Y
+                var bbox = element.GetBoundingBox();
+                minX = Math.Min(minX, bbox.Left);
+                minY = Math.Min(minY, bbox.Top);
+                maxX = Math.Max(maxX, bbox.Right);
+                maxY = Math.Max(maxY, bbox.Bottom);
+
+                // Получаем Z-координаты в зависимости от типа элемента
+                if (element is LineElement3D line3D)
+                {
+                    float lineMinZ = Math.Min(line3D.StartPoint3D.Z, line3D.EndPoint3D.Z);
+                    float lineMaxZ = Math.Max(line3D.StartPoint3D.Z, line3D.EndPoint3D.Z);
+
+                    minZ = Math.Min(minZ, lineMinZ);
+                    maxZ = Math.Max(maxZ, lineMaxZ);
+                }
+                else if (element is Cube3D cube)
+                {
+                    // Для куба учитываем его размер по Z
+                    float cubeMinZ = cube.Center.Z - cube.Size / 2;
+                    float cubeMaxZ = cube.Center.Z + cube.Size / 2;
+
+                    minZ = Math.Min(minZ, cubeMinZ);
+                    maxZ = Math.Max(maxZ, cubeMaxZ);
+                }
+            }
+
+            return new Point3D((minX + maxX) / 2, (minY + maxY) / 2, (minZ + maxZ) / 2);
+        }
+
+        public Point3D GetGroupCenter3D(string groupId)
+        {
+            return GetGroupCenter3D(GetGroupElements(groupId));
         }
 
         private void RotateLineAroundPoint(LineElement line, PointF center, float angle)
