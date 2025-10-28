@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Security.Cryptography;
+using System.Windows.Forms;
 
 namespace GrafRedactor
 {
@@ -43,8 +46,12 @@ namespace GrafRedactor
             // Обновляем координаты ребер
             // Нижняя грань
             edges[0].StartPoint3D = vertices[0]; edges[0].EndPoint3D = vertices[1];
+            //edges[1].OnChanged += edges[0].LinkChange;
+            edges[0].OnChanged += edges[1].LinkChange;
             edges[1].StartPoint3D = vertices[1]; edges[1].EndPoint3D = vertices[2];
+            edges[1].OnChanged += edges[2].LinkChange;
             edges[2].StartPoint3D = vertices[2]; edges[2].EndPoint3D = vertices[3];
+            edges[2].OnChanged += edges[3].LinkChange;
             edges[3].StartPoint3D = vertices[3]; edges[3].EndPoint3D = vertices[0];
 
             // Верхняя грань
@@ -67,31 +74,45 @@ namespace GrafRedactor
             return new Point3D[]
             {
                 // Нижняя грань (задние вершины имеют меньший Z для перспективы)
-                new Point3D(center.X - halfSize, center.Y - halfSize, center.Z - halfSize), // 0: лево-перед-низ
-                new Point3D(center.X + halfSize, center.Y - halfSize, center.Z - halfSize), // 1: право-перед-низ
-                new Point3D(center.X + halfSize, center.Y + halfSize, center.Z - halfSize * 0.7f), // 2: право-зад-низ (меньше Z)
-                new Point3D(center.X - halfSize, center.Y + halfSize, center.Z - halfSize * 0.7f), // 3: лево-зад-низ (меньше Z)
+                new Point3D(center.X - halfSize, center.Y - halfSize, center.Z - halfSize), // 0: лево-назад-низ
+                new Point3D(center.X + halfSize, center.Y - halfSize, center.Z - halfSize), // 1: право-назад-низ
+                new Point3D(center.X + halfSize, center.Y - halfSize, center.Z + halfSize), // 2: право-перед-низ
+                new Point3D(center.X - halfSize, center.Y - halfSize, center.Z + halfSize), // 3: лево-перед-низ
+                //new Point3D(center.X + halfSize, center.Y + halfSize, center.Z - halfSize * 0.7f), // 2: право-перед-низ (меньше Z)
+                //new Point3D(center.X - halfSize, center.Y + halfSize, center.Z - halfSize * 0.7f), // 3: лево-перед-низ (меньше Z)
                 
                 // Верхняя грань
-                new Point3D(center.X - halfSize, center.Y - halfSize, center.Z + halfSize), // 4: лево-перед-верх
-                new Point3D(center.X + halfSize, center.Y - halfSize, center.Z + halfSize), // 5: право-перед-верх
-                new Point3D(center.X + halfSize, center.Y + halfSize, center.Z + halfSize * 0.7f), // 6: право-зад-верх
-                new Point3D(center.X - halfSize, center.Y + halfSize, center.Z + halfSize * 0.7f)  // 7: лево-зад-верх
+                new Point3D(center.X - halfSize, center.Y + halfSize, center.Z - halfSize), // 4: лево-перед-верх
+                new Point3D(center.X + halfSize, center.Y + halfSize, center.Z - halfSize), // 5: право-перед-верх
+                new Point3D(center.X + halfSize, center.Y + halfSize, center.Z + halfSize), // 6: право-зад-верх
+                new Point3D(center.X - halfSize, center.Y + halfSize, center.Z + halfSize)  // 7: лево-зад-верх
+                //new Point3D(center.X - halfSize, center.Y - halfSize, center.Z + halfSize), // 4: лево-перед-верх
+                //new Point3D(center.X + halfSize, center.Y - halfSize, center.Z + halfSize), // 5: право-перед-верх
+                //new Point3D(center.X + halfSize, center.Y + halfSize, center.Z + halfSize * 0.7f), // 6: право-зад-верх
+                //new Point3D(center.X - halfSize, center.Y + halfSize, center.Z + halfSize * 0.7f)  // 7: лево-зад-верх
             };
         }
 
         // ОБНОВЛЯЕМ ВСЕ МЕТОДЫ ДВИЖЕНИЯ И ПРЕОБРАЗОВАНИЙ
         public override void Move(PointF delta, float height, float width)
         {
-            center = new Point3D(center.X + delta.X, center.Y + delta.Y, center.Z);
-            UpdateCubeGeometry();
-            OnPropertyChanged();
+            //center = new Point3D(center.X + delta.X, center.Y + delta.Y, center.Z);
+            foreach (LineElement3D line in edges)
+            {
+                line.Move(delta, height, width);
+            }
+            //UpdateCubeGeometry();
+            //OnPropertyChanged();
         }
 
         public void Move3D(Point3D delta)
         {
             center = new Point3D(center.X + delta.X, center.Y + delta.Y, center.Z + delta.Z);
-            UpdateCubeGeometry();
+            foreach (LineElement3D line in edges)
+            {
+                line.Move3D(delta);
+            }
+            //UpdateCubeGeometry();
             OnPropertyChanged();
         }
 
@@ -102,17 +123,22 @@ namespace GrafRedactor
 
         public void Rotate3D(float angleX, float angleY, float angleZ)
         {
-            // Поворачиваем каждую вершину относительно центра куба
-            Point3D[] vertices = CalculateVertices();
-            Point3D[] rotatedVertices = new Point3D[8];
-
-            for (int i = 0; i < 8; i++)
+            foreach (LineElement3D line in edges) 
             {
-                rotatedVertices[i] = RotatePoint3D(vertices[i], center, angleX, angleY, angleZ);
+                line.Rotate3D(new Point3D(0,0,0), angleX, angleY, angleZ);
             }
 
-            // Обновляем ребра с новыми вершинами
-            UpdateEdgesWithVertices(rotatedVertices);
+            //// Поворачиваем каждую вершину относительно центра куба
+            //Point3D[] vertices = CalculateVertices();
+            //Point3D[] rotatedVertices = new Point3D[8];
+
+            //for (int i = 0; i < 8; i++)
+            //{
+            //    rotatedVertices[i] = RotatePoint3D(vertices[i], center, angleX, angleY, angleZ);
+            //}
+
+            //// Обновляем ребра с новыми вершинами
+            //UpdateEdgesWithVertices(rotatedVertices);
             OnPropertyChanged();
         }
 
@@ -256,7 +282,7 @@ namespace GrafRedactor
             );
         }
 
-        public override void Draw(Graphics graphics)
+        public override void Draw(Graphics graphics, LineCap endType = LineCap.Round)
         {
             // Рисуем ВСЕ ребра куба
             foreach (var edge in edges)

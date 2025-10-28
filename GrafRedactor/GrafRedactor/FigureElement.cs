@@ -61,7 +61,7 @@ namespace GrafRedactor
         public abstract void Scale(PointF center, float sx, float sy);
         public abstract void Mirror(bool horizontal);
         public abstract void Mirror(float A, float B, float C);
-        public abstract void Draw(Graphics graphics);
+        public abstract void Draw(Graphics graphics, LineCap endType = LineCap.Round);
         public abstract void DrawSelection(Graphics graphics);
         public abstract void Projection(string coordinateAxis);
 

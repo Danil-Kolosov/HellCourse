@@ -28,7 +28,7 @@ namespace GrafRedactor
                 {
                     _startPoint3D = value;
                     Update2DProjection();
-                    OnPropertyChanged();
+                    OnPropertyChanged(); //это что
                 }
             }
         }
@@ -243,53 +243,77 @@ namespace GrafRedactor
 
         private void Update2DProjection()
         {
+            // ПРОСТАЯ ОРТОГРАФИЧЕСКАЯ ПРОЕКЦИЯ - игнорируем Z для позиционирования
 
-            PointF center;
+            // Используем только X,Y координаты для позиции на экране
+            PointF start2D = new PointF(_startPoint3D.X, _startPoint3D.Y);
+            PointF end2D = new PointF(_endPoint3D.X, _endPoint3D.Y);
 
-            // Определяем центр масштабирования
-            if (!string.IsNullOrEmpty(GroupId) && SimpleCamera.GroupManager != null)
-            {
-                // Если линия в группе - используем центр группы
-                center = SimpleCamera.GroupManager.GetGroupCenter(GroupId);
-            }
-            else
-            {
-                // Иначе используем центр линии
-                center = new PointF(
-                    (_startPoint3D.X + _endPoint3D.X) / 2,
-                    (_startPoint3D.Y + _endPoint3D.Y) / 2
-                );
-            }
-
-            // Получаем масштабные коэффициенты для каждой точки
-            float startScale = SimpleCamera.GetScaleFactor(_startPoint3D.Z);
-            float endScale = SimpleCamera.GetScaleFactor(_endPoint3D.Z);
-
-            // Масштабируем точки относительно выбранного центра
-            PointF start2D = SimpleCamera.ScalePoint(
-                new PointF(_startPoint3D.X, _startPoint3D.Y), center, startScale);
-
-            PointF end2D = SimpleCamera.ScalePoint(
-                new PointF(_endPoint3D.X, _endPoint3D.Y), center, endScale);
-
-            // Проверяем границы
+            // Центрируем на экране (опционально)
             var drawingArea = SimpleCamera.DrawingArea;
-            if (!drawingArea.Contains(Point.Round(start2D)) || !drawingArea.Contains(Point.Round(end2D)))
-            {
-                // Если вышли за границы - корректируем Z
-                // (здесь может быть более сложная логика коррекции)
-                return;
-            }
+            float centerX = drawingArea.Width / 2;
+            float centerY = drawingArea.Height / 2;
+
+            // Можете добавить смещение если нужно
+            // start2D = new PointF(centerX + start2D.X, centerY + start2D.Y);
+            // end2D = new PointF(centerX + end2D.X, centerY + end2D.Y);
 
             // Обновляем 2D координаты
-            //StartPoint = start2D;
-            //EndPoint = end2D;
-            //Position = start2D;
-            // Обновляем 2D координаты БЕЗ вызова событий
             _startPoint = start2D;
             _endPoint = end2D;
             _position = start2D;
             UpdateLengthAndRotation();
+
+            //Это перспективная проекция!!!!
+            //PointF center;
+
+            //// Определяем центр масштабирования
+            //if (!string.IsNullOrEmpty(GroupId) && SimpleCamera.GroupManager != null)
+            //{
+            //    // Если линия в группе - используем центр группы
+            //    center = SimpleCamera.GroupManager.GetGroupCenter(GroupId);
+            //}
+            //else
+            //{
+            //    // Иначе используем центр линии
+            //    center = new PointF(
+            //        (_startPoint3D.X + _endPoint3D.X) / 2,
+            //        (_startPoint3D.Y + _endPoint3D.Y) / 2
+            //    );
+            //}
+
+            //// Получаем масштабные коэффициенты для каждой точки
+            //float startScale = SimpleCamera.GetScaleFactor(_startPoint3D.Z);
+            //float endScale = SimpleCamera.GetScaleFactor(_endPoint3D.Z);
+
+            //// Масштабируем точки относительно выбранного центра
+            //PointF start2D = SimpleCamera.ScalePoint(
+            //    new PointF(_startPoint3D.X, _startPoint3D.Y), center, startScale);
+
+            //PointF end2D = SimpleCamera.ScalePoint(
+            //    new PointF(_endPoint3D.X, _endPoint3D.Y), center, endScale);
+
+            //// Проверяем границы
+            //var drawingArea = SimpleCamera.DrawingArea;
+            //if (!drawingArea.Contains(Point.Round(start2D)) || !drawingArea.Contains(Point.Round(end2D)))
+            //{
+            //    // Если вышли за границы - корректируем Z
+            //    // (здесь может быть более сложная логика коррекции)
+            //    return;
+            //}
+
+            //// Обновляем 2D координаты
+            ////StartPoint = start2D;
+            ////EndPoint = end2D;
+            ////Position = start2D;
+            //// Обновляем 2D координаты БЕЗ вызова событий
+            //_startPoint = start2D;
+            //_endPoint = end2D;
+            //_position = start2D;
+            //UpdateLengthAndRotation();
+            //Это перспективная проекция!!!!
+
+
 
             //// Преобразуем 3D точки в 2D проекцию
             //PointF start2D, end2D;

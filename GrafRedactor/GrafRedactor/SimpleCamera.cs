@@ -143,7 +143,10 @@ namespace GrafRedactor
             // Z = 0: scale = 1 (нормальный размер)
             // Z > 0: scale > 1 (увеличивается)
             // Z < 0: scale < 1 (уменьшается)
-            return 1.0f + (pointZ / Distance);
+            //return 1.0f + (pointZ / Distance);
+
+            //Просто берем ортографическую проекцию - Z НЕ ВЛИЯЕТ!!
+            return 1.0f;
         }
 
         public static PointF ScalePoint(PointF point, PointF center, float scale)

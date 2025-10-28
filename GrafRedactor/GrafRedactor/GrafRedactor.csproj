@@ -59,6 +59,7 @@
     <Compile Include="GroupManager.cs" />
     <Compile Include="LineElement.cs" />
     <Compile Include="LineElement3D.cs" />
+    <Compile Include="MainCoordinateAxes.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

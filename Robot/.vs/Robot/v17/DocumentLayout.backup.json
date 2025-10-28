@@ -3,7 +3,7 @@
   "WorkspaceRootPath": "D:\\pnrpu\\git\\HellCourse\\Robot\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|d:\\pnrpu\\git\\hellcourse\\robot\\robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
@@ -11,7 +11,7 @@
       "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\robotmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|d:\\pnrpu\\git\\hellcourse\\robot\\robot\\pshape.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\pshape.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\pshape.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -82,8 +82,7 @@
               "RelativeToolTip": "Robot\\PShape.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAE0AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-21T13:04:38.842Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-21T13:04:38.842Z"
             },
             {
               "$type": "Document",
@@ -95,8 +94,7 @@
               "RelativeToolTip": "Robot\\RobotModel.cs",
               "ViewState": "AgIAAHEAAAAAAAAAAAAAAIcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T18:14:41.117Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-20T18:14:41.117Z"
             },
             {
               "$type": "Document",
@@ -168,8 +166,7 @@
               "RelativeToolTip": "Robot\\MainForm.Designer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T17:12:16.866Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-20T17:12:16.866Z"
             },
             {
               "$type": "Document",
@@ -181,8 +178,7 @@
               "RelativeToolTip": "Robot\\MainForm.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T17:11:05.832Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-20T17:11:05.832Z"
             },
             {
               "$type": "Document",

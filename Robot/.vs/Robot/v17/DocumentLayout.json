@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "D:\\pnrpu\\git\\HellCourse\\Robot\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|d:\\pnrpu\\git\\hellcourse\\robot\\robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\robotmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\robotmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|d:\\pnrpu\\git\\hellcourse\\robot\\robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\pshape.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -50,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 836,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -86,15 +86,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "RobotModel.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\RobotModel.cs",
               "RelativeDocumentMoniker": "Robot\\RobotModel.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\RobotModel.cs",
               "RelativeToolTip": "Robot\\RobotModel.cs",
-              "ViewState": "AgIAAHEAAAAAAAAAAAAAAIcAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAADYAAAAAAAAAAAAiwGEAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T18:14:41.117Z"
+              "WhenOpened": "2025-09-20T18:14:41.117Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -146,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\MainForm.cs",
               "RelativeDocumentMoniker": "Robot\\MainForm.cs",

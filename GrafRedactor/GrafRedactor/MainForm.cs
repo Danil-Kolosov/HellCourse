@@ -10,6 +10,10 @@ namespace GrafRedactor
 {
     public partial class MainForm : Form
     {
+        private MainCoordinateAxes coordinateAxes;// = new MainCoordinateAxes(150, 100);
+        private float angleX = 0;
+        private float angleY = 0;
+        private float angleZ = 0;
         private bool is3DMode = false;
         private ToolStripStatusLabel statusLabel;
         private StatusStrip statusStrip;
@@ -21,6 +25,11 @@ namespace GrafRedactor
         private bool isDrawing = false;
         private bool resizeStartPoint;
         private PointF drawingStartPoint;
+
+        private bool isRotatingView = false;
+        private float rotationSensitivity = 0.5f; // Чувствительность вращения
+        private float totalRotationX = 0f;
+        private float totalRotationY = 0f;
 
         //Группировка
         private GroupManager groupManager = new GroupManager();
@@ -47,6 +56,8 @@ namespace GrafRedactor
             InitializeCustomComponents(); // Своя инициализация
             selectedFigures = new List<FigureElement>();
             UpdateModeVisuals(); // Обновляем визуальное отображение режима
+
+            
         }
 
         private void InitializeCustomComponents()
@@ -63,12 +74,27 @@ namespace GrafRedactor
             this.KeyPreview = true; // Для обработки клавиш Delete
             this.Resize += MainForm_Resize; // Обработчик изменения размера
             this.MouseWheel += MainForm_MouseWheel;
+            // Обработчик для кнопки колесика
+            this.MouseDown += MainForm_MouseDownForRotation;
+            this.MouseUp += MainForm_MouseUpForRotation;
 
             InitializeStatusBar(); // Добавляем строку состояния
             UpdateModeVisuals(); // Обновляем интерфейс под текущий режим
 
             SimpleCamera.GroupManager = groupManager;
             SimpleCamera.DrawingArea = GetDrawingArea();
+
+            // Инициализация осей координат - после установки облатси рисования в камере
+            InitializeCoordinateAxes();
+        }
+
+        private void InitializeCoordinateAxes()
+        {
+            var drawingArea = GetDrawingArea();
+            float margin = 150f; // Отступ от края
+            float length = Math.Min(drawingArea.Width, drawingArea.Height) / 4; // Длина осей
+
+            coordinateAxes = new MainCoordinateAxes(margin, length);
         }
 
         private void InitializeParametersPanel()
@@ -349,10 +375,9 @@ namespace GrafRedactor
                 numThickness.Value = (decimal)line.Thickness;
                 if (line is LineElement3D line3D)
                 {
+                    lblEquation.Text = $"Уравнение прямой 3D";
                     numStartZ.Value = (decimal)line3D.StartPoint3D.Z;
-                    numEndZ.Value = (decimal)line3D.EndPoint3D.Z;
-                    //numStartZ.Value = (decimal)line3D.StartZ;
-                    //numEndZ.Value = (decimal)line3D.EndZ;
+                    numEndZ.Value = (decimal)line3D.EndPoint3D.Z;                    
 
                     lblStartZ.Visible = true;
                     lblEndZ.Visible = true;
@@ -394,12 +419,19 @@ namespace GrafRedactor
                 //lblEquation.Text = $"Уравнение прямой {a}x+{b}y+{c}=0"; //для 3 д тут z использовать еще
                 if(line is LineElement3D line3D) 
                 {
-                    line3D.ChangeZ((float)numStartZ.Value - line3D.StartPoint3D.Z, (float)numEndZ.Value- line3D.EndPoint3D.Z);
+                    //line3D.ChangeZ((float)numStartZ.Value - line3D.StartPoint3D.Z, (float)numEndZ.Value- line3D.EndPoint3D.Z); //пооходу ту проблема была в скачках линий
                         //line3D.StartPoint3D = new Point3D(line3D.StartPoint3D.X, line3D.StartPoint3D.Y, (float)numStartZ.Value);
                         //line3D.EndPoint3D = new Point3D(line3D.EndPoint3D.X, line3D.EndPoint3D.Y, (float)numEndZ.Value);
                     //line3D.SetStartZ(GetDrawingArea(), groupManager, (float)numStartZ.Value);
                     //line3D.SetEndZ(GetDrawingArea(), groupManager, (float)numEndZ.Value);
                 }
+                this.Invalidate();
+            }
+            if(selectedFigure is LineElement3D line3d && !isDragging && !isResizing) 
+            {
+                line3d.StartPoint3D = new Point3D((float)numStartX.Value, (float)numStartY.Value, (float)numStartZ.Value);
+                line3d.EndPoint3D = new Point3D((float)numEndX.Value, (float)numEndY.Value, (float)numEndZ.Value);
+                line3d.Thickness = (float)numThickness.Value;
                 this.Invalidate();
             }
         }
@@ -1112,7 +1144,20 @@ namespace GrafRedactor
         //    return (A, B, C);
         //}
 
-
+        private void ResetSceneToDrawingPlane()
+        {
+            // Сбрасываем вращение всей сцены в ноль
+            //if (totalRotationX != 0 || totalRotationY != 0)
+            //{
+            //    // Вращаем обратно на накопленные углы
+            //    RotateAllFigures(-totalRotationX, -totalRotationY, 0);
+            //    coordinateAxes.Rotate3D(-totalRotationX, -totalRotationY, 0);
+            //    totalRotationX = 0;
+            //    totalRotationY = 0;
+            //    this.Invalidate();
+            //}
+            //вроде норм рисуется - главное чтобы все вращаалось относительно одной точки - 000б или лучше центра рсовательной местности
+        }
 
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
@@ -1124,6 +1169,7 @@ namespace GrafRedactor
 
             if (e.Button == MouseButtons.Left)
             {
+                ResetSceneToDrawingPlane();
                 // ЕСЛИ НАЖАТ CTRL - множественное выделение
                 if (Control.ModifierKeys == Keys.Control)
                 {
@@ -1237,14 +1283,14 @@ namespace GrafRedactor
                             selectedFigure = clickedFigure;
 
                             // ПРОВЕРЯЕМ КЛИК ПО МАРКЕРАМ ИЗМЕНЕНИЯ РАЗМЕРА ПЕРЕД установкой isDragging
-                            if (clickedFigure is LineElement line)
+                            if (clickedFigure is LineElement3D line3d)
                             {
                                 float handleSize = 8f;
                                 RectangleF startHandle = new RectangleF(
-                                    line.StartPoint.X - handleSize / 2, line.StartPoint.Y - handleSize / 2,
+                                    line3d.StartPoint.X - handleSize / 2, line3d.StartPoint.Y - handleSize / 2,
                                     handleSize, handleSize);
                                 RectangleF endHandle = new RectangleF(
-                                    line.EndPoint.X - handleSize / 2, line.EndPoint.Y - handleSize / 2,
+                                    line3d.EndPoint.X - handleSize / 2, line3d.EndPoint.Y - handleSize / 2,
                                     handleSize, handleSize);
 
                                 if (startHandle.Contains(e.Location))
@@ -1264,9 +1310,39 @@ namespace GrafRedactor
                                     return; // ВАЖНО: выходим, чтобы не установить isDragging
                                 }
                             }
+                            else
+                            {
+                                if (clickedFigure is LineElement line) 
+                                {
+                                    float handleSize = 8f;
+                                    RectangleF startHandle = new RectangleF(
+                                        line.StartPoint.X - handleSize / 2, line.StartPoint.Y - handleSize / 2,
+                                        handleSize, handleSize);
+                                    RectangleF endHandle = new RectangleF(
+                                        line.EndPoint.X - handleSize / 2, line.EndPoint.Y - handleSize / 2,
+                                        handleSize, handleSize);
 
-                            // Если не попали в маркеры - тогда перемещаем
-                            isDragging = true;
+                                    if (startHandle.Contains(e.Location))
+                                    {
+                                        isResizing = true;
+                                        resizeStartPoint = true;
+                                        UpdateParametersPanel();
+                                        this.Invalidate();
+                                        return; // ВАЖНО: выходим, чтобы не установить isDragging
+                                    }
+                                    else if (endHandle.Contains(e.Location))
+                                    {
+                                        isResizing = true;
+                                        resizeStartPoint = false;
+                                        UpdateParametersPanel();
+                                        this.Invalidate();
+                                        return; // ВАЖНО: выходим, чтобы не установить isDragging
+                                    }
+                                }
+                            }
+
+                                // Если не попали в маркеры - тогда перемещаем
+                                isDragging = true;
                         }
 
                         UpdateParametersPanel();
@@ -1324,7 +1400,7 @@ namespace GrafRedactor
 
             // Размер куба (примерно 1/4 от меньшей стороны области рисования)
             float cubeSize = Math.Min(drawingArea.Width, drawingArea.Height) / 4;
-            cubeSize = 300;
+            cubeSize = 100;
             // Цвет куба
             Color cubeColor = Color.Blue;
 
@@ -1376,10 +1452,29 @@ namespace GrafRedactor
 
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
+            isRotatingView = true; //может  вэтом пролема? куда убрать это тогда
+            // Вращение сценой
+            if (isRotatingView && e.Button == MouseButtons.Middle)
+            {
+                PointF delta = new PointF(e.X - lastMousePos.X, e.Y - lastMousePos.Y);
+
+                // Преобразуем движение мыши в углы вращения
+                float angleY = delta.X * rotationSensitivity; // Горизонтальное движение = вращение вокруг Y
+                float angleX = delta.Y * rotationSensitivity; // Вертикальное движение = вращение вокруг X
+
+                // Вращаем всю сцену
+                RotateEntireScene(angleX, angleY, 0);
+
+                lastMousePos = e.Location;
+                this.Invalidate();
+            }
+
+
             //Возможно добавить изменение курсора если на крайние точки попали
 
             if (e.Button == MouseButtons.Left)
             {
+                ResetBaseSceneAngle();
                 // Ограничиваем область рисования
                 var drawingArea = GetDrawingArea();
                 
@@ -1429,12 +1524,18 @@ namespace GrafRedactor
                     if (resizeStartPoint)
                     {
                         // Меняем начальную точку
-                        line.StartPoint = newPoint;
+                        if (line is LineElement3D line3d)
+                            line3d.StartPoint3D = new Point3D(newPoint, line3d.StartPoint3D.Z);
+                        else
+                            line.StartPoint = newPoint;
                     }
                     else
                     {
                         // Меняем конечную точку
-                        line.EndPoint = newPoint;
+                        if (line is LineElement3D line3d)
+                            line3d.EndPoint3D = new Point3D(newPoint, line3d.EndPoint3D.Z);
+                        else
+                            line.EndPoint = newPoint;
                     }
 
                     //line.EndPoint = newEndPoint;
@@ -1469,10 +1570,15 @@ namespace GrafRedactor
                         FigureElement newLine;
                         if (is3DMode)
                         {
-                            SimpleCamera.GroupManager = groupManager;
-                            SimpleCamera.DrawingArea = GetDrawingArea();
+                            //SimpleCamera.GroupManager = groupManager;
+                            //SimpleCamera.DrawingArea = GetDrawingArea();
+                            // УЧИТЫВАЕМ поворот системы - применяем обратное вращение
+                            Point3D start3D = TransformScreenToWorld(drawingStartPoint, 0);
+                            Point3D end3D = TransformScreenToWorld(drawingEndPoint, 0);
+
+                            newLine = new LineElement3D(start3D, end3D, Color.Black, 3f);
                             newLine = new LineElement3D(
-                                drawingStartPoint, drawingEndPoint, Color.Black, 3f);
+                                drawingStartPoint, drawingEndPoint, Color.Black, 3f);                            
                         }
                         else
                         {
@@ -1496,6 +1602,43 @@ namespace GrafRedactor
             }
         }
 
+        private Point3D TransformScreenToWorld(PointF screenPoint, float z)
+        {
+            // Преобразуем экранные координаты в мировые с учетом поворота
+            Point3D worldPoint = new Point3D(screenPoint.X, screenPoint.Y, z);
+
+            // Применяем обратное вращение (если система повернута)
+            if (Math.Abs(totalRotationX) > 0.001f || Math.Abs(totalRotationY) > 0.001f)
+            {
+                Point3D sceneCenter = CalculateSceneCenter();
+                worldPoint = RotatePoint3D(worldPoint, sceneCenter, -totalRotationX, -totalRotationY, 0);
+            }
+
+            return worldPoint;
+        }
+
+        private Point3D RotatePoint3D(Point3D point, Point3D center, float angleX, float angleY, float angleZ)
+        {
+            // Та же функция вращения, но для обратного преобразования
+            float x = point.X - center.X;
+            float y = point.Y - center.Y;
+            float z = point.Z - center.Z;
+
+            float radX = angleX * (float)Math.PI / 180f;
+            float radY = angleY * (float)Math.PI / 180f;
+            float radZ = angleZ * (float)Math.PI / 180f;
+
+            float cosX = (float)Math.Cos(radX), sinX = (float)Math.Sin(radX);
+            float cosY = (float)Math.Cos(radY), sinY = (float)Math.Sin(radY);
+            float cosZ = (float)Math.Cos(radZ), sinZ = (float)Math.Sin(radZ);
+
+            float x1 = x * cosY * cosZ + y * (sinX * sinY * cosZ - cosX * sinZ) + z * (cosX * sinY * cosZ + sinX * sinZ);
+            float y1 = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
+            float z1 = x * -sinY + y * sinX * cosY + z * cosX * cosY;
+
+            return new Point3D(x1 + center.X, y1 + center.Y, z1 + center.Z);
+        }
+
         private void MainForm_MouseWheel(object sender, MouseEventArgs e)
         {
             if (Control.ModifierKeys == Keys.Control && selectedFigures.Count > 0)
@@ -1511,6 +1654,7 @@ namespace GrafRedactor
                         {
                             // Ctrl+Shift+Колесо - изменяем только начальную точку
                                     //line3D.StartPoint3D.Z = line3D.StartPoint3D.Z + deltaZ; тут не новый поин создавали поэтому и не менялось
+                            
                             line3D.ChangeZ(deltaZ, 0);
                             //line3D.SetStartZ(GetDrawingArea(), groupManager, line3D.StartZ + deltaZ);
                         }
@@ -1556,6 +1700,12 @@ namespace GrafRedactor
             // Очищаем только область рисования
             var drawingArea = GetDrawingArea();
             e.Graphics.FillRectangle(Brushes.White, drawingArea);
+
+            // Рисуем оси координат (если включены)
+            //if (showCoordinateAxes && coordinateAxes != null)
+            //{
+                coordinateAxes.Draw(e.Graphics);
+            //}
 
             // Рисуем все фигуры
             foreach (var figure in figures)
@@ -1649,6 +1799,168 @@ namespace GrafRedactor
                 //currentGroupId = null;
                 this.Invalidate();
             }
+        }
+
+        private void RotateCoordinateAxes(float angleX, float angleY, float angleZ)
+        {
+            if (coordinateAxes != null)
+            {
+                coordinateAxes.Rotate3D(angleX, angleY, angleZ);
+                this.Invalidate();
+            }
+        }
+
+        // Пример метода для сброса осей в исходное положение
+        private void ResetCoordinateAxes()
+        {
+            var drawingArea = GetDrawingArea();
+            float margin = 50f;
+            float length = Math.Min(drawingArea.Width, drawingArea.Height) / 4;
+
+            coordinateAxes = new MainCoordinateAxes(margin, length);
+            this.Invalidate();
+        }
+
+        // Методы для вращения
+        private void MainForm_MouseDownForRotation(object sender, MouseEventArgs e)
+        {
+            var drawingArea = GetDrawingArea();
+            if (!drawingArea.Contains(e.Location))
+                return;
+
+            // Зажата кнопка колесика (средняя кнопка мыши)
+            if (e.Button == MouseButtons.Middle && is3DMode)
+            {
+                isRotatingView = true;
+                lastMousePos = e.Location;
+                this.Cursor = Cursors.SizeAll; // Меняем курсор
+            }
+        }
+
+        private void MainForm_MouseUpForRotation(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Middle)
+            {
+                isRotatingView = false;
+                this.Cursor = Cursors.Default; // Возвращаем обычный курсор
+            }
+        }
+
+        private void RotateEntireScene(float angleX, float angleY, float angleZ)
+        {
+            this.angleX += angleX;
+            this.angleY += angleY;
+            this.angleZ += angleZ;
+            Point3D sceneCenter = new Point3D(0, 0, 0);//CalculateSceneCenter();
+            coordinateAxes.Rotate3D(angleX, angleY, angleZ);
+            foreach (var figure in figures)
+            {
+                if (figure is LineElement3D line3D)
+                {
+                    // Вращаем каждую линию относительно центра сцены
+                    line3D.Rotate3D(sceneCenter, angleX, angleY, angleZ);
+                }
+                if(figure is Cube3D cube) 
+                {
+                    cube.Rotate3D(angleX, angleY, angleZ);
+                }
+            }
+            // Обновляем накопленные углы (для информации)
+            totalRotationX += angleX;
+            totalRotationY += angleY;
+            this.Invalidate();
+
+            return;
+            // Вращаем оси координат
+            if (coordinateAxes != null)
+            {
+                coordinateAxes.Rotate3D(angleX, angleY, angleZ);
+            }
+
+            // Вращаем все фигуры относительно центра сцены
+            RotateAllFigures(angleX, angleY, angleZ);
+
+            // Обновляем накопленные углы (для информации)
+            totalRotationX += angleX;
+            totalRotationY += angleY;
+
+            UpdateStatusBar(); // Обновим строку состояния
+        }
+
+        private void RotateAllFigures(float angleX, float angleY, float angleZ)
+        {
+            if (figures.Count == 0) return;
+
+            // Вычисляем центр всей сцены
+            //Point3D sceneCenter = CalculateSceneCenter(); нужно ли
+            Point3D sceneCenter = new Point3D(0,0,0);
+
+            // Вращаем каждую фигуру относительно центра сцены
+            foreach (var figure in figures)
+            {
+                if (figure is LineElement3D line3D)
+                {
+                    line3D.Rotate3D(sceneCenter, angleX, angleY, angleZ);
+                }
+                else if (figure is Cube3D cube)
+                {
+                    // Для куба вращаем вокруг его центра
+                    cube.Rotate3D(angleX, angleY, angleZ);
+                }
+                // 2D фигуры не вращаем в 3D
+            }
+        }
+
+        private Point3D CalculateSceneCenter()
+        {
+            if (figures.Count == 0) return new Point3D(0, 0, 0);
+
+            float minX = float.MaxValue, maxX = float.MinValue;
+            float minY = float.MaxValue, maxY = float.MinValue;
+            float minZ = float.MaxValue, maxZ = float.MinValue;
+
+            foreach (var figure in figures)
+            {
+                if (figure is LineElement3D line3D)
+                {
+                    minX = Math.Min(minX, Math.Min(line3D.StartPoint3D.X, line3D.EndPoint3D.X));
+                    maxX = Math.Max(maxX, Math.Max(line3D.StartPoint3D.X, line3D.EndPoint3D.X));
+                    minY = Math.Min(minY, Math.Min(line3D.StartPoint3D.Y, line3D.EndPoint3D.Y));
+                    maxY = Math.Max(maxY, Math.Max(line3D.StartPoint3D.Y, line3D.EndPoint3D.Y));
+                    minZ = Math.Min(minZ, Math.Min(line3D.StartPoint3D.Z, line3D.EndPoint3D.Z));
+                    maxZ = Math.Max(maxZ, Math.Max(line3D.StartPoint3D.Z, line3D.EndPoint3D.Z));
+                }
+            }
+
+            return new Point3D(
+                (minX + maxX) / 2,
+                (minY + maxY) / 2,
+                (minZ + maxZ) / 2
+            );
+
+            //if (figures.Count == 0) return new Point3D(0, 0, 0);
+
+            //var drawingArea = GetDrawingArea();
+            //return new Point3D(
+            //    drawingArea.Width / 2,
+            //    drawingArea.Height / 2,
+            //    0
+            //);
+        }
+
+        private void ResetBaseSceneAngle() 
+        {
+            //float tempX = angleX;
+            //float tempY = angleY;
+            //float tempZ = angleZ;
+            //angleX = 0;
+            //angleY = 0;
+            //angleZ = 0;
+            //RotateEntireScene(-tempX, -tempY, -tempZ);
+            //angleX = 0;
+            //angleY = 0;
+            //angleZ = 0;
+
         }
     }
 }

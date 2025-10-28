@@ -303,12 +303,20 @@ namespace GrafRedactor
             return mirrored;
         }
 
-        public override void Draw(Graphics graphics)
+        public override void Draw(Graphics graphics, LineCap endType = LineCap.Round)
         {
             using (Pen pen = new Pen(Color, Thickness))
-            {
-                pen.EndCap = LineCap.Round;
-                pen.StartCap = LineCap.Round;
+            {               
+                if(endType== LineCap.ArrowAnchor)
+                {
+                    pen.EndCap = endType;
+                    pen.StartCap = LineCap.Round;
+                }
+                else 
+                {
+                    pen.EndCap = endType;
+                    pen.StartCap = endType;
+                }
                 graphics.DrawLine(pen, _startPoint, _endPoint);
             }
         }
