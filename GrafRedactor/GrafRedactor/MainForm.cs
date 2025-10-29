@@ -94,7 +94,10 @@ namespace GrafRedactor
             float margin = 150f; // Отступ от края
             float length = Math.Min(drawingArea.Width, drawingArea.Height) / 4; // Длина осей
 
-            coordinateAxes = new MainCoordinateAxes(margin, length);
+            coordinateAxes = new MainCoordinateAxes(drawingArea.Width/2, drawingArea.Width);
+            проблема 1 - рисовать в плоскости только надо + чтоб возращалась в исходное после вращения
+                проблема 2 - когда ворочаем то чтобы отобразить меняем координаты - 
+                и они поменяные отображаются в свойстах - низя так - разбить координаты для рисования и для публикации как свойтсва
         }
 
         private void InitializeParametersPanel()

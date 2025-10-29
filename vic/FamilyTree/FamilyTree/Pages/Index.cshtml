@@ -1,0 +1,682 @@
+﻿
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Генеалогическое дерево";
+}
+
+<div class="container">
+    <h1>Система генеалогических деревьев</h1>
+    
+    <!-- Меню -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <div class="container-fluid">
+            <div class="navbar-nav">
+                <!-- Добавить -->
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="addDropdown" role="button" data-bs-toggle="dropdown">
+                        Добавить
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="showAddPersonForm()">Персону</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showAddConnectionForm()">Родственную связь</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Изменить -->
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="editDropdown" role="button" data-bs-toggle="dropdown">
+                        Изменить
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="showEditPersonForm()">Сведения о персоне</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showEditConnectionForm()">Связь между персонами</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Удалить -->
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="deleteDropdown" role="button" data-bs-toggle="dropdown">
+                        Удалить
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="showDeleteConnectionForm()">Связь между персонами</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Получить -->
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="getDropdown" role="button" data-bs-toggle="dropdown">
+                        Получить
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="showGetPersonForm()">Сведения о персоне</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="showGetConnectionsForm()">Сведения о родственных связях</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Сообщения -->
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert alert-info">@Model.Message</div>
+    }
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <!-- Форма добавления персоны -->
+    <div id="addPersonForm" class="form-section" style="display: none;">
+        <h3>Добавить новую персону</h3>
+        <form method="post" asp-page-handler="AddPerson">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Фамилия</label>
+                        <input type="text" class="form-control" asp-for="NewPerson.Surname" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Имя</label>
+                        <input type="text" class="form-control" asp-for="NewPerson.Name" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Отчество</label>
+                        <input type="text" class="form-control" asp-for="NewPerson.LastName" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Пол</label>
+                        <select class="form-select" asp-for="NewPerson.GenderId">
+                            <option value="1">Мужской</option>
+                            <option value="2">Женский</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Дата рождения</label>
+                        <input type="date" class="form-control" asp-for="NewPerson.BirthDate" required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">Дата смерти</label>
+                        <input type="date" class="form-control" asp-for="NewPerson.DeathDate">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label">ID персоны</label>
+                        <input type="number" class="form-control" asp-for="NewPerson.PersonId" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Биография</label>
+                <textarea class="form-control" asp-for="NewPerson.Biography" rows="3"></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-success">Добавить персону</button>
+            <button type="button" class="btn btn-secondary" onclick="hideAllForms()">Отмена</button>
+        </form>
+    </div>
+
+    <!-- Форма добавления родственной связи -->
+    <div id="addConnectionForm" class="form-section" style="display: none;">
+        <h3>Добавить родственную связь</h3>
+        <form method="post" asp-page-handler="AddConnection">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="mb-3">
+                        <label class="form-label">Персона 1</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" asp-for="NewConnection.PersonId1" required readonly>
+                            <button type="button" class="btn btn-outline-secondary" onclick="showPersonSearch(1)">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="mb-3">
+                        <label class="form-label">Персона 2</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" asp-for="NewConnection.PersonId2" required readonly>
+                            <button type="button" class="btn btn-outline-secondary" onclick="showPersonSearch(2)">Выбрать</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label class="form-label">Тип связи</label>
+                        <select class="form-select" asp-for="NewConnection.ConnectionTypeId">
+                            <option value="1">Супружество</option>
+                            <option value="2">Родитель-ребенок</option>
+                            <option value="3">Братство-сестринство</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-success">Добавить связь</button>
+            <button type="button" class="btn btn-secondary" onclick="hideAllForms()">Отмена</button>
+        </form>
+    </div>
+
+    <!-- Форма поиска персоны (модальное окно) -->
+    <div id="personSearchModal" class="modal" tabindex="-1" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Поиск персоны</h5>
+                    <button type="button" class="btn-close" onclick="closePersonSearch()"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="searchPersonForm" onsubmit="searchPersons(event)">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" placeholder="Фамилия" id="searchSurname">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" placeholder="Имя" id="searchName">
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary">Поиск</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div id="searchResults" class="mt-3">
+                        <!-- Результаты поиска будут здесь -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Список всех персон -->
+    <div id="personListSection">
+        <h3>Все персоны</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ФИО</th>
+                        <th>Пол</th>
+                        <th>Дата рождения</th>
+                        <th>Дата смерти</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var person in Model.AllPersons)
+                    {
+                        <tr>
+                            <td>@person.PersonId</td>
+                            <td>@person.Surname @person.Name @person.LastName</td>
+                            <td>@person.GenderName</td>
+                            <td>@person.BirthDate.ToString("dd.MM.yyyy")</td>
+                            <td>@(person.DeathDate?.ToString("dd.MM.yyyy") ?? "н/д")</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" onclick="editPerson(@person.PersonId)">Изменить</button>
+                                <button class="btn btn-sm btn-info" onclick="showPersonDetails(@person.PersonId)">Подробнее</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Список всех связей -->
+    <div id="connectionListSection" class="mt-4">
+        <h3>Родственные связи</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Персона 1</th>
+                        <th>Персона 2</th>
+                        <th>Тип связи</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var connection in Model.AllConnections)
+                    {
+                        <tr>
+                            <td>@connection.PersonId1</td>
+                            <td>@connection.PersonId2</td>
+                            <td>@ConnectionType.GetConnectionTypeName(connection.ConnectionTypeId)</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger" onclick="deleteConnection(@connection.PersonId1, @connection.PersonId2, @connection.ConnectionTypeId)">Удалить</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+        <script>
+            let currentPersonField = 0;
+            let allPersons = [];
+
+            // Загрузка данных при старте
+            document.addEventListener('DOMContentLoaded', function() {
+                loadAllPersons();
+                hideAllForms();
+            });
+
+            // ===== ФУНКЦИИ ОТОБРАЖЕНИЯ ФОРМ =====
+            function showAddPersonForm() {
+                hideAllForms();
+                document.getElementById('addPersonForm').style.display = 'block';
+                resetForm('addPersonForm');
+            }
+
+            function showAddConnectionForm() {
+                hideAllForms();
+                document.getElementById('addConnectionForm').style.display = 'block';
+                resetForm('addConnectionForm');
+                document.getElementById('person1Info').textContent = '';
+                document.getElementById('person2Info').textContent = '';
+            }
+
+            function showGetAllPersons() {
+                hideAllForms();
+                document.getElementById('allPersonsSection').style.display = 'block';
+                refreshPersonsTable();
+            }
+
+            function showGetAllConnections() {
+                hideAllForms();
+                document.getElementById('allConnectionsSection').style.display = 'block';
+                refreshConnectionsTable();
+            }
+
+            function showSearchPersonForm() {
+                hideAllForms();
+                document.getElementById('searchPersonFormSection').style.display = 'block';
+                resetSearchForm();
+            }
+
+            function showSearchConnectionsForm() {
+                showGetAllConnections();
+            }
+
+            function showEditPersonForm(personId) {
+                const person = allPersons.find(p => p.personId === personId);
+                if (person) {
+                    hideAllForms();
+                    showEditPersonModal(person);
+                }
+            }
+
+            function showDeletePersonForm() {
+                showSearchPersonForm();
+            }
+
+            function showDeleteConnectionForm() {
+                showGetAllConnections();
+            }
+
+            function hideAllForms() {
+                const forms = document.querySelectorAll('.form-section');
+                forms.forEach(form => form.style.display = 'none');
+            }
+
+            // ===== ФУНКЦИИ ПОИСКА ПЕРСОН =====
+            function showPersonSearch(fieldNumber) {
+                currentPersonField = fieldNumber;
+                const modal = new bootstrap.Modal(document.getElementById('personSearchModal'));
+                resetSearchModal();
+                modal.show();
+            }
+
+            async function searchPersons() {
+                const surname = document.getElementById('searchSurname').value;
+                const name = document.getElementById('searchName').value;
+
+                const resultsDiv = document.getElementById('searchResults');
+                resultsDiv.innerHTML = '<div class="alert alert-info">Идет поиск...</div>';
+
+                try {
+                    // Используем клиентский поиск из загруженных данных
+                    let filteredPersons = allPersons;
+
+                    if (surname) {
+                        filteredPersons = filteredPersons.filter(p => 
+                            p.surname.toLowerCase().includes(surname.toLowerCase()));
+                    }
+
+                    if (name) {
+                        filteredPersons = filteredPersons.filter(p => 
+                            p.name.toLowerCase().includes(name.toLowerCase()));
+                    }
+
+                    displaySearchResults(filteredPersons);
+                } catch (error) {
+                    resultsDiv.innerHTML = '<div class="alert alert-danger">Ошибка поиска: ' + error.message + '</div>';
+                    console.error('Search error:', error);
+                }
+            }
+
+            function displaySearchResults(persons) {
+                const resultsDiv = document.getElementById('searchResults');
+
+                if (persons.length > 0) {
+                    let html = '<div class="list-group">';
+                    persons.forEach(person => {
+                        const birthDate = new Date(person.birthDate).toLocaleDateString('ru-RU');
+                        const deathDate = person.deathDate ? 
+                            new Date(person.deathDate).toLocaleDateString('ru-RU') : 'н/д';
+
+                        html += `
+                            <div class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">${person.surname} ${person.name} ${person.lastName}</h6>
+                                    <small>ID: ${person.personId}</small>
+                                </div>
+                                <p class="mb-1">${person.genderName} | Рожд.: ${birthDate} | Смерть: ${deathDate}</p>
+                                <small>${person.biography || 'Биография не указана'}</small>
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-sm btn-success" 
+                                        onclick="selectPerson(${person.personId}, '${person.surname} ${person.name} ${person.lastName}')">
+                                        Выбрать
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                    resultsDiv.innerHTML = html;
+                } else {
+                    resultsDiv.innerHTML = '<div class="alert alert-warning">Персоны не найдены</div>';
+                }
+            }
+
+            function selectPerson(personId, fullName) {
+                const field = document.getElementById(`personId${currentPersonField}Input`);
+                const info = document.getElementById(`person${currentPersonField}Info`);
+
+                if (field) {
+                    field.value = personId;
+                }
+                if (info) {
+                    info.textContent = fullName;
+                }
+
+                const modal = bootstrap.Modal.getInstance(document.getElementById('personSearchModal'));
+                modal.hide();
+            }
+
+            // ===== ФУНКЦИИ РЕДАКТИРОВАНИЯ ПЕРСОН =====
+            function showEditPersonModal(person) {
+                const modalHtml = `
+                    <div class="modal fade" id="editPersonModal" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Редактирование персоны</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editPersonForm">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Фамилия</label>
+                                                    <input type="text" class="form-control" id="editSurname" value="${person.surname}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Имя</label>
+                                                    <input type="text" class="form-control" id="editName" value="${person.name}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Отчество</label>
+                                                    <input type="text" class="form-control" id="editLastName" value="${person.lastName}" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Пол</label>
+                                                    <select class="form-select" id="editGenderId">
+                                                        <option value="1" ${person.genderId == 1 ? 'selected' : ''}>Мужской</option>
+                                                        <option value="2" ${person.genderId == 2 ? 'selected' : ''}>Женский</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Дата рождения</label>
+                                                    <input type="date" class="form-control" id="editBirthDate" value="${person.birthDate}" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Дата смерти</label>
+                                                    <input type="date" class="form-control" id="editDeathDate" value="${person.deathDate || ''}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Биография</label>
+                                            <textarea class="form-control" id="editBiography" rows="3">${person.biography || ''}</textarea>
+                                        </div>
+                                        <input type="hidden" id="editPersonId" value="${person.personId}">
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                    <button type="button" class="btn btn-primary" onclick="savePersonChanges()">Сохранить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Добавляем модальное окно в DOM
+                const modalContainer = document.createElement('div');
+                modalContainer.innerHTML = modalHtml;
+                document.body.appendChild(modalContainer);
+
+                // Показываем модальное окно
+                const modal = new bootstrap.Modal(document.getElementById('editPersonModal'));
+                modal.show();
+
+                // Удаляем модальное окно после закрытия
+                document.getElementById('editPersonModal').addEventListener('hidden.bs.modal', function() {
+                    modalContainer.remove();
+                });
+            }
+
+            async function savePersonChanges() {
+                const personId = document.getElementById('editPersonId').value;
+                const updatedPerson = {
+                    personId: parseInt(personId),
+                    surname: document.getElementById('editSurname').value,
+                    name: document.getElementById('editName').value,
+                    lastName: document.getElementById('editLastName').value,
+                    genderId: parseInt(document.getElementById('editGenderId').value),
+                    birthDate: document.getElementById('editBirthDate').value,
+                    deathDate: document.getElementById('editDeathDate').value || null,
+                    biography: document.getElementById('editBiography').value
+                };
+
+                try {
+                    const response = await fetch('?handler=UpdatePerson', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(updatedPerson)
+                    });
+
+                    if (response.ok) {
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('editPersonModal'));
+                        modal.hide();
+                        await loadAllPersons();
+                        refreshPersonsTable();
+                        showMessage('Персона успешно обновлена!', 'success');
+                    } else {
+                        throw new Error('Ошибка при обновлении');
+                    }
+                } catch (error) {
+                    showMessage('Ошибка при обновлении: ' + error.message, 'error');
+                }
+            }
+
+            // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+            async function loadAllPersons() {
+                try {
+                    const response = await fetch('?handler=GetAllPersons');
+                    if (response.ok) {
+                        allPersons = await response.json();
+                    }
+                } catch (error) {
+                    console.error('Error loading persons:', error);
+                }
+            }
+
+            function refreshPersonsTable() {
+                const tbody = document.querySelector('#allPersonsSection tbody');
+                if (tbody) {
+                    let html = '';
+                    allPersons.forEach(person => {
+                        const birthDate = new Date(person.birthDate).toLocaleDateString('ru-RU');
+                        const deathDate = person.deathDate ? 
+                            new Date(person.deathDate).toLocaleDateString('ru-RU') : 'н/д';
+                        const age = calculateAge(person.birthDate, person.deathDate);
+
+                        html += `
+                            <tr>
+                                <td>${person.personId}</td>
+                                <td>${person.surname} ${person.name} ${person.lastName}</td>
+                                <td>${person.genderName}</td>
+                                <td>${birthDate}</td>
+                                <td>${deathDate}</td>
+                                <td>${age}</td>
+                            </tr>
+                        `;
+                    });
+                    tbody.innerHTML = html;
+                }
+            }
+
+            function refreshConnectionsTable() {
+                // Таблица связей обновляется сервером при загрузке страницы
+            }
+
+            function calculateAge(birthDate, deathDate) {
+                const birth = new Date(birthDate);
+                const end = deathDate ? new Date(deathDate) : new Date();
+                let age = end.getFullYear() - birth.getFullYear();
+                const monthDiff = end.getMonth() - birth.getMonth();
+
+                if (monthDiff < 0 || (monthDiff === 0 && end.getDate() < birth.getDate())) {
+                    age--;
+                }
+                return age;
+            }
+
+            function resetForm(formId) {
+                const form = document.getElementById(formId);
+                if (form) {
+                    form.reset();
+                }
+            }
+
+            function resetSearchForm() {
+                document.getElementById('searchSurname').value = '';
+                document.getElementById('searchName').value = '';
+                document.getElementById('searchResults').innerHTML = 
+                    '<div class="alert alert-info">Введите критерии поиска и нажмите "Поиск"</div>';
+            }
+
+            function resetSearchModal() {
+                document.getElementById('searchSurname').value = '';
+                document.getElementById('searchName').value = '';
+                document.getElementById('searchResults').innerHTML = 
+                    '<div class="alert alert-info">Введите критерии поиска и нажмите "Поиск"</div>';
+            }
+
+            function showMessage(message, type) {
+                // Создаем временное сообщение
+                const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+                const messageHtml = `
+                    <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                `;
+
+                // Добавляем сообщение перед формами
+                const container = document.querySelector('.container');
+                const firstChild = container.firstChild;
+                container.insertBefore(createElementFromHTML(messageHtml), firstChild);
+
+                // Автоматически скрываем через 5 секунд
+                setTimeout(() => {
+                    const alert = document.querySelector('.alert');
+                    if (alert) {
+                        alert.remove();
+                    }
+                }, 5000);
+            }
+
+            function createElementFromHTML(htmlString) {
+                const div = document.createElement('div');
+                div.innerHTML = htmlString.trim();
+                return div.firstChild;
+            }
+
+            // ===== ОБРАБОТЧИКИ СОБЫТИЙ =====
+            document.getElementById('addPersonForm')?.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                // Форма отправляется стандартным способом
+                this.submit();
+            });
+
+            document.getElementById('addConnectionForm')?.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                // Форма отправляется стандартным способом
+                this.submit();
+            });
+
+            // Быстрый поиск при вводе
+            document.getElementById('searchSurname')?.addEventListener('input', debounce(searchPersons, 300));
+            document.getElementById('searchName')?.addEventListener('input', debounce(searchPersons, 300));
+
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+        </script>
+}
