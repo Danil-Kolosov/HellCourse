@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Text.Json;
 
 namespace FamilyTree
@@ -6,30 +7,32 @@ namespace FamilyTree
     public class PersonRepository
     {
         private List<Person> personList = new List<Person>();
+        private int nextPersonId = 1; // Счетчик для автоинкремента
         public int Size => personList.Count;
 
         public void Add(Person person)
         {
-            // Валидация перед добавлением
+            // Автоматически назначаем ID только если он не установлен
+            if (person.PersonId == 0)
+            {
+                person.PersonId = nextPersonId++;
+            }
+            else
+            {
+                // Если ID уже установлен, обновляем nextPersonId
+                if (person.PersonId >= nextPersonId)
+                {
+                    nextPersonId = person.PersonId + 1;
+                }
+            }
+            // Валидация данных
             Validator.ValidatePerson(person);
 
             if (personList.Any(p => p.PersonId == person.PersonId))
-                throw new ArgumentException($"Персона с ID {person.PersonId} уже существует");
-            if (personList.Any(p => p.PersonId == person.PersonId))
-                throw new ArgumentException($"Персона с ID {person.PersonId} уже существует");
+                throw new ArgumentException($"Персона с ID {person.PersonId} уже существует");              
 
             personList.Add(person);
-        }
-
-        public bool Remove(int index)
-        {
-            if (index >= 0 && index < personList.Count)
-            {
-                personList.RemoveAt(index);
-                return true;
-            }
-            return false;
-        }
+        }        
 
         public int GetSize() => personList.Count;
 
@@ -43,7 +46,7 @@ namespace FamilyTree
             if (index >= 0 && index < personList.Count)
             {
                 // Создаем временный объект для валидации
-                var tempPerson = new Person(personId, surname, name, lastName, genderId, birthDate, deathDate, biography);
+                var tempPerson = new Person(surname, name, lastName, genderId, birthDate, deathDate, biography);
                 Validator.ValidatePerson(tempPerson);
                 personList[index] = tempPerson;
                 return true;
@@ -57,7 +60,7 @@ namespace FamilyTree
             if (index >= 0 && index < personList.Count)
             {
                 // Создаем временный объект для валидации
-                var tempPerson = new Person(personId, surname, name, lastName, gender, birthDate, deathDate, biography);
+                var tempPerson = new Person(surname, name, lastName, gender, birthDate, deathDate, biography);
                 Validator.ValidatePerson(tempPerson);
                 personList[index] = tempPerson;
                 return true;
@@ -65,16 +68,20 @@ namespace FamilyTree
             return false;
         }
 
-        public Person GetPerson(int index)
+        public Person GetPerson(int personId/*index*/)
+        {
+            return personList.FirstOrDefault(p => p.PersonId == personId);
+            //if (index >= 0 && index < personList.Count)
+            //    return personList[index];
+            //return null;
+        }
+
+        public Person FindPerson(int index/*personId*/)
         {
             if (index >= 0 && index < personList.Count)
                 return personList[index];
             return null;
-        }
-
-        public Person FindPerson(int personId)
-        {
-            return personList.FirstOrDefault(p => p.PersonId == personId);
+            //return personList.FirstOrDefault(p => p.PersonId == personId);
         }
 
         public List<Person> FindPerson(string surname = null, string name = null, string lastName = null,
@@ -111,8 +118,18 @@ namespace FamilyTree
             {
                 var json = File.ReadAllText(filePath);
                 var loadedPersons = JsonSerializer.Deserialize<List<Person>>(json);
-                personList.Clear();
-                personList.AddRange(loadedPersons);
+                if (loadedPersons != null && loadedPersons.Any())
+                {
+                    personList.Clear();
+                    personList.AddRange(loadedPersons);
+                    // Устанавливаем nextPersonId как максимальный ID + 1
+                    nextPersonId = loadedPersons.Max(p => p.PersonId) + 1;
+                }
+                else
+                {
+                    personList.Clear();
+                    nextPersonId = 1;
+                }
             }
         }
     }

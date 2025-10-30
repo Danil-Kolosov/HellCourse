@@ -74,13 +74,13 @@
             // Специфичные проверки для типов связей
             switch (connection.ConnectionTypeId)
             {
-                case 1: // супружество
+                case 1: // Мужья-жены
                     ValidateMarriage(connection, personRepo);
                     break;
-                case 2: // родитель-ребенок
+                case 2: // Родители-дети
                     ValidateParentChild(connection, personRepo, connectionRepo);
                     break;
-                case 3: // братство-сестринство
+                case 3: // Братья-сестры
                     ValidateSiblings(connection, personRepo);
                     break;
             }
@@ -141,11 +141,11 @@
             }
 
             // Проверка возраста для брака (например, минимум 18 лет)
-            var minMarriageAge = 18;
-            if (person1.CalculateAge() < minMarriageAge || person2.CalculateAge() < minMarriageAge)
-            {
-                throw new ArgumentException("Оба супруга должны быть совершеннолетними");
-            }
+            //var minMarriageAge = 18;
+            //if (person1.CalculateAge() < minMarriageAge || person2.CalculateAge() < minMarriageAge)
+            //{
+            //    throw new ArgumentException("Оба супруга должны быть совершеннолетними");
+            //}
         }
 
         private static void ValidateParentChild(FamilyConnection connection, PersonRepository personRepo, FamilyConnectionRepository connectionRepo)
@@ -154,11 +154,11 @@
             var child = personRepo.GetPerson(connection.PersonId2);
 
             // Проверка, что родитель старше ребенка минимум на 15 лет
-            var minParentAge = 15;
-            if (parent.BirthDate > child.BirthDate.AddYears(-minParentAge))
-            {
-                throw new ArgumentException("Родитель должен быть старше ребенка минимум на 15 лет");
-            }
+            //var minParentAge = 15;
+            //if (parent.BirthDate > child.BirthDate.AddYears(-minParentAge))
+            //{
+            //    throw new ArgumentException("Родитель должен быть старше ребенка минимум на 15 лет");
+            //}
 
             // Проверка на циклические связи (предок-потомок)
             var ancestorsOfParent = connectionRepo.GetAllAncestorsOfPerson(connection.PersonId1);
@@ -180,12 +180,12 @@
             var person2 = personRepo.GetPerson(connection.PersonId2);
 
             // Братья/сестры должны иметь разницу в возрасте не более 50 лет (например)
-            var maxAgeDifference = 50;
-            var ageDifference = Math.Abs(person1.BirthDate.Year - person2.BirthDate.Year);
-            if (ageDifference > maxAgeDifference)
-            {
-                throw new ArgumentException("Слишком большая разница в возрасте для братьев/сестер");
-            }
+            //var maxAgeDifference = 50;
+            //var ageDifference = Math.Abs(person1.BirthDate.Year - person2.BirthDate.Year);
+            //if (ageDifference > maxAgeDifference)
+            //{
+            //    throw new ArgumentException("Слишком большая разница в возрасте для братьев/сестер");
+            //}
         }
 
         // Проверки для методов поиска

@@ -7,9 +7,9 @@
 //        public ConnectionTypeRepository()
 //        {
 //            // Инициализация стандартными типами связей
-//            connectionTypes.Add(new ConnectionType(1, "супружество"));
-//            connectionTypes.Add(new ConnectionType(2, "родитель-ребенок"));
-//            connectionTypes.Add(new ConnectionType(3, "братство-сестринство"));
+//            connectionTypes.Add(new ConnectionType(1, "Мужья-жены"));
+//            connectionTypes.Add(new ConnectionType(2, "Родители-дети"));
+//            connectionTypes.Add(new ConnectionType(3, "Братья-сестры"));
 //        }
 
 //        public void Add(ConnectionType connectionType)

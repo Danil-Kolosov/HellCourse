@@ -1,4 +1,7 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
 
 namespace FamilyTree
 {
@@ -80,9 +83,9 @@ namespace FamilyTree
         {
             if (!visited.Add(currentPersonId)) return;
 
-            // Ищем связи "родитель-ребенок", где текущий персона - ребенок
+            // Ищем связи "Родители-дети", где текущий персона - ребенок
             var parentConnections = familyConnections.Where(fc =>
-                fc.PersonId2 == currentPersonId && fc.ConnectionTypeId == 2).ToList(); // 2 = родитель-ребенок
+                fc.PersonId2 == currentPersonId && fc.ConnectionTypeId == 2).ToList(); // 2 = Родители-дети
 
             foreach (var connection in parentConnections)
             {
@@ -103,9 +106,9 @@ namespace FamilyTree
         {
             if (!visited.Add(currentPersonId)) return;
 
-            // Ищем связи "родитель-ребенок", где текущий персона - родитель
+            // Ищем связи "Родители-дети", где текущий персона - родитель
             var childConnections = familyConnections.Where(fc =>
-                fc.PersonId1 == currentPersonId && fc.ConnectionTypeId == 2).ToList(); // 2 = родитель-ребенок
+                fc.PersonId1 == currentPersonId && fc.ConnectionTypeId == 2).ToList(); // 2 = Родители-дети
 
             foreach (var connection in childConnections)
             {

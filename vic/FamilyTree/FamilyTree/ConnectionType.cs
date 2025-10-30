@@ -1,12 +1,15 @@
-﻿namespace FamilyTree
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace FamilyTree
 {
     public static class ConnectionType
     {
         public static readonly Dictionary<int, string> ConnectionTypes = new Dictionary<int, string>
     {
-        {1, "супружество"},
-        {2, "родитель-ребенок"},
-        {3, "братство-сестринство"}
+        {1, "Мужья-жены"},
+        {2, "Родители-дети"},
+        {3, "Братья-сестры"}
     };
 
         public static string GetConnectionTypeName(int conTypeId)

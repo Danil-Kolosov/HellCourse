@@ -1,0 +1,13 @@
+[
+  {
+    "PersonId": 1,
+    "Surname": "\u0411\u0435\u043D\u0434\u0435\u0440",
+    "Name": "\u041E\u0441\u0442\u0430\u043F",
+    "LastName": "\u041A\u043E\u043D",
+    "GenderId": 1,
+    "GenderName": "\u041C\u0443\u0436\u0441\u043A\u043E\u0439",
+    "BirthDate": "2025-10-29",
+    "DeathDate": null,
+    "Biography": ""
+  }
+]

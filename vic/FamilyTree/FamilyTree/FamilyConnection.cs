@@ -1,10 +1,41 @@
-﻿namespace FamilyTree
+﻿using System;
+using System.Collections.Generic;
+
+namespace FamilyTree
 {
-    public class FamilyConnection
+    public class FamilyConnection: Data
     {
-        public int PersonId1 { get; set; }
-        public int PersonId2 { get; set; }
-        public int ConnectionTypeId { get; set; }
+        private int personId1;
+        private int personId2;
+        private int connectionTypeId;
+
+        public int PersonId1
+        {
+            get => personId1;
+            set
+            {
+                personId1 = value;
+                UpdateModifiedDate(); // Автоматическое обновление!
+            }
+        }
+        public int PersonId2
+        {
+            get => personId2;
+            set
+            {
+                personId2 = value;
+                UpdateModifiedDate(); // Автоматическое обновление!
+            }
+        }
+        public int ConnectionTypeId
+        {
+            get => connectionTypeId;
+            set
+            {
+                connectionTypeId = value;
+                UpdateModifiedDate(); // Автоматическое обновление!
+            }
+        }
 
         public FamilyConnection() { }
 
@@ -13,6 +44,7 @@
             PersonId1 = pId1;
             PersonId2 = pId2;
             ConnectionTypeId = estConTypeId;
+            UpdateModifiedDate(); // Автоматическое обновление!
         }
 
         public void UpdateFamilyConnection(int pId1, int pId2, int estConTypeId)
@@ -20,6 +52,7 @@
             PersonId1 = pId1;
             PersonId2 = pId2;
             ConnectionTypeId = estConTypeId;
+            UpdateModifiedDate(); // Автоматическое обновление!
         }
 
         public List<string> GetFamilyConnectionInfo(PersonRepository personRepo)

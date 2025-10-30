@@ -1,23 +1,101 @@
-﻿namespace FamilyTree
+﻿using System.Xml.Linq;
+
+namespace FamilyTree
 {
-    public class Person
+    public class Person : Data
     {
-        public int PersonId { get; set; }
-        public string Surname { get; set; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
-        public int GenderId { get; set; }
+        private string name;
+        public int personId;
+        public string surname;
+        public string lastName;
+        public int genderId;
+        public string genderName;
+        public DateOnly birthDate;
+        public DateOnly? deathDate;
+        public string biography;
+        public int PersonId
+        {
+            get => personId;
+            set
+            {
+                personId = value;
+                UpdateModifiedDate(); // Автоматическое обновление!
+            }
+        }
+        public string Surname
+        {
+            get => surname;
+            set
+            {
+                surname = value;
+                UpdateModifiedDate(); // Автоматическое обновление!
+            }
+        }
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                UpdateModifiedDate(); // Автоматическое обновление!
+            }
+        }
+        public string LastName
+        {
+            get => lastName;
+            set
+            {
+                lastName = value;
+                UpdateModifiedDate(); // Автоматическое обновление!
+            }
+        }
+        public int GenderId
+        {
+            get => genderId;
+            set
+            {
+                genderId = value;
+                UpdateModifiedDate(); // Автоматическое обновление!
+            }
+        }
         public string GenderName => Gender.GetGenderName(GenderId);
-        public DateOnly BirthDate { get; set; }
-        public DateOnly? DeathDate { get; set; }
-        public string Biography { get; set; }
+        public DateOnly BirthDate
+        {
+            get => birthDate;
+            set
+            {
+                birthDate = value;
+                UpdateModifiedDate(); // Автоматическое обновление!
+            }
+        }
+        public DateOnly? DeathDate
+        {
+            get => deathDate;
+            set
+            {
+                deathDate = value;
+                UpdateModifiedDate(); // Автоматическое обновление!
+            }
+        }
+        public string Biography
+        {
+            get => biography;
+            set
+            {
+                biography = value;
+                UpdateModifiedDate(); // Автоматическое обновление!
+            }
+        }
 
-        public Person() { }
+        public Person()
+        {
+            PersonId = 0; // По умолчанию 0 - будет установлен автоинкрементом
+        }
 
-        public Person(int personId, string surname, string name, string lastName,
+        public Person(string surname, string name, string lastName,
                       int genderId, DateOnly birthDate, DateOnly? deathDate, string biography)
         {
-            PersonId = personId;
+            PersonId = 0; // Будет установлен автоинкрементом
             Surname = surname;
             Name = name;
             LastName = lastName;
@@ -28,6 +106,7 @@
 
             // Валидация при создании объекта
             Validator.ValidatePerson(this);
+            UpdateModifiedDate(); // Автоматическое обновление!
         }
 
         public List<string> GetFullInfo()
@@ -52,16 +131,16 @@
         };
         }
 
-        public int? CalculateAge()
-        {
-            var today = DateOnly.FromDateTime(DateTime.Today);
-            var endDate = DeathDate ?? today;
+        //public int? CalculateAge()
+        //{
+        //    var today = DateOnly.FromDateTime(DateTime.Today);
+        //    var endDate = DeathDate ?? today;
 
-            if (BirthDate > endDate) return null;
+        //    if (BirthDate > endDate) return null;
 
-            var age = endDate.Year - BirthDate.Year;
-            if (BirthDate > endDate.AddYears(-age)) age--;
-            return age;
-        }
+        //    var age = endDate.Year - BirthDate.Year;
+        //    if (BirthDate > endDate.AddYears(-age)) age--;
+        //    return age;
+        //}
     }
 }

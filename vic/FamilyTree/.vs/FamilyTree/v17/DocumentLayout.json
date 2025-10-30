@@ -3,56 +3,116 @@
   "WorkspaceRootPath": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\familyconnectionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\familyconnectionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\searchconnectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\searchconnectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\dataserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\dataserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\familytree\\searchpersonform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\searchpersonform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\connectiontyperepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\connectiontyperepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\editconnectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\editconnectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\addconnectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\addconnectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\personrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\personrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\editpersonform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\editpersonform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\searchpersonform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\searchpersonform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\validator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\validator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\addpersonform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\addpersonform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\familyconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\familyconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\person.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\gender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\gender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\connectiontype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\connectiontype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\familytree\\searchconnectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\searchconnectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\familyconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{52423386-54C7-4252-A249-5B2079BC5D9C}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\familyconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\editconnectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\editconnectionform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\familyconnectionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\familyconnectionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\personrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\personrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\connectiontyperepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\connectiontyperepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\connectiontype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\connectiontype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\validator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\validator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\familytree\\editpersonform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\editpersonform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\addconnectionform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\addconnectionform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\familytree\\addpersonform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\addpersonform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\familytree\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\familytree\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\addpersonform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\addpersonform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|d:\\pnrpu\\git\\hellcourse\\vic\\familytree\\familytree\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A96D1AD-6665-485F-97DE-B6E9E37E3FDB}|FamilyTree\\FamilyTree.csproj|solutionrelative:familytree\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -62,11 +122,49 @@
       "DocumentGroups": [
         {
           "DockedWidth": 836,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": 21,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Data.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Data.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\Data.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Data.cs",
+              "RelativeToolTip": "FamilyTree\\Data.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T17:58:20.671Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "EditConnectionForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\EditConnectionForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\EditConnectionForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\EditConnectionForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "FamilyTree\\EditConnectionForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T17:54:31.128Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "FamilyConnection.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\FamilyConnection.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\FamilyConnection.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\FamilyConnection.cs",
+              "RelativeToolTip": "FamilyTree\\FamilyConnection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T17:46:42.789Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
@@ -81,144 +179,231 @@
               "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DataServer.cs",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\DataServer.cs",
-              "RelativeDocumentMoniker": "FamilyTree\\DataServer.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\DataServer.cs",
-              "RelativeToolTip": "FamilyTree\\DataServer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T15:40:57.805Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "site.css",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\wwwroot\\css\\site.css",
-              "RelativeDocumentMoniker": "FamilyTree\\wwwroot\\css\\site.css",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\wwwroot\\css\\site.css",
-              "RelativeToolTip": "FamilyTree\\wwwroot\\css\\site.css",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAwCsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-29T15:39:04.562Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Pages\\Index.cshtml",
-              "RelativeDocumentMoniker": "FamilyTree\\Pages\\Index.cshtml",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Pages\\Index.cshtml",
-              "RelativeToolTip": "FamilyTree\\Pages\\Index.cshtml",
-              "ViewState": "AgIAAHMCAAAAAAAAAAAgwKkCAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-29T15:37:52.336Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Index.cshtml.cs",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Pages\\Index.cshtml.cs",
-              "RelativeDocumentMoniker": "FamilyTree\\Pages\\Index.cshtml.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Pages\\Index.cshtml.cs",
-              "RelativeToolTip": "FamilyTree\\Pages\\Index.cshtml.cs",
-              "ViewState": "AgIAAJoAAAAAAAAAAAAkwLEAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T15:37:10.247Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Validator.cs",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Validator.cs",
-              "RelativeDocumentMoniker": "FamilyTree\\Validator.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Validator.cs",
-              "RelativeToolTip": "FamilyTree\\Validator.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T12:55:23.096Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Gender.cs",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Gender.cs",
-              "RelativeDocumentMoniker": "FamilyTree\\Gender.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Gender.cs",
-              "RelativeToolTip": "FamilyTree\\Gender.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T12:31:58.905Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ConnectionTypeRepository.cs",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\ConnectionTypeRepository.cs",
-              "RelativeDocumentMoniker": "FamilyTree\\ConnectionTypeRepository.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\ConnectionTypeRepository.cs",
-              "RelativeToolTip": "FamilyTree\\ConnectionTypeRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T12:27:22.689Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Program.cs",
-              "RelativeDocumentMoniker": "FamilyTree\\Program.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Program.cs",
-              "RelativeToolTip": "FamilyTree\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T12:25:47.019Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FamilyConnectionRepository.cs",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\FamilyConnectionRepository.cs",
-              "RelativeDocumentMoniker": "FamilyTree\\FamilyConnectionRepository.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\FamilyConnectionRepository.cs",
-              "RelativeToolTip": "FamilyTree\\FamilyConnectionRepository.cs",
-              "ViewState": "AgIAAHcAAAAAAAAAAAAAAIkAAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T12:22:03.937Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{131369f2-062d-44a2-8671-91ff31efb4f4}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PersonRepository.cs",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\PersonRepository.cs",
-              "RelativeDocumentMoniker": "FamilyTree\\PersonRepository.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\PersonRepository.cs",
-              "RelativeToolTip": "FamilyTree\\PersonRepository.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAYwD4AAAAcAAAAAAAAAA==",
+              "DocumentIndex": 16,
+              "Title": "ConnectionTypeRepository.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\ConnectionTypeRepository.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\ConnectionTypeRepository.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\ConnectionTypeRepository.cs",
+              "RelativeToolTip": "FamilyTree\\ConnectionTypeRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T12:20:55.319Z"
+              "WhenOpened": "2025-10-29T19:23:33.594Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 17,
               "Title": "ConnectionType.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\ConnectionType.cs",
               "RelativeDocumentMoniker": "FamilyTree\\ConnectionType.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\ConnectionType.cs",
               "RelativeToolTip": "FamilyTree\\ConnectionType.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T12:24:14.74Z"
+              "WhenOpened": "2025-10-29T19:23:28.197Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "FamilyConnectionRepository.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\FamilyConnectionRepository.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\FamilyConnectionRepository.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\FamilyConnectionRepository.cs",
+              "RelativeToolTip": "FamilyTree\\FamilyConnectionRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKEAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T19:18:43.643Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "EditPersonForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\EditPersonForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\EditPersonForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\EditPersonForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "FamilyTree\\EditPersonForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T18:05:08.656Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Validator.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Validator.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\Validator.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Validator.cs",
+              "RelativeToolTip": "FamilyTree\\Validator.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAADwv0wAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:55:51.929Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AddConnectionForm.Designer.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\AddConnectionForm.Designer.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\AddConnectionForm.Designer.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\AddConnectionForm.Designer.cs",
+              "RelativeToolTip": "FamilyTree\\AddConnectionForm.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:54:00.136Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EditConnectionForm.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\EditConnectionForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\EditConnectionForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\EditConnectionForm.cs",
+              "RelativeToolTip": "FamilyTree\\EditConnectionForm.cs",
+              "ViewState": "AgIAAJsAAAAAAAAAAIAwwK4AAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:49:37.874Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SearchPersonForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\SearchPersonForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\SearchPersonForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\SearchPersonForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "FamilyTree\\SearchPersonForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:32:43.849Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Form1.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\Form1.cs",
+              "ToolTip": "D:\\pnrpu\\vic\\FamilyTree\\FamilyTree\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "..\\..\\..\\..\\vic\\FamilyTree\\FamilyTree\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:27:30.752Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EditPersonForm.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\EditPersonForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\EditPersonForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\EditPersonForm.cs",
+              "RelativeToolTip": "FamilyTree\\EditPersonForm.cs",
+              "ViewState": "AgIAANQAAAAAAAAAAIAwwOcAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:26:11.267Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Form1.Designer.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Form1.Designer.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\Form1.Designer.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Form1.Designer.cs",
+              "RelativeToolTip": "FamilyTree\\Form1.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:25:51.706Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Form1.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\Form1.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Form1.cs",
+              "RelativeToolTip": "FamilyTree\\Form1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:25:45.666Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "SearchConnectionForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\SearchConnectionForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\SearchConnectionForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\SearchConnectionForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "FamilyTree\\SearchConnectionForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:23:09.648Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SearchConnectionForm.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\SearchConnectionForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\SearchConnectionForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\SearchConnectionForm.cs",
+              "RelativeToolTip": "FamilyTree\\SearchConnectionForm.cs",
+              "ViewState": "AgIAAKgCAAAAAAAAAAAQwLYCAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:22:17.278Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SearchPersonForm.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\SearchPersonForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\SearchPersonForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\SearchPersonForm.cs",
+              "RelativeToolTip": "FamilyTree\\SearchPersonForm.cs",
+              "ViewState": "AgIAAH4AAAAAAAAAAIAwwJEAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:21:42.657Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AddConnectionForm.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\AddConnectionForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\AddConnectionForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\AddConnectionForm.cs",
+              "RelativeToolTip": "FamilyTree\\AddConnectionForm.cs",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAAAKoAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:19:50.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\MainForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\MainForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "FamilyTree\\MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:11:28.548Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "PersonRepository.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\PersonRepository.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\PersonRepository.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\PersonRepository.cs",
+              "RelativeToolTip": "FamilyTree\\PersonRepository.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAA9wGUAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T17:06:55.453Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -228,21 +413,84 @@
               "RelativeDocumentMoniker": "FamilyTree\\Person.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Person.cs",
               "RelativeToolTip": "FamilyTree\\Person.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAxwBsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAAwFcAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T12:19:23.615Z"
+              "WhenOpened": "2025-10-29T17:05:35.753Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "FamilyConnection.cs",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\FamilyConnection.cs",
-              "RelativeDocumentMoniker": "FamilyTree\\FamilyConnection.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\FamilyConnection.cs",
-              "RelativeToolTip": "FamilyTree\\FamilyConnection.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAwwCQAAAAJAAAAAAAAAA==",
+              "DocumentIndex": 27,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Program.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\Program.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\Program.cs",
+              "RelativeToolTip": "FamilyTree\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T12:20:06.89Z"
+              "WhenOpened": "2025-10-29T16:47:26.276Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AddPersonForm.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\AddPersonForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\AddPersonForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\AddPersonForm.cs",
+              "RelativeToolTip": "FamilyTree\\AddPersonForm.cs",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAAAJEAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T16:43:53.463Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "AddPersonForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\AddPersonForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\AddPersonForm.cs",
+              "ToolTip": "D:\\pnrpu\\vic\\FamilyTree\\FamilyTree\\AddPersonForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "..\\..\\..\\..\\vic\\FamilyTree\\FamilyTree\\AddPersonForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T16:43:34.561Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\MainForm.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\MainForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\MainForm.cs",
+              "RelativeToolTip": "FamilyTree\\MainForm.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAApwDcAAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T16:36:12.771Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "AddPersonForm.Designer.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\AddPersonForm.Designer.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\AddPersonForm.Designer.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\AddPersonForm.Designer.cs",
+              "RelativeToolTip": "FamilyTree\\AddPersonForm.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T16:42:16.902Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "MainForm.Designer.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\MainForm.Designer.cs",
+              "RelativeDocumentMoniker": "FamilyTree\\MainForm.Designer.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\vic\\FamilyTree\\FamilyTree\\MainForm.Designer.cs",
+              "RelativeToolTip": "FamilyTree\\MainForm.Designer.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAADwvxYAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T16:36:20.727Z",
+              "EditorCaption": ""
             }
           ]
         },
