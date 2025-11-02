@@ -39,6 +39,10 @@
             this.mode3DToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.дФигураToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.кубToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.плоскостьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.yOzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.yOzToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.xOzToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,7 +50,8 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.modeToolStripMenuItem,
-            this.дФигураToolStripMenuItem});
+            this.дФигураToolStripMenuItem,
+            this.плоскостьToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
@@ -66,14 +71,14 @@
             // mode2DToolStripMenuItem
             // 
             this.mode2DToolStripMenuItem.Name = "mode2DToolStripMenuItem";
-            this.mode2DToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mode2DToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.mode2DToolStripMenuItem.Text = "2D Режим";
             this.mode2DToolStripMenuItem.Click += new System.EventHandler(this.Mode2DToolStripMenuItem_Click);
             // 
             // mode3DToolStripMenuItem
             // 
             this.mode3DToolStripMenuItem.Name = "mode3DToolStripMenuItem";
-            this.mode3DToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.mode3DToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.mode3DToolStripMenuItem.Text = "3D Режим";
             this.mode3DToolStripMenuItem.Click += new System.EventHandler(this.Mode3DToolStripMenuItem_Click);
             // 
@@ -91,6 +96,37 @@
             this.кубToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.кубToolStripMenuItem.Text = "Куб";
             this.кубToolStripMenuItem.Click += new System.EventHandler(this.кубToolStripMenuItem_Click);
+            // 
+            // плоскостьToolStripMenuItem
+            // 
+            this.плоскостьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.yOzToolStripMenuItem,
+            this.yOzToolStripMenuItem1,
+            this.xOzToolStripMenuItem});
+            this.плоскостьToolStripMenuItem.Name = "плоскостьToolStripMenuItem";
+            this.плоскостьToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
+            this.плоскостьToolStripMenuItem.Text = "Плоскость";
+            // 
+            // yOzToolStripMenuItem
+            // 
+            this.yOzToolStripMenuItem.Name = "yOzToolStripMenuItem";
+            this.yOzToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.yOzToolStripMenuItem.Text = "xOY";
+            this.yOzToolStripMenuItem.Click += new System.EventHandler(this.xOyToolStripMenuItem_Click);
+            // 
+            // yOzToolStripMenuItem1
+            // 
+            this.yOzToolStripMenuItem1.Name = "yOzToolStripMenuItem1";
+            this.yOzToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.yOzToolStripMenuItem1.Text = "yOz";
+            this.yOzToolStripMenuItem1.Click += new System.EventHandler(this.yOzToolStripMenuItem1_Click);
+            // 
+            // xOzToolStripMenuItem
+            // 
+            this.xOzToolStripMenuItem.Name = "xOzToolStripMenuItem";
+            this.xOzToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.xOzToolStripMenuItem.Text = "xOz";
+            this.xOzToolStripMenuItem.Click += new System.EventHandler(this.xOzToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -114,5 +150,9 @@
 
         private System.Windows.Forms.ToolStripMenuItem дФигураToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem кубToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem плоскостьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem yOzToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem yOzToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem xOzToolStripMenuItem;
     }
     }

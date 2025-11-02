@@ -6,11 +6,13 @@ using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 using System.Threading.Tasks;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Xml.Linq;
 namespace GrafRedactor
 {
     public partial class MainForm : Form
     {
         private MainCoordinateAxes coordinateAxes;// = new MainCoordinateAxes(150, 100);
+        private string currentAxeName = "xoy";
         private float angleX = 0;
         private float angleY = 0;
         private float angleZ = 0;
@@ -28,8 +30,15 @@ namespace GrafRedactor
 
         private bool isRotatingView = false;
         private float rotationSensitivity = 0.5f; // Чувствительность вращения
+        private float resetAngleValueX = 0f;
+        private float resetAngleValueY = 0f;
+        private float resetAngleValueZ = 0f;
         private float totalRotationX = 0f;
         private float totalRotationY = 0f;
+        private float totalRotationZ = 0f;
+        
+        
+
 
         //Группировка
         private GroupManager groupManager = new GroupManager();
@@ -94,10 +103,10 @@ namespace GrafRedactor
             float margin = 150f; // Отступ от края
             float length = Math.Min(drawingArea.Width, drawingArea.Height) / 4; // Длина осей
 
-            coordinateAxes = new MainCoordinateAxes(drawingArea.Width/2, drawingArea.Width);
-            проблема 1 - рисовать в плоскости только надо + чтоб возращалась в исходное после вращения
-                проблема 2 - когда ворочаем то чтобы отобразить меняем координаты - 
-                и они поменяные отображаются в свойстах - низя так - разбить координаты для рисования и для публикации как свойтсва
+            //coordinateAxes = new MainCoordinateAxes(drawingArea.Width/2, drawingArea.Width);
+            //ИЛИ
+            coordinateAxes = new MainCoordinateAxes(CalculateSceneCenter(), 100);
+
         }
 
         private void InitializeParametersPanel()
@@ -818,7 +827,7 @@ namespace GrafRedactor
 
                     bool any3DObject = false;
 
-                    if (isGroupSelected && currentGroupId != null)
+                    if (isGroupSelected && currentGroupId != null) //черт
                     {
                         // Для групп - вращаем вокруг центра группы
                         var groupElements = groupManager.GetGroupElements(currentGroupId);
@@ -833,7 +842,7 @@ namespace GrafRedactor
                             }
                             else if (figure is Cube3D cube)
                             {
-                                cube.Rotate3D(angleX, angleY, angleZ);
+                                cube.Rotate3D(angleX, angleY, angleZ, CalculateSceneCenter());
                                 any3DObject = true;
                             }
                             else
@@ -861,7 +870,7 @@ namespace GrafRedactor
                             }
                             else if (figure is Cube3D cube)
                             {
-                                cube.Rotate3D(angleX, angleY, angleZ);
+                                cube.Rotate3D(angleX, angleY, angleZ, CalculateSceneCenter());
                                 any3DObject = true;
                             }
                             else
@@ -1147,18 +1156,30 @@ namespace GrafRedactor
         //    return (A, B, C);
         //}
 
-        private void ResetSceneToDrawingPlane()
+        private bool ResetSceneToDrawingPlane()
         {
-            // Сбрасываем вращение всей сцены в ноль
-            //if (totalRotationX != 0 || totalRotationY != 0)
-            //{
-            //    // Вращаем обратно на накопленные углы
-            //    RotateAllFigures(-totalRotationX, -totalRotationY, 0);
-            //    coordinateAxes.Rotate3D(-totalRotationX, -totalRotationY, 0);
-            //    totalRotationX = 0;
-            //    totalRotationY = 0;
-            //    this.Invalidate();
-            //}
+            //Сбрасываем вращение всей сцены в ноль
+            if (totalRotationX != resetAngleValueX || totalRotationY != resetAngleValueY || totalRotationZ != resetAngleValueZ)
+            {
+                // Вращаем обратно на накопленные углы
+                //RotateAllFigures(-totalRotationX, -totalRotationY, 0); найиг это это старое, актуальное ниже, черт неужели из-за этого
+
+                //пока так
+                RotateEntireScene(resetAngleValueX - totalRotationX, (resetAngleValueY - totalRotationY), (resetAngleValueZ - totalRotationZ));
+                //пока так - работает кристально идеально
+
+                //RotateEntireScene(-totalRotationX, (resetAngleValueY - totalRotationY), 0); //старое, новое следующее ниже нифига не старое они как то вместе идеально рабтали
+
+                //RotateEntireScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+
+                coordinateAxes.Rotate3D(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter());
+                totalRotationX = resetAngleValueX;
+                totalRotationY = resetAngleValueY;
+                totalRotationZ = resetAngleValueZ;
+                this.Invalidate();
+                return true;
+            }
+            return false;
             //вроде норм рисуется - главное чтобы все вращаалось относительно одной точки - 000б или лучше центра рсовательной местности
         }
 
@@ -1172,7 +1193,8 @@ namespace GrafRedactor
 
             if (e.Button == MouseButtons.Left)
             {
-                ResetSceneToDrawingPlane();
+                if (ResetSceneToDrawingPlane())
+                    return;
                 // ЕСЛИ НАЖАТ CTRL - множественное выделение
                 if (Control.ModifierKeys == Keys.Control)
                 {
@@ -1418,7 +1440,7 @@ namespace GrafRedactor
             selectedFigure = cube;
             selectedFigure.IsSelected = true;
             selectedFigures.Add(cube);
-            cube.Rotate3D(30,30,30);
+            cube.Rotate3D(30, 30, 30, CalculateSceneCenter());
             // Обновляем интерфейс
             UpdateParametersPanel();
             this.Invalidate();
@@ -1477,7 +1499,7 @@ namespace GrafRedactor
 
             if (e.Button == MouseButtons.Left)
             {
-                ResetBaseSceneAngle();
+                //ResetBaseSceneAngle();
                 // Ограничиваем область рисования
                 var drawingArea = GetDrawingArea();
                 
@@ -1578,10 +1600,43 @@ namespace GrafRedactor
                             // УЧИТЫВАЕМ поворот системы - применяем обратное вращение
                             Point3D start3D = TransformScreenToWorld(drawingStartPoint, 0);
                             Point3D end3D = TransformScreenToWorld(drawingEndPoint, 0);
+                            switch (currentAxeName) //в обновлении данных из панели параметров и в паннель параметров также сделать
+                            {
+                                тут визуальные координаты так задавать надо, не реальные
+                                а как рисовать в плоскости не понятно
+                                проблема 1 - рисовать в плоскости только надо +чтоб возращалась в исходное после вращения
+    проблема 2 - когда ворочаем то чтобы отобразить меняем координаты -
+    и они поменяные отображаются в свойстах - низя так - разбить координаты для рисования и для публикации как свойтсва
+
+
+возможность рисования в плоскости, выбор при совершении операций - относительно линии / группы(если в группе) или начала координат, 
+панель параметров для куба, колесиком изменеие z не отображается потому что в рисвоении в линии в mainform.cs идет через SetZ старое
+
+                                дипсик предложил создавать относительно центра как-то высчитывать а не просто х=0 задавать
+
+                                //xOy
+                                //yoz
+                                //xOz
+                                case "xoy":
+                                    break;
+                                case "yoz":
+                                    Point3D tempPoint = new Point3D(drawingStartPoint.X, drawingStartPoint.Y, 0);
+                                    start3D.X = 0;
+                                    start3D.Y = tempPoint.X;
+                                    start3D.Z = tempPoint.Y;
+                                    tempPoint = new Point3D(drawingEndPoint.X, drawingEndPoint.Y, 0);
+                                    end3D.X = 0;
+                                    end3D.Y = tempPoint.X;
+                                    end3D.Z = tempPoint.Y;
+                                    break;
+                                case "xoz":
+                                    break;
+                            }
 
                             newLine = new LineElement3D(start3D, end3D, Color.Black, 3f);
-                            newLine = new LineElement3D(
-                                drawingStartPoint, drawingEndPoint, Color.Black, 3f);                            
+                            //newLine = new LineElement3D(
+                            //    drawingStartPoint, drawingEndPoint, Color.Black, 3f); //зачем это вообе надо ! 2 раза создается
+                            //((LineElement3D)newLine).Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
                         }
                         else
                         {
@@ -1602,6 +1657,7 @@ namespace GrafRedactor
 
                 isDragging = false;
                 isResizing = false;
+                ResetSceneToDrawingPlane();
             }
         }
 
@@ -1611,11 +1667,11 @@ namespace GrafRedactor
             Point3D worldPoint = new Point3D(screenPoint.X, screenPoint.Y, z);
 
             // Применяем обратное вращение (если система повернута)
-            if (Math.Abs(totalRotationX) > 0.001f || Math.Abs(totalRotationY) > 0.001f)
-            {
-                Point3D sceneCenter = CalculateSceneCenter();
-                worldPoint = RotatePoint3D(worldPoint, sceneCenter, -totalRotationX, -totalRotationY, 0);
-            }
+            //if (Math.Abs(totalRotationX) > 0.001f || Math.Abs(totalRotationY) > 0.001f)
+            //{
+            //    Point3D sceneCenter = CalculateSceneCenter();
+            //    worldPoint = RotatePoint3D(worldPoint, sceneCenter, -totalRotationX, -totalRotationY, 0);
+            //}
 
             return worldPoint;
         }
@@ -1761,6 +1817,21 @@ namespace GrafRedactor
             }
         }
 
+        private void xOyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetDrawingAxe("xOy");
+        }
+
+        private void yOzToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SetDrawingAxe("yOz");
+        }
+
+        private void xOzToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetDrawingAxe("xOz");
+        }
+
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete && selectedFigure != null)
@@ -1808,7 +1879,7 @@ namespace GrafRedactor
         {
             if (coordinateAxes != null)
             {
-                coordinateAxes.Rotate3D(angleX, angleY, angleZ);
+                coordinateAxes.Rotate3D(angleX, angleY, angleZ, CalculateSceneCenter());
                 this.Invalidate();
             }
         }
@@ -1854,30 +1925,32 @@ namespace GrafRedactor
             this.angleX += angleX;
             this.angleY += angleY;
             this.angleZ += angleZ;
-            Point3D sceneCenter = new Point3D(0, 0, 0);//CalculateSceneCenter();
-            coordinateAxes.Rotate3D(angleX, angleY, angleZ);
+            // Обновляем накопленные углы (для информации)
+            totalRotationX += angleX;
+            totalRotationY += angleY;
+            totalRotationZ += angleZ;
+            Point3D sceneCenter = CalculateSceneCenter();//new Point3D(0, 0, 0);//CalculateSceneCenter(); ЧЕРТ да вот тут не квокруг того центра крутится
+            coordinateAxes.Rotate3D(totalRotationX, totalRotationY, totalRotationZ,/*0,*//*angleX, angleY, angleZ,*/ CalculateSceneCenter());
             foreach (var figure in figures)
             {
                 if (figure is LineElement3D line3D)
                 {
                     // Вращаем каждую линию относительно центра сцены
-                    line3D.Rotate3D(sceneCenter, angleX, angleY, angleZ);
+                    line3D.Rotate3DWithScene(sceneCenter, totalRotationX, totalRotationY, totalRotationZ/*0*//*angleX, angleY, angleZ*/);
                 }
                 if(figure is Cube3D cube) 
                 {
-                    cube.Rotate3D(angleX, angleY, angleZ);
+                    cube.Rotate3DWithScene(totalRotationX, totalRotationY, totalRotationZ/*0*//*angleX, angleY, angleZ*/, CalculateSceneCenter());
                 }
             }
-            // Обновляем накопленные углы (для информации)
-            totalRotationX += angleX;
-            totalRotationY += angleY;
+           
             this.Invalidate();
 
             return;
             // Вращаем оси координат
             if (coordinateAxes != null)
             {
-                coordinateAxes.Rotate3D(angleX, angleY, angleZ);
+                coordinateAxes.Rotate3D(angleX, angleY, angleZ, CalculateSceneCenter());
             }
 
             // Вращаем все фигуры относительно центра сцены
@@ -1895,8 +1968,8 @@ namespace GrafRedactor
             if (figures.Count == 0) return;
 
             // Вычисляем центр всей сцены
-            //Point3D sceneCenter = CalculateSceneCenter(); нужно ли
-            Point3D sceneCenter = new Point3D(0,0,0);
+            Point3D sceneCenter = CalculateSceneCenter(); //нужно ли
+            //Point3D sceneCenter = new Point3D(0,0,0);
 
             // Вращаем каждую фигуру относительно центра сцены
             foreach (var figure in figures)
@@ -1908,7 +1981,7 @@ namespace GrafRedactor
                 else if (figure is Cube3D cube)
                 {
                     // Для куба вращаем вокруг его центра
-                    cube.Rotate3D(angleX, angleY, angleZ);
+                    cube.Rotate3D(angleX, angleY, angleZ, CalculateSceneCenter());
                 }
                 // 2D фигуры не вращаем в 3D
             }
@@ -1916,6 +1989,10 @@ namespace GrafRedactor
 
         private Point3D CalculateSceneCenter()
         {
+            Rectangle drawArea = GetDrawingArea();
+
+            return new Point3D(drawArea.Width/2, drawArea.Height/2, 0);
+
             if (figures.Count == 0) return new Point3D(0, 0, 0);
 
             float minX = float.MaxValue, maxX = float.MinValue;
@@ -1964,6 +2041,41 @@ namespace GrafRedactor
             //angleY = 0;
             //angleZ = 0;
 
+        }
+
+        private void SetDrawingAxe(string axeName, int axeMargin = 0) 
+        {
+            axeName = axeName.ToLower();
+            switch (axeName) 
+            {
+                case "xoy":
+                    currentAxeName = axeName;
+                    resetAngleValueX = 0;
+                    resetAngleValueY = 0;
+                    resetAngleValueZ = 0;
+                    ResetSceneToDrawingPlane();
+                    //RotateEntireScene(resetAngleValueX, resetAngleValueY, 0);
+                    break;
+                //xOy
+                //xOz
+                case "yoz":
+                    currentAxeName = axeName;
+                    resetAngleValueX = -90;
+                    resetAngleValueY = 0;
+                    resetAngleValueZ = -90;
+                    ResetSceneToDrawingPlane();
+                    //RotateEntireScene(resetAngleValueX, resetAngleValueY, 0);
+                    break;
+
+                case "xoz":
+                    currentAxeName = axeName;
+                    resetAngleValueX = -90;
+                    resetAngleValueY = 0;
+                    resetAngleValueZ = 0;
+                    ResetSceneToDrawingPlane();
+                    //RotateEntireScene(resetAngleValueX, resetAngleValueY, 0);
+                    break;
+            }
         }
     }
 }

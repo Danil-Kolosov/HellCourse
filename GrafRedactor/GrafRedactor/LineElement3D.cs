@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,12 @@ namespace GrafRedactor
     {
         private Point3D _startPoint3D;
         private Point3D _endPoint3D;
+
+        public Point3D ZeroRatatedStartPoint { get; set; }
+        public Point3D ZeroRatatedEndPoint { get; set; }
+        private float rotationX = 0;
+        private float rotationY = 0;
+        private float rotationZ = 0;
 
         private float _startZ;
         private float _endZ;
@@ -27,6 +34,8 @@ namespace GrafRedactor
                 if (_startPoint3D != value)
                 {
                     _startPoint3D = value;
+                    ZeroRatatedStartPoint = value;
+                    //_rotation = 0;
                     Update2DProjection();
                     OnPropertyChanged(); //это что
                 }
@@ -41,6 +50,8 @@ namespace GrafRedactor
                 if (_endPoint3D != value)
                 {
                     _endPoint3D = value;
+                    ZeroRatatedEndPoint = value;
+                    //_rotation = 0;
                     Update2DProjection();
                     OnPropertyChanged();
                 }
@@ -52,6 +63,8 @@ namespace GrafRedactor
         {
             _startPoint3D = startPoint3D;
             _endPoint3D = endPoint3D;
+            ZeroRatatedStartPoint = startPoint3D;
+            ZeroRatatedEndPoint = endPoint3D;
             Update2DProjection();
             is3D = true;
         }
@@ -132,6 +145,8 @@ namespace GrafRedactor
             //EndPoint3D = new Point3D(endPoint);
             _startPoint3D = new Point3D(startPoint);
             _endPoint3D = new Point3D(endPoint);
+            ZeroRatatedStartPoint = _startPoint3D;
+            ZeroRatatedEndPoint = _endPoint3D;
             Update2DProjection();
             is3D = true;
         }
@@ -388,8 +403,20 @@ namespace GrafRedactor
 
         public void Rotate3D(Point3D center, float angleX, float angleY, float angleZ)
         {
-            StartPoint3D = RotatePoint3D(_startPoint3D, center, angleX, angleY, angleZ);
-            EndPoint3D = RotatePoint3D(_endPoint3D, center, angleX, angleY, angleZ);
+            _startPoint3D = RotatePoint3D(ZeroRatatedStartPoint, center, angleX /*+ rotationX*/, angleY/* + rotationY*/, angleZ/* + rotationZ*/);
+            _endPoint3D = RotatePoint3D(ZeroRatatedEndPoint, center, angleX /*+ rotationX*/, angleY/* + rotationY*/, angleZ/* + rotationZ*/);
+            ZeroRatatedStartPoint = _startPoint3D;
+            ZeroRatatedEndPoint = _endPoint3D;
+            //rotationX = angleX + rotationX;
+            //rotationY = angleY + rotationY;
+            //rotationZ = angleZ + rotationZ;
+            Update2DProjection();
+        }
+
+        public void Rotate3DWithScene(Point3D center, float angleX, float angleY, float angleZ) 
+        {
+            _startPoint3D = RotatePoint3D(ZeroRatatedStartPoint, center, angleX /*+ rotationX*/, angleY/* + rotationY*/, angleZ/* + rotationZ*/);
+            _endPoint3D = RotatePoint3D(ZeroRatatedEndPoint, center, angleX /*+ rotationX*/, angleY/* + rotationY*/, angleZ/* + rotationZ*/);
             Update2DProjection();
         }
 
@@ -415,7 +442,51 @@ namespace GrafRedactor
             float y1 = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
             float z1 = x * -sinY + y * sinX * cosY + z * cosX * cosY;
 
-            // Возврат в исходную систему координат
+            if ((Math.Abs(angleZ) > 0.0001f)) 
+            {
+                double angleRad = angleZ * Math.PI / 180.0;
+                double cos = Math.Cos(angleRad);
+                double sin = Math.Sin(angleRad);
+
+                double newX = x * cos - y * sin;
+                double newY = x * sin + y * cos;
+
+                x = (float)newX;
+                y = (float)newY;
+            }
+
+            if ((Math.Abs(angleX) > 0.0001f))
+            {
+                double angleRad = angleX * Math.PI / 180.0;
+                double cos = Math.Cos(angleRad);
+                double sin = Math.Sin(angleRad);
+
+                double newY = y * cos - z * sin;
+                double newZ = y * sin + z * cos;
+
+                y = (float)newY;
+                z = (float)newZ;
+            }
+
+            if ((Math.Abs(angleY) > 0.0001f))
+            {
+                double angleRad = angleY * Math.PI / 180.0;
+                double cos = Math.Cos(angleRad);
+                double sin = Math.Sin(angleRad);
+
+                double newX = x * cos + z * sin;
+                double newZ = -x * sin + z * cos;
+
+                x = (float)newX;
+                z = (float)newZ;
+            }
+
+            // Возврат в исходную систему координат - разницы нет, что первым способом вертеть (x1,y1,z1) что так)
+            return new Point3D(
+                x + center.X,
+                y + center.Y,
+                z + center.Z
+            );
             return new Point3D(
                 x1 + center.X,
                 y1 + center.Y,

@@ -22,12 +22,25 @@ namespace GrafRedactor
             this.margin = margin;
             Initialize(margin, lenght);
         }
+        
 
         private void Initialize(float margin, float lenght)
         {
             axisX = new LineElement3D(new Point3D(margin, margin, 0), new Point3D(margin + lenght, margin, 0), Color.Red, 2f); //System.Drawing.Color.AliceBlue
             axisY = new LineElement3D(new Point3D(margin, margin, 0), new Point3D(margin, margin + lenght, 0), Color.Green, 2f);
             axisZ = new LineElement3D(new Point3D(margin, margin, 0), new Point3D(margin, margin, lenght), Color.Blue, 2f);
+        }
+
+        public MainCoordinateAxes(Point3D center, float lenght)
+        {
+            Initialize(center, lenght);
+        }
+
+        private void Initialize(Point3D center, float lenght)
+        {
+            axisX = new LineElement3D(center, new Point3D(center.X + lenght, center.Y, 0), Color.Red, 2f); //System.Drawing.Color.AliceBlue
+            axisY = new LineElement3D(center, new Point3D(center.X, center.Y + lenght, 0), Color.Green, 2f);
+            axisZ = new LineElement3D(center, new Point3D(center.X, center.Y, lenght), Color.Blue, 2f);
         }
 
         public override bool ContainsPoint(PointF point)
@@ -94,13 +107,14 @@ namespace GrafRedactor
             axisZ.Rotate3D(center, angle, angle, angle);
         }
 
-        public void Rotate3D(float angleX, float angleY, float angleZ)
+        public void Rotate3D(float angleX, float angleY, float angleZ, Point3D center /*= new Point3D(margin, margin, 0)*/)
         {
             //int3D center = new Point3D(margin, margin, 0); ЧЕЕЕРТ ИЗА ЭТОГО Криов возвращалосьт???
-            Point3D center = new Point3D(0, 0, 0);
-            axisX.Rotate3D(center, angleX, angleY, angleZ);
-            axisY.Rotate3D(center, angleX, angleY, angleZ);
-            axisZ.Rotate3D(center, angleX, angleY, angleZ);
+            //Point3D center = new Point3D(0, 0, 0);  
+
+            axisX.Rotate3DWithScene(center, angleX, angleY, angleZ);
+            axisY.Rotate3DWithScene(center, angleX, angleY, angleZ);
+            axisZ.Rotate3DWithScene(center, angleX, angleY, angleZ);
         }
 
         public override void Scale(PointF center, float sx, float sy)

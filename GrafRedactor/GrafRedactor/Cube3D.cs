@@ -118,14 +118,14 @@ namespace GrafRedactor
 
         public override void Rotate(float angle)
         {
-            Rotate3D(0, 0, angle);
+            Rotate3D(0, 0, angle, center);
         }
 
-        public void Rotate3D(float angleX, float angleY, float angleZ)
+        public void Rotate3D(float angleX, float angleY, float angleZ, Point3D center)
         {
             foreach (LineElement3D line in edges) 
             {
-                line.Rotate3D(new Point3D(0,0,0), angleX, angleY, angleZ);
+                line.Rotate3D(center/*new Point3D(0,0,0)ЭТО НЕ ЦЕНТР*/, angleX, angleY, angleZ);
             }
 
             //// Поворачиваем каждую вершину относительно центра куба
@@ -139,6 +139,16 @@ namespace GrafRedactor
 
             //// Обновляем ребра с новыми вершинами
             //UpdateEdgesWithVertices(rotatedVertices);
+            OnPropertyChanged();
+        }
+
+        public void Rotate3DWithScene(float angleX, float angleY, float angleZ, Point3D center) 
+        {
+            foreach (LineElement3D line in edges)
+            {
+                line.Rotate3DWithScene(center/*new Point3D(0,0,0)ЭТО НЕ ЦЕНТР*/, angleX, angleY, angleZ);
+            }
+
             OnPropertyChanged();
         }
 
