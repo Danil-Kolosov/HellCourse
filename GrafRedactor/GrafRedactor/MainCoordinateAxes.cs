@@ -89,7 +89,7 @@ namespace GrafRedactor
             throw new NotImplementedException();
         }
 
-        public override void Move(PointF delta, float height, float weight)
+        public override void Move(PointF delta, float height, float weight, string axeName)
         {
             throw new NotImplementedException();
         }
@@ -99,7 +99,7 @@ namespace GrafRedactor
             throw new NotImplementedException();
         }
 
-        public override void Rotate(float angle)
+        public override void Rotate(float angle, PointF cent)
         {
             Point3D center = new Point3D(margin, margin, 0);
             axisX.Rotate3D(center, angle, angle, angle);

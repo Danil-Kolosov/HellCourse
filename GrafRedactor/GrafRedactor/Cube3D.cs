@@ -94,31 +94,63 @@ namespace GrafRedactor
         }
 
         // ОБНОВЛЯЕМ ВСЕ МЕТОДЫ ДВИЖЕНИЯ И ПРЕОБРАЗОВАНИЙ
-        public override void Move(PointF delta, float height, float width)
+        public override void Move(PointF delta, float height, float width, string axeName)
         {
             //center = new Point3D(center.X + delta.X, center.Y + delta.Y, center.Z);
             foreach (LineElement3D line in edges)
             {
                 line.Move(delta, height, width);
             }
+            center.X = center.X + delta.X;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            center.Y = center.Y + delta.Y;
             //UpdateCubeGeometry();
             //OnPropertyChanged();
         }
 
         public void Move3D(Point3D delta)
         {
-            center = new Point3D(center.X + delta.X, center.Y + delta.Y, center.Z + delta.Z);
+            center.X += delta.X;
+            center.Y += delta.Y;
+            center.Z += delta.Z;
             foreach (LineElement3D line in edges)
             {
-                line.Move3D(delta);
+                line.Move3D(delta); //сделать как мув групп!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                главное - сделать чтобы рисовательная область и панель параметров не были закрываемы сверху и снизу
+                    операции 3д
             }
             //UpdateCubeGeometry();
-            OnPropertyChanged();
+            //OnPropertyChanged();
         }
 
-        public override void Rotate(float angle)
+        public override void Rotate(float angle, PointF cent)
         {
-            Rotate3D(0, 0, angle, center);
+            if(cent.IsEmpty)
+                Rotate3D(0, 0, angle, center);
+            else
+                Rotate3D(0, 0, angle, new Point3D(cent));
         }
 
         public void Rotate3D(float angleX, float angleY, float angleZ, Point3D center)
@@ -127,6 +159,13 @@ namespace GrafRedactor
             {
                 line.Rotate3D(center/*new Point3D(0,0,0)ЭТО НЕ ЦЕНТР*/, angleX, angleY, angleZ);
             }
+
+            this.center = RotatePoint3D(Center, center, angleX, angleY, angleZ);
+            //если куб вращается относительно какой-то точки (начла координта), то почему-то его центр вращается не правильно
+            this.center.X = edges[0].StartPoint3D.X + size / 2;
+            this.center.Y = edges[0].StartPoint3D.Y + size / 2;
+            this.center.Z = edges[0].StartPoint3D.Z + size / 2;
+            //пока так
 
             //// Поворачиваем каждую вершину относительно центра куба
             //Point3D[] vertices = CalculateVertices();
@@ -139,7 +178,7 @@ namespace GrafRedactor
 
             //// Обновляем ребра с новыми вершинами
             //UpdateEdgesWithVertices(rotatedVertices);
-            OnPropertyChanged();
+            //OnPropertyChanged();
         }
 
         public void Rotate3DWithScene(float angleX, float angleY, float angleZ, Point3D center) 
@@ -332,7 +371,20 @@ namespace GrafRedactor
             // Не реализовано для куба
         }
 
-        public Point3D Center => center;
+        //public Point3D Center => center;
+        public Point3D Center 
+        {
+            get 
+            {
+                return center;
+            }
+            set 
+            {
+                Point3D delta = new Point3D(-center.X + value.X, -center.Y + value.Y, -center.Z + value.Z);
+                Move3D(delta);
+                center = value; //это уже в move3d учтено                
+            }
+        }
         public float Size => size;
         public Color CubeColor => color;
     }

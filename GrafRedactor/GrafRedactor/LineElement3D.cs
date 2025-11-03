@@ -387,17 +387,77 @@ namespace GrafRedactor
                 _endPoint3D.Y + delta.Y,
                 _endPoint3D.Z + delta.Z
             );
+            ZeroRatatedStartPoint = _startPoint3D;
+            ZeroRatatedEndPoint = _endPoint3D;
         }
 
         // Переопределяем методы для работы с 3D
-        public override void Move(PointF delta, float height, float width) 
+        public override void Move(PointF delta, float height, float width, string axeName = "xoy") 
         {
-            base.Move(delta, height, width);
-            StartPoint3D.X = StartPoint.X;
-            StartPoint3D.Y = StartPoint.Y;
+            switch (axeName) 
+            {
+                case "xoy":
+                    base.Move(delta, height, width);
+                    StartPoint3D.X = StartPoint.X;
+                    StartPoint3D.Y = StartPoint.Y;
+                    EndPoint3D.X = EndPoint.X;
+                    EndPoint3D.Y = EndPoint.Y;
+                    ZeroRatatedStartPoint = _startPoint3D;
+                    ZeroRatatedEndPoint = _endPoint3D;
+                    break;
+                case "yoz":
+                    //StartPoint3D = new Point3D(StartPoint3D.X, StartPoint3D.Y + delta.X, StartPoint3D.Z + delta.Y);
+                    //EndPoint3D = new Point3D(EndPoint3D.X, EndPoint3D.Y + delta.X, EndPoint3D.Z + delta.Y);
+                    base.Move(delta, height, width);
+                    StartPoint3D.X = StartPoint.X;
+                    StartPoint3D.Y = StartPoint.Y;
+                    EndPoint3D.X = EndPoint.X;
+                    EndPoint3D.Y = EndPoint.Y;
+                    ZeroRatatedStartPoint.Y += delta.X;
+                    ZeroRatatedStartPoint.Z += delta.Y;
+                    ZeroRatatedEndPoint.Y += delta.X;
+                    ZeroRatatedEndPoint.Z += delta.Y;
+                    //base.Move(delta, height, width);
+                    //StartPoint3D.X = StartPoint.X;
+                    //StartPoint3D.Y = StartPoint.Y;
+                    //EndPoint3D.X = EndPoint.X;
+                    //EndPoint3D.Y = EndPoint.Y;
+                    //Point3D tempPoint = new Point3D(ZeroRatatedStartPoint.X, ZeroRatatedStartPoint.Y, ZeroRatatedStartPoint.Z);
+                    //StartPoint3D.X = 0;
+                    //StartPoint3D.Y = tempPoint.X;
+                    //StartPoint3D.Z = tempPoint.Y;
+                    //tempPoint = new Point3D(EndPoint3D.X, EndPoint3D.Y, EndPoint3D.Z);
+                    //EndPoint3D.X = 0;
+                    //EndPoint3D.Y = tempPoint.X;
+                    //EndPoint3D.Z = tempPoint.Y;
+                    break;
+                case "xoz":
+                    base.Move(delta, height, width);
+                    StartPoint3D.X = StartPoint.X;
+                    StartPoint3D.Y = StartPoint.Y;
+                    EndPoint3D.X = EndPoint.X;
+                    EndPoint3D.Y = EndPoint.Y;
+                    ZeroRatatedStartPoint.X += delta.X;
+                    ZeroRatatedStartPoint.Z += delta.Y;
+                    ZeroRatatedEndPoint.X += delta.X;
+                    ZeroRatatedEndPoint.Z += delta.Y;
+                    break;
+            }
 
-            EndPoint3D.X = EndPoint.X;
-            EndPoint3D.Y = EndPoint.Y;
+            Update2DProjection();
+
+            //StartPoint3D.X = StartPoint.X;
+            //StartPoint3D.Y = StartPoint.Y;
+
+            //EndPoint3D.X = EndPoint.X;
+            //EndPoint3D.Y = EndPoint.Y;
+
+            //это лишнее при изменении свойств происходит
+            //ZeroRatatedStartPoint = _startPoint3D;
+            //ZeroRatatedEndPoint = _endPoint3D;
+
+
+
             //Move3D(new Point3D(delta.X, delta.Y, 0));
         }
 

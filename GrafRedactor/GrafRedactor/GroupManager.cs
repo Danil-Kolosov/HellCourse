@@ -157,7 +157,7 @@ namespace GrafRedactor
         }
 
         // Остальные методы остаются без изменений...
-        public void MoveGroup(string groupId, PointF delta, float height, float weight)
+        public void MoveGroup(string groupId, PointF delta, float height, float weight, string axeName)
         {
             if (groups.ContainsKey(groupId))
             {
@@ -170,7 +170,7 @@ namespace GrafRedactor
                 // Если можно - перемещаем все элементы
                 foreach (var element in groups[groupId])
                 {
-                    element.Move(delta, height, weight);
+                    element.Move(delta, height, weight, axeName);
                 }       
             }
         }

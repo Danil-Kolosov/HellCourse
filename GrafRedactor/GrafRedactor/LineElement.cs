@@ -139,7 +139,7 @@ namespace GrafRedactor
                                 maxX - minX + Thickness * 2, maxY - minY + Thickness * 2);
         }
 
-        public override void Move(PointF delta, float height, float weight)
+        public override void Move(PointF delta, float height, float weight, string axeName = "xoy")
         {
             if (_startPoint.X + delta.X > weight)
                 delta.X = weight - _startPoint.X;
@@ -164,13 +164,21 @@ namespace GrafRedactor
             EndPoint = new PointF(/*Math.Max(0, Math.Min(*/_endPoint.X + delta.X/*, weight))*/, /*Math.Max(0, Math.Min(*/_endPoint.Y + delta.Y/*, height))*/);
         }
 
-        public override void Rotate(float angle)
+        public override void Rotate(float angle, PointF cent = new PointF())
         {
-            // Вращение вокруг центра линии
-            PointF center = new PointF(
-                (_startPoint.X + _endPoint.X) / 2,
-                (_startPoint.Y + _endPoint.Y) / 2
-            );
+            PointF center;
+            if (cent.IsEmpty)
+            {
+                // Вращение вокруг центра линии
+                center = new PointF(
+                    (_startPoint.X + _endPoint.X) / 2,
+                    (_startPoint.Y + _endPoint.Y) / 2
+                );
+            }
+            else
+            {
+                center = cent;
+            }            
 
             float angleRad = angle * (float)Math.PI / 180f; //Из-за того, что система координат экрана перевернутая
                                                              //- в нормальной системе будет выглядеть что формула вращает
