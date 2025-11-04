@@ -93,7 +93,7 @@
             // кубToolStripMenuItem
             // 
             this.кубToolStripMenuItem.Name = "кубToolStripMenuItem";
-            this.кубToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.кубToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.кубToolStripMenuItem.Text = "Куб";
             this.кубToolStripMenuItem.Click += new System.EventHandler(this.кубToolStripMenuItem_Click);
             // 
@@ -110,21 +110,21 @@
             // yOzToolStripMenuItem
             // 
             this.yOzToolStripMenuItem.Name = "yOzToolStripMenuItem";
-            this.yOzToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.yOzToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
             this.yOzToolStripMenuItem.Text = "xOY";
             this.yOzToolStripMenuItem.Click += new System.EventHandler(this.xOyToolStripMenuItem_Click);
             // 
             // yOzToolStripMenuItem1
             // 
             this.yOzToolStripMenuItem1.Name = "yOzToolStripMenuItem1";
-            this.yOzToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.yOzToolStripMenuItem1.Size = new System.Drawing.Size(96, 22);
             this.yOzToolStripMenuItem1.Text = "yOz";
             this.yOzToolStripMenuItem1.Click += new System.EventHandler(this.yOzToolStripMenuItem1_Click);
             // 
             // xOzToolStripMenuItem
             // 
             this.xOzToolStripMenuItem.Name = "xOzToolStripMenuItem";
-            this.xOzToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.xOzToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
             this.xOzToolStripMenuItem.Text = "xOz";
             this.xOzToolStripMenuItem.Click += new System.EventHandler(this.xOzToolStripMenuItem_Click);
             // 

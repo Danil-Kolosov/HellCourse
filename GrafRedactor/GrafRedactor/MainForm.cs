@@ -55,7 +55,7 @@ namespace GrafRedactor
         private ComboBox comboOperation;
         private Button btnDelete;
         private Label lblStartPoint, lblEndPoint, lblStartX, lblStartY, lblEndX, lblEndY, lblThickness, lblColor, lblOperations, 
-            lblEquation, lblStartZ, lblEndZ, lblCubeCenterPoint;
+            lblEquation, lblEquation3D, lblStartZ, lblEndZ, lblCubeCenterPoint;
 
         // Константы для размеров
         private const int PARAMETERS_PANEL_WIDTH = 450;
@@ -140,11 +140,20 @@ namespace GrafRedactor
             {
                 Text = "Уравнение прямой\n",
                 Location = new Point(20, y+20),
-                Size = new Size(400, 25),
+                Size = new Size(150, 25),
                 Font = new Font("Arial", 12),
                 //ForeColor = Color.Black
-            };
+            };            
             parametersPanel.Controls.Add(lblEquation);
+            lblEquation3D
+                = new Label
+                {
+                    Text = "Уравнение прямой 3D\n",
+                    Location = new Point(170, y + 25),
+                    Size = new Size(400, 25),
+                    Font = new Font("Arial", 9),
+                };
+            parametersPanel.Controls.Add(lblEquation3D);
             y += 40;
 
             // Координаты начальной точки
@@ -194,6 +203,15 @@ namespace GrafRedactor
 
             //Операции
             lblOperations = AddLabel("Операции:", 180, y - 65);
+            //lblEquation3D
+            //    = new Label
+            //    {
+            //        Text = "Уравнение прямой 3D\n",
+            //        Location = new Point(160, y - 10),
+            //        Size = new Size(400, 25),
+            //        Font = new Font("Arial", 9),
+            //    };
+            //parametersPanel.Controls.Add(lblEquation3D);
             comboOperation = new ComboBox
             {
                 Location = new Point(180, y - 40),
@@ -274,18 +292,34 @@ namespace GrafRedactor
         // Обновление позиции панели параметров при изменении размера формы
         private void UpdateParametersPanelPosition()
         {
+            //старое сверху закрывается
+            //if (parametersPanel != null)
+            //{
+            //    parametersPanel.Location = new Point(this.ClientSize.Width - PARAMETERS_PANEL_WIDTH, 0);
+            //    parametersPanel.Height = this.ClientSize.Height;
+            //}
+
             if (parametersPanel != null)
             {
-                parametersPanel.Location = new Point(this.ClientSize.Width - PARAMETERS_PANEL_WIDTH, 0);
-                parametersPanel.Height = this.ClientSize.Height;
+                int menuHeight = menuStrip.Height;
+                parametersPanel.Location = new Point(this.ClientSize.Width - PARAMETERS_PANEL_WIDTH, menuHeight);
+                parametersPanel.Height = this.ClientSize.Height - menuHeight - (statusStrip?.Height ?? 0);
             }
         }
 
         // Получение области рисования (вся форма минус панель параметров)
         private Rectangle GetDrawingArea()
         {
-            int drawingWidth = this.ClientSize.Width - (/*parametersPanel.Visible ?*/ PARAMETERS_PANEL_WIDTH/* : 0*/);
-            return new Rectangle(0, 0, drawingWidth, this.ClientSize.Height);
+            //это рабочее старое - но тут сверху панель параметров закрывалась стрип меню
+            //int drawingWidth = this.ClientSize.Width - (/*parametersPanel.Visible ?*/ PARAMETERS_PANEL_WIDTH/* : 0*/);
+            //return new Rectangle(0, 0, drawingWidth, this.ClientSize.Height);
+
+            int menuHeight = menuStrip.Height;
+            int statusHeight = statusStrip?.Height ?? 0;
+            int drawingWidth = this.ClientSize.Width - PARAMETERS_PANEL_WIDTH;
+            int drawingHeight = this.ClientSize.Height - menuHeight - statusHeight;
+
+            return new Rectangle(0, menuHeight, drawingWidth, drawingHeight);
         }
 
         // Обработчик изменения размера формы
@@ -401,9 +435,24 @@ namespace GrafRedactor
                 numThickness.Value = (decimal)line.Thickness;
                 if (line is LineElement3D line3D)
                 {
-                    lblEquation.Text = $"Уравнение прямой 3D";
-                    numStartZ.Value = (decimal)line3D.StartPoint3D.Z;
-                    numEndZ.Value = (decimal)line3D.EndPoint3D.Z;                    
+                    //lblEquation.Text = $"Уравнение прямой 3D " + line3D.GetCanonicalEquation3D();
+                    lblEquation.Text = "Уравнение прямой 3D";
+                    lblEquation3D.Visible = true;
+                    lblEquation3D.Text = line3D.GetCanonicalEquation3D();
+
+                    //старое - не реальное
+                    //numStartZ.Value = (decimal)line3D.StartPoint3D.Z;
+                    //numEndZ.Value = (decimal)line3D.EndPoint3D.Z;
+                    // Используем реальные координаты
+                    var realStart = line3D.GetRealStartPoint();
+                    var realEnd = line3D.GetRealEndPoint();
+
+                    numStartX.Value = (decimal)realStart.X;
+                    numStartY.Value = (decimal)realStart.Y;
+                    numStartZ.Value = (decimal)realStart.Z;
+                    numEndX.Value = (decimal)realEnd.X;
+                    numEndY.Value = (decimal)realEnd.Y;
+                    numEndZ.Value = (decimal)realEnd.Z;
 
                     lblStartZ.Visible = true;
                     lblEndZ.Visible = true;
@@ -416,6 +465,8 @@ namespace GrafRedactor
                     lblEndZ.Visible = false;
                     numStartZ.Visible = false;
                     numEndZ.Visible = false;
+                    lblEquation.Visible = true;
+                    lblEquation3D.Visible = false;
                 }
 
                 // Восстанавливаем обработчики
@@ -505,8 +556,14 @@ namespace GrafRedactor
 
             if(selectedFigure is LineElement3D line3d && !isDragging && !isResizing) 
             {
-                line3d.StartPoint3D = new Point3D((float)numStartX.Value, (float)numStartY.Value, (float)numStartZ.Value);
-                line3d.EndPoint3D = new Point3D((float)numEndX.Value, (float)numEndY.Value, (float)numEndZ.Value);
+                //старое не реальное
+                //line3d.StartPoint3D = new Point3D((float)numStartX.Value, (float)numStartY.Value, (float)numStartZ.Value);
+                //line3d.EndPoint3D = new Point3D((float)numEndX.Value, (float)numEndY.Value, (float)numEndZ.Value);
+                // Устанавливаем реальные координаты
+                Point3D newStart = new Point3D((float)numStartX.Value, (float)numStartY.Value, (float)numStartZ.Value);
+                Point3D newEnd = new Point3D((float)numEndX.Value, (float)numEndY.Value, (float)numEndZ.Value);
+
+                line3d.SetRealPoints(newStart, newEnd, CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
                 line3d.Thickness = (float)numThickness.Value;
                 this.Invalidate();
             }
@@ -608,7 +665,7 @@ namespace GrafRedactor
 
         private void СomboOperation_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (selectedFigure is LineElement line)
+            if (selectedFigure is LineElement line || selectedFigure is Cube3D cube)
             {
                 switch (comboOperation.SelectedItem.ToString()) 
                 {
@@ -667,32 +724,77 @@ namespace GrafRedactor
             return true;
         }
 
-        private bool CanPerformScaling(float scaleX, float scaleY)
+        private /*(bool, List<FigureElement>)*/bool CanPerformScaling(float scaleX, float scaleY, float scaleZ = 1)
         {
             var drawingArea = GetDrawingArea();
+            //List<FigureElement> 
 
             foreach (var figure in selectedFigures)
             {
-                if (figure is LineElement line)
+                if (figure is LineElement3D line3d) 
                 {
                     // Создаем копию линии для проверки
-                    var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
+                    var testLine = new LineElement3D(line3d.ZeroRatatedStartPoint, line3d.ZeroRatatedEndPoint, line3d.Color, line3d.Thickness);
 
-                    PointF center = new PointF(
-                        (testLine.StartPoint.X + testLine.EndPoint.X) / 2,
-                        (testLine.StartPoint.Y + testLine.EndPoint.Y) / 2
+                    Point3D center = new Point3D(
+                        (testLine.ZeroRatatedStartPoint.X + testLine.ZeroRatatedEndPoint.X) / 2,
+                        (testLine.ZeroRatatedStartPoint.Y + testLine.ZeroRatatedEndPoint.Y) / 2,
+                        (testLine.ZeroRatatedStartPoint.Z + testLine.ZeroRatatedEndPoint.Z) / 2
                     );
 
-                    testLine.Scale(center, scaleX, scaleY);
+                    testLine.Scale(center, scaleX, scaleY, scaleZ);
+                    testLine.Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
 
                     if (testLine.EndPoint.X < 0 || testLine.EndPoint.X > drawingArea.Width
-                        || testLine.EndPoint.Y < 0 || testLine.EndPoint.Y > drawingArea.Height
+                        || testLine.EndPoint3D.Y < 0 || testLine.EndPoint3D.Y > drawingArea.Height
                         || testLine.StartPoint.X < 0 || testLine.StartPoint.X > drawingArea.Width
                         || testLine.StartPoint.Y < 0 || testLine.StartPoint.Y > drawingArea.Width)
                         return false;
+                        //return (false, null);
+                    //return (true, testLine);
+                }
+                else
+                {
+                    if (figure is Cube3D cube) 
+                    {
+                        // Создаем копию линии для проверки
+                        var testCube = new Cube3D(cube.Center, cube.Size, cube.Color);
+
+                        testCube.Scale(cube.Center, scaleX, scaleY, scaleZ);
+                        testCube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter());
+
+                        if (!drawingArea.Contains(Point.Round(testCube.Center.ToPoint2D())) || testCube.Center.Z > 10000)
+                            return false;
+                            //return (false, null);
+                        //return (true, testCube);
+                    }
+                    else
+                    {
+                        if (figure is LineElement line)
+                        {
+                            // Создаем копию линии для проверки
+                            var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
+
+                            PointF center = new PointF(
+                                (testLine.StartPoint.X + testLine.EndPoint.X) / 2,
+                                (testLine.StartPoint.Y + testLine.EndPoint.Y) / 2
+                            );
+
+                            testLine.Scale(center, scaleX, scaleY);
+
+                            if (testLine.EndPoint.X < 0 || testLine.EndPoint.X > drawingArea.Width
+                                || testLine.EndPoint.Y < 0 || testLine.EndPoint.Y > drawingArea.Height
+                                || testLine.StartPoint.X < 0 || testLine.StartPoint.X > drawingArea.Width
+                                || testLine.StartPoint.Y < 0 || testLine.StartPoint.Y > drawingArea.Width)
+                                return false;
+                                //return (false, null);
+                            //return (true, testLine);
+                        }
+                    }
                 }
             }
             return true;
+            //return (false, null);
         }
 
         private bool CanPerformMirror(float A, float B, float C)
@@ -883,122 +985,129 @@ namespace GrafRedactor
                 "Введите относительно чего будет вращаться объект: своего центра или начала координат\n(0 - вокруг своего центра, " +
                 "1 - начала координат)",
         "3D Вращение", "0");
-            int byWhatRotate = -1;
-            if (!int.TryParse(byZeroOrLineCenter, out byWhatRotate)) 
+            if (!string.IsNullOrEmpty(byZeroOrLineCenter))
             {
-                throw new ArgumentException("Необходимо ввыбрать относительно чего вращать объект\n(0 - вокруг своего центра, 1 - начала координат)");
-            }
-            string input = Microsoft.VisualBasic.Interaction.InputBox(
-            "Введите углы вращения вокруг осей X, Y, Z через запятую в градусах\n(например: 0, 45, 0 для вращения вокруг Y):",
-            "3D Вращение", "0, 0, 0");
-
-            if (!string.IsNullOrEmpty(input))
-            {
-                try
+                int byWhatRotate = -1;
+                if (!int.TryParse(byZeroOrLineCenter, out byWhatRotate))
                 {
-                    string[] parts = input.Split(',');
-                    if (parts.Length != 3)
-                        throw new ArgumentException("Необходимо ввести 3 значения: угол_X, угол_Y, угол_Z");
-
-                    float angleX = float.Parse(parts[0].Trim(), System.Globalization.CultureInfo.InvariantCulture);
-                    float angleY = float.Parse(parts[1].Trim(), System.Globalization.CultureInfo.InvariantCulture);
-                    float angleZ = float.Parse(parts[2].Trim(), System.Globalization.CultureInfo.InvariantCulture);
-
-                    bool any3DObject = false;
-
-                    if (isGroupSelected && currentGroupId != null) //черт
-                    {
-                        // Для групп - вращаем вокруг центра группы
-                        var groupElements = groupManager.GetGroupElements(currentGroupId);
-                        Point3D groupCenter;
-                        if (byWhatRotate == 0)
-                            groupCenter = groupManager.GetGroupCenter3D(selectedFigure.GroupId);
-                        else
-                            groupCenter = CalculateSceneCenter();
-
-                        foreach (var figure in groupElements)
-                        {
-                            if (figure is LineElement3D line3D)
-                            {
-                                line3D.Rotate3D(groupCenter, angleX, angleY, angleZ);
-                                any3DObject = true;
-                            }
-                            else if (figure is Cube3D cube)
-                            {
-                                cube.Rotate3D(angleX, angleY, angleZ, CalculateSceneCenter());
-                                any3DObject = true;
-                            }
-                            else
-                            {
-                                // Для 2D объектов - только вращение вокруг Z
-                                figure.Rotate(angleZ, groupCenter.ToPoint2D());
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // Для отдельных фигур
-                        foreach (var figure in selectedFigures)
-                        {
-                            if (figure is LineElement3D line3D)
-                            {
-                                Point3D lineCenter;
-                                if (byWhatRotate == 0)
-                                // Для линии - вращаем вокруг ее центра
-                                {
-                                    lineCenter = new Point3D(
-                                    (line3D.StartPoint3D.X + line3D.EndPoint3D.X) / 2,
-                                    (line3D.StartPoint3D.Y + line3D.EndPoint3D.Y) / 2,
-                                    (line3D.StartPoint3D.Z + line3D.EndPoint3D.Z) / 2
-                                );
-                                }
-                                else
-                                {
-                                    lineCenter = CalculateSceneCenter();
-                                }
-                                    line3D.Rotate3D(lineCenter, angleX, angleY, angleZ);
-                                any3DObject = true;
-                            }
-                            else if (figure is Cube3D cube)
-                            {
-                                Point3D cubeCenter;
-                                if (byWhatRotate == 0)
-                                {
-                                    cubeCenter = cube.Center;
-                                }
-                                else 
-                                {
-                                    cubeCenter = CalculateSceneCenter();
-                                }
-                                cube.Rotate3D(angleX, angleY, angleZ, cubeCenter);
-                                any3DObject = true;
-                            }
-                            else
-                            {
-                                // Для 2D объектов - только вращение вокруг Z
-                                if (byWhatRotate == 0)
-                                    figure.Rotate(angleZ);
-                                else
-                                    figure.Rotate(angleZ, CalculateSceneCenter().ToPoint2D());
-                            }
-                        }
-                    }
-
-                    if (!any3DObject)
-                    {
-                        MessageBox.Show("Вращение применено только вокруг оси Z (выбраны только 2D объекты)",
-                                      "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-
-                    UpdateParametersPanel();
-                    this.Invalidate();
-                    MessageBox.Show($"3D вращение применено: X={angleX}°, Y={angleY}°, Z={angleZ}°", "Успех",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    throw new ArgumentException("Необходимо ввыбрать относительно чего вращать объект\n(0 - вокруг своего центра, 1 - начала координат)");
                 }
-                catch (Exception ex)
+                string input = Microsoft.VisualBasic.Interaction.InputBox(
+                "Введите углы вращения вокруг осей X, Y, Z через запятую в градусах\n(например: 0, 45, 0 для вращения вокруг Y):",
+                "3D Вращение", "0, 0, 0");
+
+                if (!string.IsNullOrEmpty(input))
                 {
-                    MessageBox.Show($"Ошибка ввода: {ex.Message}\nВведите углы в формате: 0, 45, 0", "Ошибка",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    try
+                    {
+                        string[] parts = input.Split(',');
+                        if (parts.Length != 3)
+                            throw new ArgumentException("Необходимо ввести 3 значения: угол_X, угол_Y, угол_Z");
+
+                        float angleX = float.Parse(parts[0].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+                        float angleY = float.Parse(parts[1].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+                        float angleZ = float.Parse(parts[2].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+
+                        bool any3DObject = false;
+
+                        if (isGroupSelected && currentGroupId != null) //черт
+                        {
+                            // Для групп - вращаем вокруг центра группы
+                            var groupElements = groupManager.GetGroupElements(currentGroupId);
+                            Point3D groupCenter;
+                            if (byWhatRotate == 0)
+                                groupCenter = groupManager.GetGroupCenter3D(selectedFigure.GroupId);
+                            else
+                                groupCenter = CalculateSceneCenter();
+
+                            foreach (var figure in groupElements)
+                            {
+                                if (figure is LineElement3D line3D)
+                                {
+                                    line3D.Rotate3D(groupCenter, angleX, angleY, angleZ);
+                                    any3DObject = true;
+                                    line3D.Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                                }
+                                else if (figure is Cube3D cube)
+                                {
+                                    cube.Rotate3D(angleX, angleY, angleZ, CalculateSceneCenter());
+                                    any3DObject = true;
+                                    cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter());
+                                }
+                                else
+                                {
+                                    // Для 2D объектов - только вращение вокруг Z
+                                    figure.Rotate(angleZ, groupCenter.ToPoint2D());
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // Для отдельных фигур
+                            foreach (var figure in selectedFigures)
+                            {
+                                if (figure is LineElement3D line3D)
+                                {
+                                    Point3D lineCenter;
+                                    if (byWhatRotate == 0)
+                                    // Для линии - вращаем вокруг ее центра
+                                    {
+                                        lineCenter = new Point3D(
+                                        (line3D.StartPoint3D.X + line3D.EndPoint3D.X) / 2,
+                                        (line3D.StartPoint3D.Y + line3D.EndPoint3D.Y) / 2,
+                                        (line3D.StartPoint3D.Z + line3D.EndPoint3D.Z) / 2
+                                    );
+                                    }
+                                    else
+                                    {
+                                        lineCenter = CalculateSceneCenter();
+                                    }
+                                    line3D.Rotate3D(lineCenter, angleX, angleY, angleZ);
+                                    any3DObject = true;
+                                    line3D.Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                                }
+                                else if (figure is Cube3D cube)
+                                {
+                                    Point3D cubeCenter;
+                                    if (byWhatRotate == 0)
+                                    {
+                                        cubeCenter = cube.Center;
+                                    }
+                                    else
+                                    {
+                                        cubeCenter = CalculateSceneCenter();
+                                    }
+                                    cube.Rotate3D(angleX, angleY, angleZ, cubeCenter);
+                                    any3DObject = true;
+                                    cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter());
+                                }
+                                else
+                                {
+                                    // Для 2D объектов - только вращение вокруг Z
+                                    if (byWhatRotate == 0)
+                                        figure.Rotate(angleZ);
+                                    else
+                                        figure.Rotate(angleZ, CalculateSceneCenter().ToPoint2D());
+                                }
+                            }
+                        }
+
+                        if (!any3DObject)
+                        {
+                            MessageBox.Show("Вращение применено только вокруг оси Z (выбраны только 2D объекты)",
+                                          "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+
+                        UpdateParametersPanel();
+                        this.Invalidate();
+                        MessageBox.Show($"3D вращение применено: X={angleX}°, Y={angleY}°, Z={angleZ}°", "Успех",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка ввода: {ex.Message}\nВведите углы в формате: 0, 45, 0", "Ошибка",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
@@ -1017,7 +1126,7 @@ namespace GrafRedactor
 
                     if (isGroupSelected && currentGroupId != null)
                     {
-                        if (!groupManager.RotateGroup(currentGroupId, angle, GetDrawingArea()))
+                        if (!groupManager.RotateGroup(currentGroupId, 0, 0, angle, new Point3D(groupManager.GetGroupCenter(currentGroupId), 0), GetDrawingArea()))
                         {
                             MessageBox.Show("Ошибка: вращение выносит элементы за границы экрана", "Ошибка",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1054,6 +1163,18 @@ namespace GrafRedactor
         }
 
         private void ApplyScaling()
+        {
+            if (selectedFigure.Is3D)
+            {
+                ApplyScaling3D();
+            }
+            else
+            {
+                ApplyScaling2D();
+            }
+        }
+
+        private void ApplyScaling2D()
         {
             string input = Microsoft.VisualBasic.Interaction.InputBox(
                 "Введите масштаб по X и Y через запятую (например: 1.5, 0.8):",
@@ -1119,7 +1240,95 @@ namespace GrafRedactor
             }
         }
 
+        private void ApplyScaling3D()
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox(
+                "Введите масштаб по X, Y и Z через запятую (например: 1.5, 0.8, 5):",
+                "Масштабирование", "1, 1, 1");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                try
+                {
+                    string[] parts = input.Split(',');
+                    float sx = float.Parse(parts[0].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+                    float sy = float.Parse(parts[1].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+                    float sz = float.Parse(parts[2].Trim(), System.Globalization.CultureInfo.InvariantCulture);
+
+                    if (isGroupSelected && currentGroupId != null)
+                    {
+                        // Для группы применяем равномерное масштабирование по минимальному коэффициенту
+                        //Почему это? Нет
+                        //float uniformScale = Math.Min(sx, sy);
+                        //groupManager.ScaleGroup(currentGroupId, uniformScale);
+                        if (!groupManager.ScaleGroup(currentGroupId, sx, sy, GetDrawingArea(), sz))
+                        {
+                            MessageBox.Show("Ошибка: масштабирование выносит элементы за границы экрана", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                    }
+                    else
+                    {
+                        if (CanPerformScaling(sx, sy, sz))
+                        {
+                            foreach (var figure in selectedFigures)
+                            {
+                                // Для отдельных линий - раздельное масштабирование
+                                if (figure is LineElement3D line3d)
+                                {
+                                    Point3D center = new Point3D(
+                                        (line3d.ZeroRatatedStartPoint.X + line3d.ZeroRatatedEndPoint.X) / 2,
+                                        (line3d.ZeroRatatedStartPoint.Y + line3d.ZeroRatatedEndPoint.Y) / 2,
+                                        (line3d.ZeroRatatedStartPoint.Z + line3d.ZeroRatatedEndPoint.Z) / 2
+                                    );
+                                    
+                                    line3d.Scale(center, sx, sy, sz);
+                                    line3d.Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                                }
+                                else
+                                {
+                                    if (figure is Cube3D cube)
+                                    {
+                                        cube.Scale(cube.Center, sx, sy, sz);
+                                    }
+                                }                                
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка: масштабирование выносит элементы за границы экрана", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                    UpdateParametersPanel();
+                    this.Invalidate();
+                    MessageBox.Show($"Масштабирование применено: X={sx}, Y={sy}, Z={sz}", "Успех",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка ввода: {ex.Message}\nВведите числа в формате: 1.5, 0.8, 5", "Ошибка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void ApplyUniformScaling()
+        {
+            if (selectedFigure.Is3D)
+            {
+                ApplyUniformScaling3D();
+            }
+            else
+            {
+                ApplyUniformScaling2D();
+            }
+        }
+
+        private void ApplyUniformScaling2D()
         {
             string input = Microsoft.VisualBasic.Interaction.InputBox(
                 "Введите коэффициент масштабирования (например: 1.5 для увеличения в 1.5 раза):",
@@ -1147,6 +1356,65 @@ namespace GrafRedactor
                             foreach (var figure in selectedFigures)
                             {
                                 figure.ScaleAverage(scale);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Ошибка: масштабирование выносит элементы за границы экрана", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                    UpdateParametersPanel();
+                    this.Invalidate();
+                    MessageBox.Show($"Масштабирование применено: коэффициент {scale}", "Успех",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка ввода: {ex.Message}\nВведите число", "Ошибка",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void ApplyUniformScaling3D()
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox(
+                "Введите коэффициент масштабирования (например: 1.5 для увеличения в 1.5 раза):",
+                "Общее масштабирование", "1");
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                try
+                {
+                    float scale = float.Parse(input.Trim(), System.Globalization.CultureInfo.InvariantCulture);
+
+                    if (isGroupSelected && currentGroupId != null)
+                    {
+                        if (!groupManager.ScaleGroupAverage(currentGroupId, scale, GetDrawingArea(), CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ))
+                        {
+                            MessageBox.Show("Ошибка: масштабирование выносит элементы за границы экрана", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (CanPerformScaling(scale, scale))
+                        {
+                            foreach (var figure in selectedFigures)
+                            {
+                                if(figure is LineElement3D line)
+                                {
+                                    line.ScaleAverage(scale);
+                                    line.Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                                }
+                                if (figure is Cube3D cube)
+                                {
+                                    cube.ScaleAverage(scale);
+                                    cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter());
+                                }
                             }
                         }
                         else
@@ -1549,6 +1817,7 @@ namespace GrafRedactor
             selectedFigure.IsSelected = true;
             selectedFigures.Add(cube);
             cube.Rotate3D(30, 30, 30, /*cubeCenter*/CalculateSceneCenter());
+            cube.Rotate3D(-30, -30, -30, /*cubeCenter*/CalculateSceneCenter());
             // Обновляем интерфейс
             UpdateParametersPanel();
             this.Invalidate();

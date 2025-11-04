@@ -470,7 +470,7 @@ namespace GrafRedactor
             //rotationX = angleX + rotationX;
             //rotationY = angleY + rotationY;
             //rotationZ = angleZ + rotationZ;
-            Update2DProjection();
+            Update2DProjection(); //ВНИМАНИЕ - БЫЛО - tОГДА КУБ ПРИ +30 И -30 НА ИСХОДНОЕ МЕСТО НЕ ВСТАВАЛ
         }
 
         public void Rotate3DWithScene(Point3D center, float angleX, float angleY, float angleZ) 
@@ -552,6 +552,117 @@ namespace GrafRedactor
                 y1 + center.Y,
                 z1 + center.Z
             );
+        }
+
+        public virtual void Scale(Point3D center, float sx, float sy, float sz)
+        {
+            _startPoint = ZeroRatatedStartPoint.ToPoint2D();
+            _endPoint = ZeroRatatedEndPoint.ToPoint2D();
+            base.Scale(center.ToPoint2D(), sx, sy);
+            _startPoint3D = new Point3D(ScalePoint(ZeroRatatedStartPoint.ToPoint2D(), center.ToPoint2D(), sx, sy), (ZeroRatatedStartPoint.Z - center.Z) * sz + center.Z);
+            //_startPoint3D.X = StartPoint.X;
+            //_startPoint3D.Y = StartPoint.Y;
+            //_startPoint3D.Z = (ZeroRatatedStartPoint.Z - center.Z) * sz + center.Z;
+            ZeroRatatedStartPoint = _startPoint3D;
+            // масшатабирование правильное - но с с точки зрения тоносительно прямой, а относительно нее по z уже находится в центре - масштабирования не будет
+            _endPoint3D = new Point3D(ScalePoint(ZeroRatatedEndPoint.ToPoint2D(), center.ToPoint2D(), sx, sy), (ZeroRatatedEndPoint.Z - center.Z) * sz + center.Z);
+            //_endPoint3D.X = EndPoint.X;
+            //_endPoint3D.Y = EndPoint.Y;
+            //_endPoint3D.Z = (ZeroRatatedEndPoint.Z - center.Z) * sz + center.Z;
+            ZeroRatatedEndPoint = _endPoint3D;
+            Update2DProjection(); //ОСТОРОЖНО
+            /*когда свойсвту start3dpoint присваивается новый объект поинт - поисходит внутри него вызов обновления 2д проекции -
+тогда в ОБА -и старт и енд поинты записывается новая информация на основе текущей в 3д поинтах -
+важные данные в просто енд поинте затираются!!!!!*/
+        }
+
+        public override void ScaleAverage(float scaleFactor)
+        {
+            Point3D center = new Point3D(
+                (ZeroRatatedStartPoint.X + ZeroRatatedEndPoint.X) / 2,
+                (ZeroRatatedStartPoint.Y + ZeroRatatedEndPoint.Y) / 2,
+                (ZeroRatatedStartPoint.Z + ZeroRatatedEndPoint.Z) / 2
+            );
+
+            _startPoint3D = new Point3D(ScalePoint(ZeroRatatedStartPoint.ToPoint2D(), center.ToPoint2D(), scaleFactor, scaleFactor), (ZeroRatatedStartPoint.Z - center.Z) * scaleFactor + center.Z);
+            _endPoint3D = new Point3D(ScalePoint(ZeroRatatedEndPoint.ToPoint2D(), center.ToPoint2D(), scaleFactor, scaleFactor), (ZeroRatatedEndPoint.Z - center.Z) * scaleFactor + center.Z);
+            ZeroRatatedStartPoint = _startPoint3D;
+            ZeroRatatedEndPoint = _endPoint3D;
+            Update2DProjection(); //ОСТОРОЖНО
+        }
+
+        public string GetCanonicalEquation3D()
+        {
+            // Каноническое уравнение прямой в 3D: (x - x1)/a = (y - y1)/b = (z - z1)/c
+            float a = _endPoint3D.X - _startPoint3D.X;
+            float b = _endPoint3D.Y - _startPoint3D.Y;
+            float c = _endPoint3D.Z - _startPoint3D.Z;
+
+            // Используем реальные координаты (ZeroRotated)
+            float x1 = ZeroRatatedStartPoint.X;
+            float y1 = ZeroRatatedStartPoint.Y;
+            float z1 = ZeroRatatedStartPoint.Z;
+
+            if (Math.Abs(a) < 0.001f && Math.Abs(b) < 0.001f && Math.Abs(c) < 0.001f)
+            {
+                return "Прямая вырождена в точку";
+            }
+
+            string equation = $"(x - {x1:F1})/{(Math.Abs(a) < 0.001f ? 0 : a):F1} = " +
+                             $"(y - {y1:F1})/{(Math.Abs(b) < 0.001f ? 0 : b):F1} = " +
+                             $"(z - {z1:F1})/{(Math.Abs(c) < 0.001f ? 0 : c):F1}";
+
+            return equation;
+        }
+
+        // Метод для установки реальных координат с обновлением отображения
+        public void SetRealPoints(Point3D start, Point3D end, Point3D center, float totalRotationX, float totalRotationY, float totalRotationZ)
+        {
+            ZeroRatatedStartPoint = start;
+            ZeroRatatedEndPoint = end;
+
+            // Обновляем отображаемые точки с учетом текущего вращения сцены
+            _startPoint3D = RotatePoint3D(ZeroRatatedStartPoint, center, totalRotationX, totalRotationY, totalRotationZ);
+            _endPoint3D = RotatePoint3D(ZeroRatatedEndPoint, center, totalRotationX, totalRotationY, totalRotationZ);
+
+            Update2DProjection();
+        }
+
+        // Метод для получения реальных координат
+        public Point3D GetRealStartPoint() => ZeroRatatedStartPoint;
+        public Point3D GetRealEndPoint() => ZeroRatatedEndPoint;
+
+
+        public void Projection3D(string projectionType)
+        {
+            switch (projectionType.ToLower())
+            {
+                case "xoy":
+                case "xy":
+                    // Проецирование на плоскость XOY
+                    ZeroRatatedStartPoint = new Point3D(ZeroRatatedStartPoint.X, ZeroRatatedStartPoint.Y, 0);
+                    ZeroRatatedEndPoint = new Point3D(ZeroRatatedEndPoint.X, ZeroRatatedEndPoint.Y, 0);
+                    break;
+
+                case "xoz":
+                case "xz":
+                    // Проецирование на плоскость XOZ
+                    ZeroRatatedStartPoint = new Point3D(ZeroRatatedStartPoint.X, 0, ZeroRatatedStartPoint.Z);
+                    ZeroRatatedEndPoint = new Point3D(ZeroRatatedEndPoint.X, 0, ZeroRatatedEndPoint.Z);
+                    break;
+
+                case "yoz":
+                case "yz":
+                    // Проецирование на плоскость YOZ
+                    ZeroRatatedStartPoint = new Point3D(0, ZeroRatatedStartPoint.Y, ZeroRatatedStartPoint.Z);
+                    ZeroRatatedEndPoint = new Point3D(0, ZeroRatatedEndPoint.Y, ZeroRatatedEndPoint.Z);
+                    break;
+            }
+
+            // Обновляем отображение
+            _startPoint3D = ZeroRatatedStartPoint;
+            _endPoint3D = ZeroRatatedEndPoint;
+            Update2DProjection();
         }
     }
 }

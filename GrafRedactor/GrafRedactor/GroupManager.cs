@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Xml.Linq;
+using static System.Windows.Forms.AxHost;
 
 namespace GrafRedactor
 {
@@ -205,27 +207,204 @@ namespace GrafRedactor
             return true;
         }
 
-        public bool RotateGroup(string groupId, float angle, Rectangle drawingArea)
+        public bool RotateGroup(string groupId, float angleX, float angleY, float angleZ, Point3D rotationCenter, Rectangle drawingArea)
         {
             if (groups.ContainsKey(groupId))
             {
                 var groupElements = groups[groupId];
-                PointF center = GetGroupCenter(groupElements);
-                if (CanPerformRotation(angle, center, drawingArea, groupId))
+
+                if (CanPerformRotation3D(angleX, angleY, angleZ, rotationCenter, drawingArea, groupId))
                 {
+                    // Вращаем всю группу как жесткое тело
                     foreach (var element in groupElements)
                     {
-                        if (element is LineElement line)
+                        if (element is LineElement3D line3D)
                         {
-                            RotateLineAroundPoint(line, center, angle);
+                            // Вращаем обе точки линии
+                            Point3D newStart = RotatePoint3D(line3D.ZeroRatatedStartPoint, rotationCenter, angleX, angleY, angleZ);
+                            Point3D newEnd = RotatePoint3D(line3D.ZeroRatatedEndPoint, rotationCenter, angleX, angleY, angleZ);
+
+                            // Обновляем реальные координаты
+                            line3D.ZeroRatatedStartPoint = newStart;
+                            line3D.ZeroRatatedEndPoint = newEnd;
+                            line3D.StartPoint3D = newStart;
+                            line3D.EndPoint3D = newEnd;
+                        }
+                        else if (element is Cube3D cube)
+                        {
+                            // Для куба используем его метод вращения
+                            cube.Rotate3D(angleX, angleY, angleZ, rotationCenter);
                         }
                     }
                     return true;
                 }
             }
             return false;
+            //старое - группа разваливается
+            //if (groups.ContainsKey(groupId))
+            //{
+            //    var groupElements = groups[groupId];
+            //    PointF center = GetGroupCenter(groupElements).ToPoint2D();
+            //    if (CanPerformRotation(angle, center, drawingArea, groupId))
+            //    {
+            //        foreach (var element in groupElements)
+            //        {
+            //            if (element is LineElement line)
+            //            {
+            //                RotateLineAroundPoint(line, center, angle);
+            //            }
+            //        }
+            //        return true;
+            //    }
+            //}
+            //return false;
         }
 
+        private Point3D RotatePoint3D(Point3D point, Point3D center, float angleX, float angleY, float angleZ)
+        {
+            // Перенос в систему координат с центром в center
+            float x = point.X - center.X;
+            float y = point.Y - center.Y;
+            float z = point.Z - center.Z;
+
+            // Преобразуем углы в радианы
+            float radX = angleX * (float)Math.PI / 180f;
+            float radY = angleY * (float)Math.PI / 180f;
+            float radZ = angleZ * (float)Math.PI / 180f;
+
+            // Вычисляем синусы и косинусы
+            float cosX = (float)Math.Cos(radX), sinX = (float)Math.Sin(radX);
+            float cosY = (float)Math.Cos(radY), sinY = (float)Math.Sin(radY);
+            float cosZ = (float)Math.Cos(radZ), sinZ = (float)Math.Sin(radZ);
+
+            // Матрица вращения (комбинированная: Z * Y * X)
+            float x1 = x * cosY * cosZ + y * (sinX * sinY * cosZ - cosX * sinZ) + z * (cosX * sinY * cosZ + sinX * sinZ);
+            float y1 = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
+            float z1 = x * -sinY + y * sinX * cosY + z * cosX * cosY;
+
+            if ((Math.Abs(angleZ) > 0.0001f))
+            {
+                double angleRad = angleZ * Math.PI / 180.0;
+                double cos = Math.Cos(angleRad);
+                double sin = Math.Sin(angleRad);
+
+                double newX = x * cos - y * sin;
+                double newY = x * sin + y * cos;
+
+                x = (float)newX;
+                y = (float)newY;
+            }
+
+            if ((Math.Abs(angleX) > 0.0001f))
+            {
+                double angleRad = angleX * Math.PI / 180.0;
+                double cos = Math.Cos(angleRad);
+                double sin = Math.Sin(angleRad);
+
+                double newY = y * cos - z * sin;
+                double newZ = y * sin + z * cos;
+
+                y = (float)newY;
+                z = (float)newZ;
+            }
+
+            if ((Math.Abs(angleY) > 0.0001f))
+            {
+                double angleRad = angleY * Math.PI / 180.0;
+                double cos = Math.Cos(angleRad);
+                double sin = Math.Sin(angleRad);
+
+                double newX = x * cos + z * sin;
+                double newZ = -x * sin + z * cos;
+
+                x = (float)newX;
+                z = (float)newZ;
+            }
+
+            // Возврат в исходную систему координат - разницы нет, что первым способом вертеть (x1,y1,z1) что так)
+            return new Point3D(
+                x + center.X,
+                y + center.Y,
+                z + center.Z
+            );
+            return new Point3D(
+                x1 + center.X,
+                y1 + center.Y,
+                z1 + center.Z
+            );
+        }
+
+        private bool CanPerformRotation3D(float angleX, float angleY, float angleZ, Point3D rotationCenter, Rectangle drawingArea, string groupId)
+        {
+            var groupElements = groups[groupId];
+
+            foreach (var figure in groupElements)
+            {
+                if (figure is LineElement3D line3D)
+                {
+                    // Создаем копию линии для проверки
+                    var testLine = new LineElement3D(
+                        line3D.ZeroRatatedStartPoint,
+                        line3D.ZeroRatatedEndPoint,
+                        line3D.Color,
+                        line3D.Thickness
+                    );
+
+                    // Вращаем копию вокруг указанного центра
+                    Point3D newStart = RotatePoint3D(testLine.ZeroRatatedStartPoint, rotationCenter, angleX, angleY, angleZ);
+                    Point3D newEnd = RotatePoint3D(testLine.ZeroRatatedEndPoint, rotationCenter, angleX, angleY, angleZ);
+
+                    // Обновляем тестовую линию
+                    testLine.ZeroRatatedStartPoint = newStart;
+                    testLine.ZeroRatatedEndPoint = newEnd;
+                    testLine.StartPoint3D = newStart;
+                    testLine.EndPoint3D = newEnd;                    
+
+                    // Проверяем 2D проекцию после вращения
+                    var bbox = testLine.GetBoundingBox();
+                    if (bbox.Left < 0 || bbox.Right > drawingArea.Width ||
+                        bbox.Top < 0 || bbox.Bottom > drawingArea.Height)
+                    {
+                        return false;
+                    }
+                }
+                else if (figure is Cube3D cube)
+                {
+                    // Для куба создаем тестовую копию
+                    var testCube = new Cube3D(cube.Center, cube.Size, cube.CubeColor);
+
+                    // Вращаем тестовый куб
+                    testCube.Rotate3D(angleX, angleY, angleZ, rotationCenter);
+
+                    // Проверяем bounding box
+                    var bbox = testCube.GetBoundingBox();
+                    if (bbox.Left < 0 || bbox.Right > drawingArea.Width ||
+                        bbox.Top < 0 || bbox.Bottom > drawingArea.Height)
+                    {
+                        return false;
+                    }
+                }
+                else if (figure is LineElement line2D)
+                {
+                    // Для 2D линий используем старую проверку
+                    var testLine = new LineElement(line2D.StartPoint, line2D.EndPoint, line2D.Color, line2D.Thickness);
+
+                    // Вращаем вокруг центра вращения (преобразованного в 2D)
+                    testLine.Rotate(angleZ, rotationCenter.ToPoint2D());
+
+                    if (testLine.EndPoint.X < 0 || testLine.EndPoint.X > drawingArea.Width ||
+                        testLine.EndPoint.Y < 0 || testLine.EndPoint.Y > drawingArea.Height ||
+                        testLine.StartPoint.X < 0 || testLine.StartPoint.X > drawingArea.Width ||
+                        testLine.StartPoint.Y < 0 || testLine.StartPoint.Y > drawingArea.Height)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        //старое линия разваливается
         private bool CanPerformRotation(float angle, PointF center, Rectangle drawingArea, string groupId)
         {
             var groupElements = groups[groupId];
@@ -274,20 +453,30 @@ namespace GrafRedactor
             return true;
         }
 
-        public bool ScaleGroupAverage(string groupId, float scaleFactor, Rectangle drawingArea)
+        public bool ScaleGroupAverage(string groupId, float scaleFactor, Rectangle drawingArea, Point3D sceneCenter = null, float resetAngleValueX = 0, float resetAngleValueY = 0, float resetAngleValueZ = 0)
         {
             if (groups.ContainsKey(groupId))
             {
                 if(CanPerformScaling(scaleFactor, scaleFactor, drawingArea, groupId))
                 {
                     var groupElements = groups[groupId];
-                    PointF center = GetGroupCenter(groupElements);
+                    PointF center = GetGroupCenter(groupElements).ToPoint2D();
 
                     foreach (var element in groupElements)
                     {
                         if (element is LineElement line)
                         {
                             ScaleLineAroundPoint(line, center, scaleFactor);
+                        }
+                        if (element is LineElement3D line3d)
+                        {
+                            line3d.ScaleAverage(scaleFactor);
+                            line3d.Rotate3DWithScene(sceneCenter, resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                        }
+                        if (element is Cube3D cube)
+                        {
+                            cube.ScaleAverage(scaleFactor);
+                            cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, sceneCenter);
                         }
                     }
                     return true;
@@ -297,20 +486,27 @@ namespace GrafRedactor
         }
 
 
-        public bool ScaleGroup(string groupId, float sx, float sy, Rectangle drawingArea)
+        public bool ScaleGroup(string groupId, float sx, float sy, Rectangle drawingArea, float sz = 1)
         {
             if (groups.ContainsKey(groupId))
             {
                 if(CanPerformScaling(sx, sy, drawingArea, groupId))
                 {
                     var groupElements = groups[groupId];
-                    PointF center = GetGroupCenter(groupElements);
+                    Point3D center = GetGroupCenter(groupElements);
 
                     foreach (var element in groupElements)
                     {
-                        if (element is LineElement line)
+                        if (element is LineElement3D line3d)
                         {
-                            line.Scale(center, sx, sy);
+                            line3d.Scale(center, sx, sy, sz);
+                        }
+                        else
+                        {
+                            if (element is LineElement line)
+                            {
+                                line.Scale(center.ToPoint2D(), sx, sy);
+                            }
                         }
                     }
                     return true;
@@ -323,7 +519,7 @@ namespace GrafRedactor
             if (groups.ContainsKey(groupId))
             {
                 var groupElements = groups[groupId];
-                PointF center = GetGroupCenter(groupElements);
+                PointF center = GetGroupCenter(groupElements).ToPoint2D();
 
                 foreach (var element in groupElements)
                 {
@@ -378,22 +574,46 @@ namespace GrafRedactor
             return true;
         }
 
-        private PointF GetGroupCenter(List<FigureElement> elements)
+        private Point3D GetGroupCenter(List<FigureElement> elements)
         {
             if (elements.Count == 0)
-                return PointF.Empty;
+                return null;
 
             float minX = elements.Min(e => e.GetBoundingBox().Left);
             float minY = elements.Min(e => e.GetBoundingBox().Top);
             float maxX = elements.Max(e => e.GetBoundingBox().Right);
             float maxY = elements.Max(e => e.GetBoundingBox().Bottom);
+            float maxZ = elements.Max(e => 
+            { 
+                if (e is LineElement3D line3d)
+                {
+                    return (int)Math.Max(line3d.StartPoint3D.Z, line3d.EndPoint3D.Z);
+                }
+                if (e is Cube3D cube)
+                {
+                    return (int)cube.Center.Z;
+                }
+                return 0;
+            } );
 
-            return new PointF((minX + maxX) / 2, (minY + maxY) / 2);
+            float minZ = elements.Min(e => {
+                if (e is LineElement3D line3d)
+                {
+                    return (int)Math.Min(line3d.StartPoint3D.Z, line3d.EndPoint3D.Z);
+                }
+                if (e is Cube3D cube)
+                {
+                    return (int)cube.Center.Z;
+                }
+                return 0;
+            });
+
+            return new Point3D((minX + maxX) / 2, (minY + maxY) / 2, (minZ + maxZ) / 2);
         }
 
         public PointF GetGroupCenter(string groupId)
         {            
-            return GetGroupCenter(GetGroupElements(groupId));
+            return GetGroupCenter(GetGroupElements(groupId)).ToPoint2D();
         }
 
         public Point3D GetGroupCenter3D(List<FigureElement> elements)

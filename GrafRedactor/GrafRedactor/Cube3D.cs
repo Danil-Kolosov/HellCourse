@@ -138,8 +138,11 @@ namespace GrafRedactor
             foreach (LineElement3D line in edges)
             {
                 line.Move3D(delta); //сделать как мув групп!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                главное - сделать чтобы рисовательная область и панель параметров не были закрываемы сверху и снизу
-                    операции 3д
+                //главное - сделать чтобы рисовательная область и панель параметров не были закрываемы сверху и снизу
+                    //операции 3д
+                    //масштабирование
+                    //зеркалирование
+                    //проецирование
             }
             //UpdateCubeGeometry();
             //OnPropertyChanged();
@@ -277,17 +280,25 @@ namespace GrafRedactor
             return bbox;
         }
 
-        public override void Scale(PointF center, float sx, float sy)
+        public void Scale(Point3D center, float sx, float sy, float sz)
         {
-            size *= (sx + sy) / 2;
-            UpdateCubeGeometry();
+            size *= (sx + sy + sz) / 3;
+            //UpdateCubeGeometry();
+            foreach (LineElement3D line in edges)
+            {
+                line.Scale(this.center, sx, sy, sz);
+            }
             OnPropertyChanged();
         }
 
         public override void ScaleAverage(float scaleFactor)
         {
             size *= scaleFactor;
-            UpdateCubeGeometry();
+            //UpdateCubeGeometry();
+            foreach (LineElement3D line in edges)
+            {
+                line.Scale(this.center, scaleFactor, scaleFactor, scaleFactor);
+            }
             OnPropertyChanged();
         }
 
@@ -371,6 +382,11 @@ namespace GrafRedactor
             // Не реализовано для куба
         }
 
+        public override void Scale(PointF center, float sx, float sy)
+        {
+            throw new NotImplementedException();
+        }
+
         //public Point3D Center => center;
         public Point3D Center 
         {
@@ -387,5 +403,63 @@ namespace GrafRedactor
         }
         public float Size => size;
         public Color CubeColor => color;
+
+
+        public void Projection3D(string projectionType)
+        {
+            switch (projectionType.ToLower())
+            {
+                case "xoy":
+                case "xy":
+                    // Проецирование на плоскость XOY (Z = 0)
+                    foreach (var edge in edges)
+                    {
+                        if (edge is LineElement3D line3D)
+                        {
+                            line3D.StartPoint3D = new Point3D(line3D.ZeroRatatedStartPoint.X, line3D.ZeroRatatedStartPoint.Y, 0);
+                            line3D.EndPoint3D = new Point3D(line3D.ZeroRatatedEndPoint.X, line3D.ZeroRatatedEndPoint.Y, 0);
+                            line3D.ZeroRatatedStartPoint = line3D.StartPoint3D;
+                            line3D.ZeroRatatedEndPoint = line3D.EndPoint3D;
+                        }
+                    }
+                    center = new Point3D(center.X, center.Y, 0);
+                    break;
+
+                case "xoz":
+                case "xz":
+                    // Проецирование на плоскость XOZ (Y = 0)
+                    foreach (var edge in edges)
+                    {
+                        if (edge is LineElement3D line3D)
+                        {
+                            line3D.StartPoint3D = new Point3D(line3D.ZeroRatatedStartPoint.X, 0, line3D.ZeroRatatedStartPoint.Z);
+                            line3D.EndPoint3D = new Point3D(line3D.ZeroRatatedEndPoint.X, 0, line3D.ZeroRatatedEndPoint.Z);
+                            line3D.ZeroRatatedStartPoint = line3D.StartPoint3D;
+                            line3D.ZeroRatatedEndPoint = line3D.EndPoint3D;
+                        }
+                    }
+                    center = new Point3D(center.X, 0, center.Z);
+                    break;
+
+                case "yoz":
+                case "yz":
+                    // Проецирование на плоскость YOZ (X = 0)
+                    foreach (var edge in edges)
+                    {
+                        if (edge is LineElement3D line3D)
+                        {
+                            line3D.StartPoint3D = new Point3D(0, line3D.ZeroRatatedStartPoint.Y, line3D.ZeroRatatedStartPoint.Z);
+                            line3D.EndPoint3D = new Point3D(0, line3D.ZeroRatatedEndPoint.Y, line3D.ZeroRatatedEndPoint.Z);
+                            line3D.ZeroRatatedStartPoint = line3D.StartPoint3D;
+                            line3D.ZeroRatatedEndPoint = line3D.EndPoint3D;
+                        }
+                    }
+                    center = new Point3D(0, center.Y, center.Z);
+                    break;
+            }
+
+            UpdateCubeGeometry();
+            OnPropertyChanged();
+        }
     }
 }
