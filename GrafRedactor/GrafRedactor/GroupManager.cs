@@ -190,20 +190,19 @@ namespace GrafRedactor
                     var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
 
                     // Пробуем применить перемещение к копии
-                    testLine.Move(delta, height, width);
+                    testLine.Move(delta, height, width, "group");
 
                     // Проверяем bounding box после перемещения
                     var testBbox = testLine.GetBoundingBox();
 
                     // Если хотя бы один элемент выходит за границы - перемещение невозможно
-                    if (testBbox.Left < 0 || testBbox.Right > width ||
-                        testBbox.Top < 0 || testBbox.Bottom > height)
+                    if (testBbox.Left < -width/2 || testBbox.Right > width/2 ||
+                        testBbox.Top < -height/2 || testBbox.Bottom > height/2)
                     {
                         return false;
                     }
                 }
             }
-
             return true;
         }
 
@@ -233,7 +232,7 @@ namespace GrafRedactor
                         else if (element is Cube3D cube)
                         {
                             // Для куба используем его метод вращения
-                            cube.Rotate3D(angleX, angleY, angleZ, rotationCenter);
+                            cube.Rotate3D(angleX, angleY, angleZ, rotationCenter, drawingArea);
                         }
                     }
                     return true;
@@ -374,7 +373,7 @@ namespace GrafRedactor
                     var testCube = new Cube3D(cube.Center, cube.Size, cube.CubeColor);
 
                     // Вращаем тестовый куб
-                    testCube.Rotate3D(angleX, angleY, angleZ, rotationCenter);
+                    testCube.Rotate3D(angleX, angleY, angleZ, rotationCenter, drawingArea);
 
                     // Проверяем bounding box
                     var bbox = testCube.GetBoundingBox();

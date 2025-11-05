@@ -14,8 +14,12 @@ namespace GrafRedactor
         private Point3D _startPoint3D;
         private Point3D _endPoint3D;
 
-        public Point3D ZeroRatatedStartPoint { get; set; }
-        public Point3D ZeroRatatedEndPoint { get; set; }
+        public Point3D ZeroRatatedStartPoint 
+        { get; 
+            set; }
+        public Point3D ZeroRatatedEndPoint 
+        { get; 
+            set; }
         private float rotationX = 0;
         private float rotationY = 0;
         private float rotationZ = 0;
@@ -502,7 +506,12 @@ namespace GrafRedactor
             float y1 = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
             float z1 = x * -sinY + y * sinX * cosY + z * cosX * cosY;
 
-            if ((Math.Abs(angleZ) > 0.0001f)) 
+            return new Point3D(
+                x1 + center.X,
+                y1 + center.Y,
+                z1 + center.Z);
+
+            /*if ((Math.Abs(angleZ) > 0.0001f)) 
             {
                 double angleRad = angleZ * Math.PI / 180.0;
                 double cos = Math.Cos(angleRad);
@@ -547,11 +556,12 @@ namespace GrafRedactor
                 y + center.Y,
                 z + center.Z
             );
+            //откудато появиласт разница
             return new Point3D(
                 x1 + center.X,
                 y1 + center.Y,
                 z1 + center.Z
-            );
+            );*/
         }
 
         public virtual void Scale(Point3D center, float sx, float sy, float sz)
@@ -663,6 +673,65 @@ namespace GrafRedactor
             _startPoint3D = ZeroRatatedStartPoint;
             _endPoint3D = ZeroRatatedEndPoint;
             Update2DProjection();
+        }
+
+        public void Mirror3DRelativeToLine(LineElement mirrorLine)
+        {
+            // Зеркалирование 3D линии относительно другой 3D линии
+            if (mirrorLine is LineElement3D mirrorLine3D)
+            {
+                // Получаем направляющий вектор и точку на зеркальной прямой
+                Point3D linePoint = mirrorLine3D.ZeroRatatedStartPoint;
+                Point3D lineDirection = new Point3D(
+                    mirrorLine3D.ZeroRatatedEndPoint.X - mirrorLine3D.ZeroRatatedStartPoint.X,
+                    mirrorLine3D.ZeroRatatedEndPoint.Y - mirrorLine3D.ZeroRatatedStartPoint.Y,
+                    mirrorLine3D.ZeroRatatedEndPoint.Z - mirrorLine3D.ZeroRatatedStartPoint.Z
+                );
+
+                // Зеркалируем точки относительно прямой
+                ZeroRatatedStartPoint = MirrorPointRelativeToLine(ZeroRatatedStartPoint, linePoint, lineDirection);
+                ZeroRatatedEndPoint = MirrorPointRelativeToLine(ZeroRatatedEndPoint, linePoint, lineDirection);
+
+                // Обновляем отображение
+                _startPoint3D = ZeroRatatedStartPoint;
+                _endPoint3D = ZeroRatatedEndPoint;
+                Update2DProjection();
+            }
+        }
+
+        private Point3D MirrorPointRelativeToLine(Point3D point, Point3D linePoint, Point3D lineDirection)
+        {
+            // Вектор от точки на прямой до зеркалируемой точки
+            Point3D v = new Point3D(
+                point.X - linePoint.X,
+                point.Y - linePoint.Y,
+                point.Z - linePoint.Z
+            );
+
+            // Проекция вектора v на направляющий вектор прямой
+            float t = (v.X * lineDirection.X + v.Y * lineDirection.Y + v.Z * lineDirection.Z) /
+                      (lineDirection.X * lineDirection.X + lineDirection.Y * lineDirection.Y + lineDirection.Z * lineDirection.Z);
+
+            // Точка проекции на прямой
+            Point3D projection = new Point3D(
+                linePoint.X + t * lineDirection.X,
+                linePoint.Y + t * lineDirection.Y,
+                linePoint.Z + t * lineDirection.Z
+            );
+
+            // Вектор от проекции до исходной точки
+            Point3D w = new Point3D(
+                point.X - projection.X,
+                point.Y - projection.Y,
+                point.Z - projection.Z
+            );
+
+            // Зеркальная точка
+            return new Point3D(
+                point.X - 2 * w.X,
+                point.Y - 2 * w.Y,
+                point.Z - 2 * w.Z
+            );
         }
     }
 }

@@ -61,14 +61,17 @@ namespace GrafRedactor
         private const int PARAMETERS_PANEL_WIDTH = 450;
         private const int MIN_DRAWING_WIDTH = 500;
 
+        private float ZERO_POINT_DIFFERENCE_X = 0;
+        private float ZERO_POINT_DIFFERENCE_Y = 50;
+
         public MainForm()
         {
             InitializeComponent(); // Вызов метода из Designer
             InitializeCustomComponents(); // Своя инициализация
             selectedFigures = new List<FigureElement>();
             UpdateModeVisuals(); // Обновляем визуальное отображение режима
-
             
+
         }
 
         private void InitializeCustomComponents()
@@ -95,6 +98,9 @@ namespace GrafRedactor
             SimpleCamera.GroupManager = groupManager;
             SimpleCamera.DrawingArea = GetDrawingArea();
 
+            ZERO_POINT_DIFFERENCE_X = GetDrawingAreaCenter().X;
+            ZERO_POINT_DIFFERENCE_Y = GetDrawingAreaCenter().Y;
+
             // Инициализация осей координат - после установки облатси рисования в камере
             InitializeCoordinateAxes();
         }
@@ -107,7 +113,7 @@ namespace GrafRedactor
 
             //coordinateAxes = new MainCoordinateAxes(drawingArea.Width/2, drawingArea.Width);
             //ИЛИ
-            coordinateAxes = new MainCoordinateAxes(/*new Point3D(0,0,0)*/CalculateSceneCenter(), 100);
+            coordinateAxes = new MainCoordinateAxes(/*new Point3D(0,0,0) тут как раз мнимый*/CalculateSceneCenter(), 100);
 
         }
 
@@ -232,7 +238,11 @@ namespace GrafRedactor
                 Size = new Size(120, 25),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
-            comboColor.Items.AddRange(new object[] { "Black", "Red", "Green", "Blue", "Orange", "Purple" });
+            // Русские названия цветов
+            comboColor.Items.AddRange(new object[] {
+                "Черный", "Красный", "Зеленый", "Синий", "Оранжевый", "Фиолетовый",
+                "Желтый", "Розовый", "Коричневый", "Серый"
+            });
             comboColor.SelectedIndex = 0;
             comboColor.SelectedIndexChanged += ComboColor_SelectedIndexChanged;
             parametersPanel.Controls.Add(comboColor);
@@ -395,17 +405,34 @@ namespace GrafRedactor
 
         private void UpdateParametersPanel()
         {
+            numStartX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+            numStartY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+            numEndX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+            numEndY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+            numStartX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+            numStartY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+            numEndX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+            numEndY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
             if (selectedFigure is LineElement line)
             {
                 parametersPanel.Visible = true;
                 UpdateParametersPanelPosition(); // Обновляем позицию
 
+                //ZERO_POINT_DIFFERENCE_X = GetDrawingAreaCenter().X;
+                //ZERO_POINT_DIFFERENCE_Y = GetDrawingAreaCenter().Y;
+
                 // Обновляем максимальные значения в соответствии с текущей областью рисования
                 var drawingArea = GetDrawingArea();
-                numStartX.Maximum = drawingArea.Width;
-                numStartY.Maximum = drawingArea.Height;
-                numEndX.Maximum = drawingArea.Width;
-                numEndY.Maximum = drawingArea.Height;
+                
+                //numStartX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                //numStartY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_Y;
+                //numEndX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                //numEndY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_Y;
+                //numStartX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                //numStartY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_Y;
+                //numEndX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                //numEndY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_Y;
+
                 (float a, float b, float c, float d) = line.GetEquation();
                 lblEquation.Text = $"Уравнение прямой {a}x+{b}y+{c}=0"; //для 3 д тут z использовать еще
                 lblEquation.Visible = true;
@@ -427,11 +454,58 @@ namespace GrafRedactor
                 numThickness.ValueChanged -= Parameters_ValueChanged;                
                 numStartZ.ValueChanged -= Parameters_ValueChanged;
                 numEndZ.ValueChanged -= Parameters_ValueChanged;
+                if(!(line is LineElement3D))
+                {
+                    numStartX.Value = (decimal)(line.StartPoint.X); // важно
+                    numStartY.Value = (decimal)(line.StartPoint.Y);// важно
+                    numEndX.Value = (decimal)(line.EndPoint.X);// важно
+                    numEndY.Value = (decimal)(line.EndPoint.Y);// важно
+                    //switch (currentAxeName)
+                    //{
+                    //    case "xoy":
+                    //        numStartX.Value = (decimal)(line.StartPoint.X - ZERO_POINT_DIFFERENCE_X); // важно
+                    //        numStartY.Value = (decimal)(line.StartPoint.Y - ZERO_POINT_DIFFERENCE_Y);// важно
+                    //        numEndX.Value = (decimal)(line.EndPoint.X - ZERO_POINT_DIFFERENCE_X);// важно
+                    //        numEndY.Value = (decimal)(line.EndPoint.Y - ZERO_POINT_DIFFERENCE_Y);// важно
+                    //        break;
+                    //    case "yoz":
+                    //        numStartX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                    //        numStartY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                    //        numEndX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                    //        numEndY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
 
-                numStartX.Value = (decimal)line.StartPoint.X;
-                numStartY.Value = (decimal)line.StartPoint.Y;
-                numEndX.Value = (decimal)line.EndPoint.X;
-                numEndY.Value = (decimal)line.EndPoint.Y;
+                    //        numStartX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                    //        numStartY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                    //        numEndX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                    //        numEndY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+
+                    //        numStartX.Value = (decimal)(line.StartPoint.X - ZERO_POINT_DIFFERENCE_X); // важно
+                    //        numStartY.Value = (decimal)(line.StartPoint.Y - ZERO_POINT_DIFFERENCE_X);// важно
+                    //        numEndX.Value = (decimal)(line.EndPoint.X);// важно
+                    //        numEndY.Value = (decimal)(line.EndPoint.Y - ZERO_POINT_DIFFERENCE_X);// важно
+                    //        break;
+                    //    case "xoz":
+                    //        numStartX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                    //        numStartY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                    //        numEndX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                    //        numEndY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+
+                    //        numStartX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                    //        numStartY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                    //        numEndX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                    //        numEndY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+
+                    //        numStartX.Value = (decimal)(line.StartPoint.X - ZERO_POINT_DIFFERENCE_X); // важно
+                    //        numStartY.Value = (decimal)(line.StartPoint.Y);// важно
+                    //        numEndX.Value = (decimal)(line.EndPoint.X);// важно
+                    //        numEndY.Value = (decimal)(line.EndPoint.Y - ZERO_POINT_DIFFERENCE_X);// важно
+                    //        break;
+                    //    default:
+                    //        break;
+                    //}
+                }
+
+                
                 numThickness.Value = (decimal)line.Thickness;
                 if (line is LineElement3D line3D)
                 {
@@ -447,12 +521,92 @@ namespace GrafRedactor
                     var realStart = line3D.GetRealStartPoint();
                     var realEnd = line3D.GetRealEndPoint();
 
-                    numStartX.Value = (decimal)realStart.X;
-                    numStartY.Value = (decimal)realStart.Y;
+                    //numStartX.Value = (decimal)(realStart.X - ZERO_POINT_DIFFERENCE_X);
+                    //numStartY.Value = (decimal)(realStart.Y - ZERO_POINT_DIFFERENCE_Y);
                     numStartZ.Value = (decimal)realStart.Z;
-                    numEndX.Value = (decimal)realEnd.X;
-                    numEndY.Value = (decimal)realEnd.Y;
+                    //numEndX.Value = (decimal)(realEnd.X - ZERO_POINT_DIFFERENCE_X);
+                    //numEndY.Value = (decimal)(realEnd.Y - ZERO_POINT_DIFFERENCE_Y);
                     numEndZ.Value = (decimal)realEnd.Z;
+
+                    switch (currentAxeName)
+                    {
+                        case "xoy":
+                            numStartX.Value = (decimal)(realStart.X); // важно
+                            numStartY.Value = (decimal)(realStart.Y);// важно
+                            numEndX.Value = (decimal)(realEnd.X);// важно
+                            numEndY.Value = (decimal)(realEnd.Y);// важно
+                            numStartZ.Value = (decimal)realStart.Z; //важно
+                            numEndZ.Value = (decimal)realEnd.Z; //важно
+
+                            //numStartX.Value = (decimal)(realStart.X - ZERO_POINT_DIFFERENCE_X); // важно
+                            //numStartY.Value = (decimal)(realStart.Y - ZERO_POINT_DIFFERENCE_Y);// важно
+                            //numEndX.Value = (decimal)(realEnd.X - ZERO_POINT_DIFFERENCE_X);// важно
+                            //numEndY.Value = (decimal)(realEnd.Y - ZERO_POINT_DIFFERENCE_Y);// важно
+                            //numStartZ.Value = (decimal)realStart.Z; //важно
+                            //numEndZ.Value = (decimal)realEnd.Z; //важно
+
+                            //numStartX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numStartY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_Y;
+                            //numEndX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numEndY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_Y;
+                            //numStartX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numStartY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_Y;
+                            //numEndX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numEndY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_Y;
+                            break;
+                        case "yoz":
+                            //numStartX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numStartY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numEndX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numEndY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+
+                            //numStartX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numStartY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numEndX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numEndY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+
+                            numStartX.Value = (decimal)(realStart.X); // важно
+                            numStartY.Value = (decimal)(realStart.Y);// важно
+                            numEndX.Value = (decimal)(realEnd.X);// важно
+                            numEndY.Value = (decimal)(realEnd.Y );// важно
+                            numStartZ.Value = (decimal)(realStart.Z ); //важно
+                            numEndZ.Value = (decimal)(realEnd.Z); //важно
+
+                            //numStartX.Value = (decimal)(realStart.X); // важно
+                            //numStartY.Value = (decimal)(realStart.Y - ZERO_POINT_DIFFERENCE_X);// важно
+                            //numEndX.Value = (decimal)(realEnd.X);// важно
+                            //numEndY.Value = (decimal)(realEnd.Y - ZERO_POINT_DIFFERENCE_X);// важно
+                            //numStartZ.Value = (decimal)(realStart.Z - ZERO_POINT_DIFFERENCE_Y); //важно
+                            //numEndZ.Value = (decimal)(realEnd.Z - ZERO_POINT_DIFFERENCE_Y); //важно                            
+                            break;
+                        case "xoz":
+                            //numStartX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numStartY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numEndX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numEndY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+
+                            //numStartX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numStartY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numEndX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+                            //numEndY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+
+                            //numStartX.Value = (decimal)(realStart.X - ZERO_POINT_DIFFERENCE_X); // важно
+                            //numStartY.Value = (decimal)(realStart.Y);// важно
+                            //numEndX.Value = (decimal)(realEnd.X - ZERO_POINT_DIFFERENCE_X);// важно
+                            //numEndY.Value = (decimal)(realEnd.Y);// важно
+                            //numStartZ.Value = (decimal)(realStart.Z - ZERO_POINT_DIFFERENCE_Y); //важно
+                            //numEndZ.Value = (decimal)(realEnd.Z - ZERO_POINT_DIFFERENCE_Y); //важно
+
+                            numStartX.Value = (decimal)(realStart.X); // важно
+                            numStartY.Value = (decimal)(realStart.Y);// важно
+                            numEndX.Value = (decimal)(realEnd.X);// важно
+                            numEndY.Value = (decimal)(realEnd.Y);// важно
+                            numStartZ.Value = (decimal)(realStart.Z); //важно
+                            numEndZ.Value = (decimal)(realEnd.Z); //важно
+                            break;
+                        default:
+                            break;
+                    }
 
                     lblStartZ.Visible = true;
                     lblEndZ.Visible = true;
@@ -488,8 +642,10 @@ namespace GrafRedactor
 
                 // Обновляем максимальные значения в соответствии с текущей областью рисования
                 var drawingArea = GetDrawingArea();
-                numStartX.Maximum = drawingArea.Width;
-                numStartY.Maximum = drawingArea.Height;
+                //numStartX.Maximum = drawingArea.Width/2;
+                //numStartY.Maximum = drawingArea.Height/2;
+                //numStartX.Minimum = -drawingArea.Width / 2;
+                //numStartY.Minimum = -drawingArea.Height / 2;
 
                 lblCubeCenterPoint.Visible = true;
                 lblEquation.Visible = false;
@@ -520,9 +676,28 @@ namespace GrafRedactor
                 {
                     ;
                 }
-                numStartX.Value = (decimal)cube.Center.X;                
-                numStartY.Value = (decimal)cube.Center.Y;
-                numStartZ.Value = (decimal)cube.Center.Z;
+                
+                switch (currentAxeName)
+                {
+                    case "xoy":
+                        numStartX.Value = (decimal)(cube.Center.X ); // важно               
+                        numStartY.Value = (decimal)(cube.Center.Y); // важно
+                        numStartZ.Value = (decimal)cube.Center.Z;
+                        break;
+                    case "yoz":
+                        numStartX.Value = (decimal)(cube.Center.X); // важно               
+                        numStartY.Value = (decimal)(cube.Center.Y); // важно
+                        numStartZ.Value = (decimal)(cube.Center.Z);                        
+                        break;
+                    case "xoz":
+                        numStartX.Value = (decimal)(cube.Center.X); // важно               
+                        numStartY.Value = (decimal)(cube.Center.Y); // важно
+                        numStartZ.Value = (decimal)(cube.Center.Z);
+                        break;
+                    default:
+
+                        break;
+                }
 
 
                 numStartX.ValueChanged += Parameters_ValueChanged;
@@ -538,8 +713,33 @@ namespace GrafRedactor
                 //тут флаг если не 3 д, то 2 мерный поинт иначе - 3 мерный
                 //а может и без флага просто брать это преропредленно е и все,
                 //а из получиь уравнение для 2 д линииивообще убрать z
-                line.StartPoint = new PointF((float)numStartX.Value, (float)numStartY.Value);
-                line.EndPoint = new PointF((float)numEndX.Value, (float)numEndY.Value);
+                if (!(line is LineElement3D))
+                {
+                    switch (currentAxeName)
+                    {
+                        case "xoy":
+                            line.StartPoint = new PointF((float)numStartX.Value, (float)numStartY.Value); // важно
+                            line.EndPoint = new PointF((float)numEndX.Value, (float)numEndY.Value);  // выжно
+                            //line.StartPoint = new PointF((float)numStartX.Value + ZERO_POINT_DIFFERENCE_X, (float)numStartY.Value + ZERO_POINT_DIFFERENCE_Y); // важно
+                            //line.EndPoint = new PointF((float)numEndX.Value + ZERO_POINT_DIFFERENCE_X, (float)numEndY.Value + ZERO_POINT_DIFFERENCE_Y);  // выжно
+                            break;
+                        case "yoz":
+                            line.StartPoint = new PointF((float)numStartX.Value, (float)numStartY.Value); // важно
+                            line.EndPoint = new PointF((float)numEndX.Value, (float)numEndY.Value);  // выжно
+                            //line.StartPoint = new PointF((float)numStartX.Value, (float)numStartY.Value + ZERO_POINT_DIFFERENCE_X); // важно
+                            //line.EndPoint = new PointF((float)numEndX.Value, (float)numEndY.Value + ZERO_POINT_DIFFERENCE_X);  // выжно
+                            break;
+                        case "xoz":
+                            line.StartPoint = new PointF((float)numStartX.Value, (float)numStartY.Value); // важно
+                            line.EndPoint = new PointF((float)numEndX.Value, (float)numEndY.Value);  // выжно
+                            //line.StartPoint = new PointF((float)numStartX.Value + ZERO_POINT_DIFFERENCE_X, (float)numStartY.Value); // важно
+                            //line.EndPoint = new PointF((float)numEndX.Value + ZERO_POINT_DIFFERENCE_X, (float)numEndY.Value);  // выжно
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                
                 line.Thickness = (float)numThickness.Value;
                 //(float a, float b, float c, float d) = line.GetEquation();
                 //lblEquation.Text = $"Уравнение прямой {a}x+{b}y+{c}=0"; //для 3 д тут z использовать еще
@@ -560,8 +760,33 @@ namespace GrafRedactor
                 //line3d.StartPoint3D = new Point3D((float)numStartX.Value, (float)numStartY.Value, (float)numStartZ.Value);
                 //line3d.EndPoint3D = new Point3D((float)numEndX.Value, (float)numEndY.Value, (float)numEndZ.Value);
                 // Устанавливаем реальные координаты
-                Point3D newStart = new Point3D((float)numStartX.Value, (float)numStartY.Value, (float)numStartZ.Value);
-                Point3D newEnd = new Point3D((float)numEndX.Value, (float)numEndY.Value, (float)numEndZ.Value);
+                Point3D newStart;
+                Point3D newEnd;
+                switch (currentAxeName)
+                {
+                    case "xoy":
+                        newStart = new Point3D((float)numStartX.Value, (float)numStartY.Value, (float)numStartZ.Value);
+                        newEnd = new Point3D((float)numEndX.Value, (float)numEndY.Value, (float)numEndZ.Value);
+                        //newStart = new Point3D((float)numStartX.Value + ZERO_POINT_DIFFERENCE_X, (float)numStartY.Value + ZERO_POINT_DIFFERENCE_Y, (float)numStartZ.Value);
+                        //newEnd = new Point3D((float)numEndX.Value + ZERO_POINT_DIFFERENCE_X, (float)numEndY.Value + ZERO_POINT_DIFFERENCE_Y, (float)numEndZ.Value);
+                        break;
+                    case "yoz":
+                        newStart = new Point3D((float)numStartX.Value, (float)numStartY.Value, (float)numStartZ.Value);
+                        newEnd = new Point3D((float)numEndX.Value, (float)numEndY.Value, (float)numEndZ.Value);
+                        //newStart = new Point3D((float)numStartX.Value, (float)numStartY.Value + ZERO_POINT_DIFFERENCE_X, (float)numStartZ.Value + ZERO_POINT_DIFFERENCE_Y);
+                        //newEnd = new Point3D((float)numEndX.Value, (float)numEndY.Value + ZERO_POINT_DIFFERENCE_X, (float)numEndZ.Value + ZERO_POINT_DIFFERENCE_Y);
+                        break;
+                    case "xoz":
+                        newStart = new Point3D((float)numStartX.Value, (float)numStartY.Value, (float)numStartZ.Value);
+                        newEnd = new Point3D((float)numEndX.Value, (float)numEndY.Value, (float)numEndZ.Value);
+                        //newStart = new Point3D((float)numStartX.Value + ZERO_POINT_DIFFERENCE_X, (float)numStartY.Value, (float)numStartZ.Value + ZERO_POINT_DIFFERENCE_Y);
+                        //newEnd = new Point3D((float)numEndX.Value + ZERO_POINT_DIFFERENCE_X, (float)numEndY.Value , (float)numEndZ.Value + ZERO_POINT_DIFFERENCE_Y);
+                        break;
+                    default:
+                        newStart = null;
+                        newEnd = null;
+                        break;
+                }                
 
                 line3d.SetRealPoints(newStart, newEnd, CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
                 line3d.Thickness = (float)numThickness.Value;
@@ -570,7 +795,23 @@ namespace GrafRedactor
 
             if(selectedFigure is Cube3D cube && !isDragging && !isResizing) 
             {
-                cube.Center = new Point3D((float)numStartX.Value, (float)numStartY.Value, (float)numStartZ.Value);
+                switch (currentAxeName)
+                {
+                    case "xoy":
+                        cube.Center = new Point3D((float)numStartX.Value /*+ ZERO_POINT_DIFFERENCE_X*/, (float)numStartY.Value /*+ ZERO_POINT_DIFFERENCE_Y*/, (float)numStartZ.Value);
+                        break;
+                    case "yoz":
+                        cube.Center = new Point3D((float)numStartY.Value, (float)numStartZ.Value /*+ ZERO_POINT_DIFFERENCE_X*/, (float)numStartX.Value /*+ ZERO_POINT_DIFFERENCE_Y*/);
+                        break;
+                    case "xoz":
+                        cube.Center = new Point3D((float)numStartX.Value /*+ ZERO_POINT_DIFFERENCE_X*/, (float)numStartZ.Value, (float)numStartY.Value /*+ ZERO_POINT_DIFFERENCE_Y*/);
+                        break;
+                    default:
+                        
+                        break;
+                }
+
+                
                 this.Invalidate();
             }
         }
@@ -579,10 +820,31 @@ namespace GrafRedactor
         {
             if (selectedFigure is LineElement line)
             {
+                Color newColor = Color.Black;
 
-                line.Color = Color.FromName(comboColor.SelectedItem.ToString());
+                switch (comboColor.SelectedItem.ToString())
+                {
+                    case "Черный": newColor = Color.Black; break;
+                    case "Красный": newColor = Color.Red; break;
+                    case "Зеленый": newColor = Color.Green; break;
+                    case "Синий": newColor = Color.Blue; break;
+                    case "Оранжевый": newColor = Color.Orange; break;
+                    case "Фиолетовый": newColor = Color.Purple; break;
+                    case "Желтый": newColor = Color.Yellow; break;
+                    case "Розовый": newColor = Color.Pink; break;
+                    case "Коричневый": newColor = Color.Brown; break;
+                    case "Серый": newColor = Color.Gray; break;
+                }
+
+                line.Color = newColor;
                 this.Invalidate();
             }
+            //if (selectedFigure is LineElement line)
+            //{
+
+            //    line.Color = Color.FromName(comboColor.SelectedItem.ToString());
+            //    this.Invalidate();
+            //}
         }
 
         private void InitializeStatusBar()
@@ -1030,7 +1292,7 @@ namespace GrafRedactor
                                 }
                                 else if (figure is Cube3D cube)
                                 {
-                                    cube.Rotate3D(angleX, angleY, angleZ, CalculateSceneCenter());
+                                    cube.Rotate3D(angleX, angleY, angleZ, CalculateSceneCenter(), GetDrawingArea());
                                     any3DObject = true;
                                     cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter());
                                 }
@@ -1077,7 +1339,7 @@ namespace GrafRedactor
                                     {
                                         cubeCenter = CalculateSceneCenter();
                                     }
-                                    cube.Rotate3D(angleX, angleY, angleZ, cubeCenter);
+                                    cube.Rotate3D(angleX, angleY, angleZ, cubeCenter, GetDrawingArea());
                                     any3DObject = true;
                                     cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter());
                                 }
@@ -1437,56 +1699,94 @@ namespace GrafRedactor
             }
         }
 
-        private void ApplyMirroring() 
+        private void ApplyMirroring()
         {
-            if (selectedFigures.Count != 2 & !(isGroupSelected && currentGroupId != null & selectedFigures.Count == groupManager.GetGroupElements(currentGroupId).Count + 1)) 
+            if (selectedFigures.Count != 2 & !(isGroupSelected && currentGroupId != null & selectedFigures.Count == groupManager.GetGroupElements(currentGroupId).Count + 1))
             {
-                MessageBox.Show($"Ошибка: необходиом выбрать 2 прямые:\n1 - которую зеркалировать,\n2 - относительно которой зеркалировать", "Ошибка",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка: необходимо выбрать 2 прямые:\n1 - которую зеркалировать,\n2 - относительно которой зеркалировать", "Ошибка",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            //FigureElement figure = selectedFigures[0];
-            if (selectedFigures.Last() is LineElement mirrorLine) 
+
+            FigureElement figureToMirror = selectedFigures[0];
+            FigureElement mirrorLine = selectedFigures[1];
+
+            if (mirrorLine is LineElement mirrorLineElement)
             {
-                // Получаем уравнение прямой для зеркалирования
-                (float A, float B, float C, float tempZ) = mirrorLine.GetEquation(); //а может и без флага
-
-                // Проверяем, не выйдут ли фигуры за границы после зеркалирования
-                if (!CanPerformMirror(A, B, C))
+                if (figureToMirror is LineElement3D line3D)
                 {
-                    MessageBox.Show("Зеркалирование невозможно: изображение выйдет за границы экрана", "Ошибка",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    // Зеркалирование 3D линии относительно прямой
+                    line3D.Mirror3DRelativeToLine(mirrorLineElement);
                 }
-
-                // Выполняем зеркалирование
-                if (isGroupSelected && currentGroupId != null)
+                else if (figureToMirror is Cube3D cube)
                 {
-                    if (!groupManager.MirrorGroup(currentGroupId, A, B, C, GetDrawingArea()))
-                    {
-                        MessageBox.Show("Ошибка: зеркалиование выносит элементы за границы экрана", "Ошибка",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
+                    // Зеркалирование куба относительно прямой
+                    cube.Mirror3DRelativeToLine(mirrorLineElement);
                 }
-                else
+                else if (figureToMirror is LineElement line2D)
                 {
-                    //foreach (var figure in selectedFigures)
-                    //{
-
-                        if (selectedFigures[0] is LineElement line)
-                        {
-                            line.Mirror(A, B, C);
-                        }
-                    //}
+                    // Для 2D линии используем старый метод
+                    (float A, float B, float C, float tempZ) = mirrorLineElement.GetEquation();
+                    line2D.Mirror(A, B, C);
                 }
 
                 UpdateParametersPanel();
                 this.Invalidate();
 
                 MessageBox.Show("Зеркалирование выполнено успешно", "Успех",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                              MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+
+
+            // старое с 2д
+            //if (selectedFigures.Count != 2 & !(isGroupSelected && currentGroupId != null & selectedFigures.Count == groupManager.GetGroupElements(currentGroupId).Count + 1)) 
+            //{
+            //    MessageBox.Show($"Ошибка: необходиом выбрать 2 прямые:\n1 - которую зеркалировать,\n2 - относительно которой зеркалировать", "Ошибка",
+            //                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
+            ////FigureElement figure = selectedFigures[0];
+            //if (selectedFigures.Last() is LineElement mirrorLine) 
+            //{
+            //    // Получаем уравнение прямой для зеркалирования
+            //    (float A, float B, float C, float tempZ) = mirrorLine.GetEquation(); //а может и без флага
+
+            //    // Проверяем, не выйдут ли фигуры за границы после зеркалирования
+            //    if (!CanPerformMirror(A, B, C))
+            //    {
+            //        MessageBox.Show("Зеркалирование невозможно: изображение выйдет за границы экрана", "Ошибка",
+            //                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //        return;
+            //    }
+
+            //    // Выполняем зеркалирование
+            //    if (isGroupSelected && currentGroupId != null)
+            //    {
+            //        if (!groupManager.MirrorGroup(currentGroupId, A, B, C, GetDrawingArea()))
+            //        {
+            //            MessageBox.Show("Ошибка: зеркалиование выносит элементы за границы экрана", "Ошибка",
+            //                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //            return;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        //foreach (var figure in selectedFigures)
+            //        //{
+
+            //            if (selectedFigures[0] is LineElement line)
+            //            {
+            //                line.Mirror(A, B, C);
+            //            }
+            //        //}
+            //    }
+
+            //    UpdateParametersPanel();
+            //    this.Invalidate();
+
+            //    MessageBox.Show("Зеркалирование выполнено успешно", "Успех",
+            //                      MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
         }
 
         private void ApplyProjection() 
@@ -1561,21 +1861,24 @@ namespace GrafRedactor
 
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
+            // ПРЕОБРАЗУЕМ координаты мыши в мировые
+            PointF worldMousePos = ScreenToWorld(e.Location);
+            lastMousePos = ScreenToWorld(e.Location);
+
             var drawingArea = GetDrawingArea();
             if (!drawingArea.Contains(e.Location))
-                return;
-
-            lastMousePos = e.Location;
+                return;            
 
             if (e.Button == MouseButtons.Left)
-            {                
+            {
                 // ЕСЛИ НАЖАТ CTRL - множественное выделение
                 if (Control.ModifierKeys == Keys.Control)
                 {
                     FigureElement clickedFigure = null;
                     foreach (var figure in figures)
                     {
-                        if (figure.ContainsPoint(e.Location))
+                        // ПРОВЕРЯЕМ в мировых координатах
+                        if (figure.ContainsPoint(worldMousePos))
                         {
                             clickedFigure = figure;
                             break;
@@ -1596,9 +1899,9 @@ namespace GrafRedactor
                             currentGroupId = clickedFigure.GroupId;
                             isGroupSelected = true;
                             isDragging = true;
-                            selectedFigure = clickedFigure; //чтобы отображалась панель параметров при выборе линии в группе
-                        }                                  //операции примененные к линии в группе будут применяться ко всей группе
-                        else                    
+                            selectedFigure = clickedFigure;
+                        }
+                        else
                         {
                             clickedFigure.IsSelected = !clickedFigure.IsSelected;
                             if (clickedFigure.IsSelected && !selectedFigures.Contains(clickedFigure))
@@ -1616,43 +1919,14 @@ namespace GrafRedactor
                 {
                     if (ResetSceneToDrawingPlane())
                         return;
-                    // Сбрасываем ВСЕ состояния выделения
+
                     ClearSelection();
 
-                    // Сначала проверяем клик по групповым маркерам
-                    // Нафиг надо проверять  вообще, пусть не изменяется размер группы при растягивании за края ограничивающего группу прямоугольника
-                    //foreach (var groupId in groupManager.GetAllGroupIds())
-                    //{
-                    //    var groupBbox = GetGroupBoundingBox(groupId);
-                    //    float handleSize = 8f;
-
-                    //    if (IsPointInHandle(e.Location, groupBbox.Left, groupBbox.Top, handleSize) ||
-                    //        IsPointInHandle(e.Location, groupBbox.Right, groupBbox.Top, handleSize) ||
-                    //        IsPointInHandle(e.Location, groupBbox.Left, groupBbox.Bottom, handleSize) ||
-                    //        IsPointInHandle(e.Location, groupBbox.Right, groupBbox.Bottom, handleSize))
-                    //    {
-                    //        // Выделяем всю группу
-                    //        var groupElements = groupManager.GetGroupElements(groupId);
-                    //        foreach (var element in groupElements)
-                    //        {
-                    //            element.IsSelected = true;
-                    //            selectedFigures.Add(element);
-                    //        }
-                    //        currentGroupId = groupId;
-                    //        isGroupSelected = true;
-                    //        isResizing = true;
-                    //        UpdateParametersPanel(); //необхдимо определить все таки выбранную линию и для нее рисовать панель - а если операции будут применяться к линии в группе - то ко всей группе
-                    //          //тут были спорности
-                    //        this.Invalidate();
-                    //        return;
-                    //    }
-                    //}
-
-                    // Проверяем клик по элементам
+                    // Проверяем клик по элементам в мировых координатах
                     FigureElement clickedFigure = null;
                     foreach (var figure in figures)
                     {
-                        if (figure.ContainsPoint(e.Location))
+                        if (figure.ContainsPoint(worldMousePos))
                         {
                             clickedFigure = figure;
                             break;
@@ -1673,8 +1947,7 @@ namespace GrafRedactor
                             currentGroupId = clickedFigure.GroupId;
                             isGroupSelected = true;
                             isDragging = true;
-                            selectedFigure = clickedFigure; //чтобы отображалась панель параметров при выборе линии в группе
-                            //операции примененные к линии в группе будут применяться ко всей группе
+                            selectedFigure = clickedFigure;
                         }
                         else
                         {
@@ -1683,7 +1956,7 @@ namespace GrafRedactor
                             selectedFigures.Add(clickedFigure);
                             selectedFigure = clickedFigure;
 
-                            // ПРОВЕРЯЕМ КЛИК ПО МАРКЕРАМ ИЗМЕНЕНИЯ РАЗМЕРА ПЕРЕД установкой isDragging
+                            // ПРОВЕРЯЕМ КЛИК ПО МАРКЕРАМ ИЗМЕНЕНИЯ РАЗМЕРА в мировых координатах
                             if (clickedFigure is LineElement3D line3d)
                             {
                                 float handleSize = 8f;
@@ -1694,56 +1967,53 @@ namespace GrafRedactor
                                     line3d.EndPoint.X - handleSize / 2, line3d.EndPoint.Y - handleSize / 2,
                                     handleSize, handleSize);
 
-                                if (startHandle.Contains(e.Location))
+                                if (startHandle.Contains(worldMousePos))
                                 {
                                     isResizing = true;
                                     resizeStartPoint = true;
                                     UpdateParametersPanel();
                                     this.Invalidate();
-                                    return; // ВАЖНО: выходим, чтобы не установить isDragging
+                                    return;
                                 }
-                                else if (endHandle.Contains(e.Location))
+                                else if (endHandle.Contains(worldMousePos))
                                 {
                                     isResizing = true;
                                     resizeStartPoint = false;
                                     UpdateParametersPanel();
                                     this.Invalidate();
-                                    return; // ВАЖНО: выходим, чтобы не установить isDragging
+                                    return;
                                 }
                             }
-                            else
+                            else if (clickedFigure is LineElement line)
                             {
-                                if (clickedFigure is LineElement line) 
-                                {
-                                    float handleSize = 8f;
-                                    RectangleF startHandle = new RectangleF(
-                                        line.StartPoint.X - handleSize / 2, line.StartPoint.Y - handleSize / 2,
-                                        handleSize, handleSize);
-                                    RectangleF endHandle = new RectangleF(
-                                        line.EndPoint.X - handleSize / 2, line.EndPoint.Y - handleSize / 2,
-                                        handleSize, handleSize);
+                                float handleSize = 8f;
+                                RectangleF startHandle = new RectangleF(
+                                    line.StartPoint.X - handleSize / 2, line.StartPoint.Y - handleSize / 2,
+                                    handleSize, handleSize);
+                                RectangleF endHandle = new RectangleF(
+                                    line.EndPoint.X - handleSize / 2, line.EndPoint.Y - handleSize / 2,
+                                    handleSize, handleSize);
 
-                                    if (startHandle.Contains(e.Location))
-                                    {
-                                        isResizing = true;
-                                        resizeStartPoint = true;
-                                        UpdateParametersPanel();
-                                        this.Invalidate();
-                                        return; // ВАЖНО: выходим, чтобы не установить isDragging
-                                    }
-                                    else if (endHandle.Contains(e.Location))
-                                    {
-                                        isResizing = true;
-                                        resizeStartPoint = false;
-                                        UpdateParametersPanel();
-                                        this.Invalidate();
-                                        return; // ВАЖНО: выходим, чтобы не установить isDragging
-                                    }
+                                if (startHandle.Contains(worldMousePos))
+                                {
+                                    isResizing = true;
+                                    resizeStartPoint = true;
+                                    UpdateParametersPanel();
+                                    this.Invalidate();
+                                    return;
+                                }
+                                else if (endHandle.Contains(worldMousePos))
+                                {
+                                    isResizing = true;
+                                    resizeStartPoint = false;
+                                    UpdateParametersPanel();
+                                    this.Invalidate();
+                                    return;
                                 }
                             }
 
-                                // Если не попали в маркеры - тогда перемещаем
-                                isDragging = true;
+                            // Если не попали в маркеры - тогда перемещаем
+                            isDragging = true;
                         }
 
                         UpdateParametersPanel();
@@ -1755,7 +2025,7 @@ namespace GrafRedactor
                     ClearSelection();
                     parametersPanel.Visible = false;
                     isDrawing = true;
-                    drawingStartPoint = e.Location;
+                    drawingStartPoint = worldMousePos; // сохраняем в мировых координатах
                 }
             }
         }
@@ -1794,8 +2064,8 @@ namespace GrafRedactor
 
             // Создаем куб в центре области рисования
             Point3D cubeCenter = new Point3D(
-                drawingArea.Width / 2,
-                drawingArea.Height / 2,
+                0/*drawingArea.Width / 2*/,
+                0/*drawingArea.Height / 2*/,
                 0  // Z координата
             );
 
@@ -1816,8 +2086,8 @@ namespace GrafRedactor
             selectedFigure = cube;
             selectedFigure.IsSelected = true;
             selectedFigures.Add(cube);
-            cube.Rotate3D(30, 30, 30, /*cubeCenter*/CalculateSceneCenter());
-            cube.Rotate3D(-30, -30, -30, /*cubeCenter*/CalculateSceneCenter());
+            //cube.Rotate3D(30, 30, 30, /*cubeCenter*/CalculateSceneCenter(), GetDrawingArea());
+            //cube.Rotate3D(-30, -30, -30, /*cubeCenter*/CalculateSceneCenter(), GetDrawingArea());
             // Обновляем интерфейс
             UpdateParametersPanel();
             this.Invalidate();
@@ -1854,11 +2124,13 @@ namespace GrafRedactor
 
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
+            // ПРЕОБРАЗУЕМ координаты мыши в мировые
+            PointF worldMousePos = ScreenToWorld(e.Location);
             isRotatingView = true; //может  вэтом пролема? куда убрать это тогда
             // Вращение сценой
             if (isRotatingView && e.Button == MouseButtons.Middle)
             {
-                PointF delta = new PointF(e.X - lastMousePos.X, e.Y - lastMousePos.Y);
+                PointF delta = new PointF(worldMousePos.X - lastMousePos.X, worldMousePos.Y - lastMousePos.Y);
 
                 // Преобразуем движение мыши в углы вращения
                 float angleY = delta.X * rotationSensitivity; // Горизонтальное движение = вращение вокруг Y
@@ -1867,7 +2139,7 @@ namespace GrafRedactor
                 // Вращаем всю сцену
                 RotateEntireScene(angleX, angleY, 0);
 
-                lastMousePos = e.Location;
+                lastMousePos = ScreenToWorld(e.Location);
                 this.Invalidate();
             }
 
@@ -1879,9 +2151,9 @@ namespace GrafRedactor
                 //ResetBaseSceneAngle();
                 // Ограничиваем область рисования
                 var drawingArea = GetDrawingArea();
-                
 
-                PointF delta = new PointF(e.X - lastMousePos.X, e.Y - lastMousePos.Y);
+
+                PointF delta = new PointF(worldMousePos.X - lastMousePos.X, worldMousePos.Y - lastMousePos.Y);
 
                 if (isDragging)
                 {
@@ -1919,9 +2191,17 @@ namespace GrafRedactor
                     //newEndPoint.X = Math.Max(0, Math.Min(newEndPoint.X, drawingArea.Width));
                     //newEndPoint.Y = Math.Max(0, Math.Min(newEndPoint.Y, drawingArea.Height));
 
-                    PointF newPoint = e.Location;
-                    newPoint.X = Math.Max(0, Math.Min(newPoint.X, drawingArea.Width));
-                    newPoint.Y = Math.Max(0, Math.Min(newPoint.Y, drawingArea.Height));
+                    // Ограничиваем область рисования в мировых координатах
+                    var drawingAr = GetDrawingArea();
+                    float maxX = drawingAr.Width / 2;
+                    float maxY = drawingAr.Height / 2;
+                    float minX = -maxX;
+                    float minY = -maxY;
+
+                    PointF newPoint = new PointF(
+                        Math.Max(minX, Math.Min(worldMousePos.X, maxX)),
+                        Math.Max(minY, Math.Min(worldMousePos.Y, maxY))
+                    );
 
                     if (resizeStartPoint)
                     {
@@ -1935,7 +2215,7 @@ namespace GrafRedactor
                                     break;
                                 case "yoz":
                                     line3d.StartPoint3D = new Point3D(line3d.ZeroRatatedStartPoint.X, newPoint.X, newPoint.Y);
-                                    line3d.Rotate3DWithScene(new Point3D(0, 0, 0), -90, 0, -90); //так центр у вех осей координат в 000Б а не как было - у х и у в 000, а z - центр жэкрана
+                                    line3d.Rotate3DWithScene(CalculateSceneCenter()/*new Point3D(0, 0, 0)*/, resetAngleValueX, resetAngleValueY, resetAngleValueZ); //так центр у вех осей координат в 000Б а не как было - у х и у в 000, а z - центр жэкрана
                                     break;
                                 case "xoz":
                                     line3d.StartPoint3D = new Point3D(newPoint.X, line3d.ZeroRatatedStartPoint.Y, newPoint.Y);
@@ -1960,11 +2240,11 @@ namespace GrafRedactor
                                     break;
                                 case "yoz":
                                     line3d.EndPoint3D = new Point3D(line3d.ZeroRatatedEndPoint.X, newPoint.X, newPoint.Y);
-                                    line3d.Rotate3DWithScene(CalculateSceneCenter(), -90, 0, -90); //так центр у вех осей координат в 000Б а не как было - у х и у в 000, а z - центр жэкрана
+                                    line3d.Rotate3DWithScene(CalculateSceneCenter()/*new Point3D(0, 0, 0)*/, resetAngleValueX, resetAngleValueY, resetAngleValueZ); //так центр у вех осей координат в 000Б а не как было - у х и у в 000, а z - центр жэкрана
                                     break;
                                 case "xoz":
                                     line3d.EndPoint3D = new Point3D(newPoint.X, line3d.ZeroRatatedEndPoint.Y, newPoint.Y);
-                                    line3d.Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                                    line3d.Rotate3DWithScene(CalculateSceneCenter()/*new Point3D(0, 0, 0)*/, resetAngleValueX, resetAngleValueY, resetAngleValueZ);
                                     break;
                                 default:
                                     break;
@@ -1984,33 +2264,47 @@ namespace GrafRedactor
                 else if (isDrawing)
                 {
                     //ResetSceneToDrawingPlane();
+                    //lastMousePos = worldMousePos; // обновляем в мировых координатах
                     this.Invalidate(); // Перерисовываем для отображения временной линии
                 }
             }            
-            lastMousePos = e.Location;
+            lastMousePos = worldMousePos; // сохраняем в мировых координатах;
         }
 
         private void MainForm_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
+                // ПРЕОБРАЗУЕМ координаты мыши в мировые
+                PointF worldMousePos = ScreenToWorld(e.Location);
                 if (isDrawing)
                 {
                     // Создаем новую линию только если длина достаточная и в области рисования
-                    var drawingArea = GetDrawingArea();
-                    if (drawingArea.Contains(e.Location) && Distance(drawingStartPoint, e.Location) > 5)
+                    var drawingAr = GetDrawingArea();
+                    if (drawingAr.Contains(e.Location) && Distance(drawingStartPoint, worldMousePos) > 5)
                     {
-                        PointF drawingEndPoint = e.Location;
-                        drawingEndPoint.X = Math.Max(0, Math.Min(drawingEndPoint.X, drawingArea.Width));
-                        drawingEndPoint.Y = Math.Max(0, Math.Min(drawingEndPoint.Y, drawingArea.Height));
+                        // Ограничиваем область в мировых координатах
+                        float maxX = drawingAr.Width / 2;
+                        float maxY = drawingAr.Height / 2;
+                        float minX = -maxX;
+                        float minY = -maxY;
+
+                        PointF drawingEndPoint = new PointF(
+                            Math.Max(minX, Math.Min(worldMousePos.X, maxX)),
+                            Math.Max(minY, Math.Min(worldMousePos.Y, maxY))
+                        );
+
                         FigureElement newLine;
                         if (is3DMode)
                         {
                             //SimpleCamera.GroupManager = groupManager;
                             //SimpleCamera.DrawingArea = GetDrawingArea();
                             // УЧИТЫВАЕМ поворот системы - применяем обратное вращение
-                            Point3D start3D = TransformScreenToWorld(drawingStartPoint, 0);
+                            // ПРЕОБРАЗУЕМ координаты мыши в мировые
+                            Point3D start3D = TransformScreenToWorld((drawingStartPoint), 0);
                             Point3D end3D = TransformScreenToWorld(drawingEndPoint, 0);
+                            //Point3D start3D = TransformScreenToWorld(drawingStartPoint, 0);
+                            //Point3D end3D = TransformScreenToWorld(drawingEndPoint, 0);
                             //newLine = new LineElement3D(start3D, end3D, Color.Black, 3f);
                             switch (currentAxeName) //в обновлении данных из панели параметров и в паннель параметров также сделать
                             {
@@ -2031,22 +2325,93 @@ namespace GrafRedactor
                                 //xOz
                                 case "xoy":
                                     newLine = new LineElement3D(start3D, end3D, Color.Black, 3f);
+                                    ((LineElement3D)newLine).Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
                                     break;
                                 case "yoz":
+
                                     Point3D tempPoint = new Point3D(drawingStartPoint.X, drawingStartPoint.Y, 0);
                                     start3D.X = 0;
                                     start3D.Y = tempPoint.X;
-                                    start3D.Z = tempPoint.Y /*- CalculateSceneCenter().Y*/;
+                                    start3D.Z = tempPoint.Y/*- CalculateSceneCenter().Y*/;
                                     tempPoint = new Point3D(drawingEndPoint.X, drawingEndPoint.Y, 0);
                                     end3D.X = 0;
                                     end3D.Y = tempPoint.X;
                                     end3D.Z = tempPoint.Y/*-CalculateSceneCenter().Y*/;
                                     newLine = new LineElement3D(start3D, end3D, Color.Black, 3f);
-                                    ((LineElement3D)newLine).Rotate3DWithScene(new Point3D(0,0,0), -90, 0, -90); 
+                                    // Вращаем новую линию вместе со сценой
+                                    //newLine.Rotate3DWithScene();
+                                    ((LineElement3D)newLine).Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                                    // Вращаем новую линию вместе со сценой
+                                    //newLine.Rotate3DWithScene();
+                                    /*((LineElement3D)newLine).Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                                    // Создаем линию в реальных 3D координатах плоскости YOZ
+                                    start3D = new Point3D(
+                                        0,  // X
+                                        drawingStartPoint.X - ZERO_POINT_DIFFERENCE_X,  // Y 
+                                        drawingStartPoint.Y - ZERO_POINT_DIFFERENCE_Y   // Z
+                                    );
+
+                                     end3D = new Point3D(
+                                        0,  // X
+                                        drawingEndPoint.X - ZERO_POINT_DIFFERENCE_X,    // Y
+                                        drawingEndPoint.Y - ZERO_POINT_DIFFERENCE_Y     // Z
+                                    );
+
+                                    newLine = new LineElement3D(start3D, end3D, Color.Black, 3f);
+                                    ((LineElement3D)newLine).Rotate3DWithScene(CalculateSceneCenter(), 0, -90, -90);*/
+                                    // Создаем линию в плоскости YOZ
+                                    /*Point3D start3D = new Point3D(
+                                        0,  // X = 0 в плоскости YOZ
+                                        drawingStartPoint.X - ZERO_POINT_DIFFERENCE_X,  // Y = экранный X
+                                        drawingStartPoint.Y - ZERO_POINT_DIFFERENCE_Y   // Z = экранный Y  
+                                    );
+
+                                    Point3D end3D = new Point3D(
+                                        0,  // X = 0 в плоскости YOZ
+                                        drawingEndPoint.X - ZERO_POINT_DIFFERENCE_X,    // Y = экранный X
+                                        drawingEndPoint.Y - ZERO_POINT_DIFFERENCE_Y     // Z = экранный Y
+                                    );
+
+                                    newLine = new LineElement3D(start3D, end3D, Color.Black, 3f);
+
+                                    // Вращаем для отображения в плоскости YOZ
+                                    ((LineElement3D)newLine).Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+
+                                    // РУЧНАЯ КОРРЕКЦИЯ 2D КООРДИНАТ для правильного отображения в YOZ
+                                    // В плоскости YOZ: X игнорируется, Y становится X на экране, Z становится Y на экране
+                                    ((LineElement3D)newLine).StartPoint = new PointF(
+                                        ((LineElement3D)newLine).ZeroRatatedStartPoint.Y + ZERO_POINT_DIFFERENCE_X,
+                                        ((LineElement3D)newLine).ZeroRatatedStartPoint.Z + ZERO_POINT_DIFFERENCE_Y
+                                    );
+
+                                    ((LineElement3D)newLine).EndPoint = new PointF(
+                                        ((LineElement3D)newLine).ZeroRatatedEndPoint.Y + ZERO_POINT_DIFFERENCE_X,
+                                        ((LineElement3D)newLine).ZeroRatatedEndPoint.Z + ZERO_POINT_DIFFERENCE_Y
+                                    );*/
+                                    //Point3D tempPoint = new Point3D(drawingStartPoint.X, drawingStartPoint.Y, 0);
+                                    //start3D.X = 0;
+                                    //start3D.Y = tempPoint.X;
+                                    //start3D.Z = tempPoint.Y/*- CalculateSceneCenter().Y*/;
+                                    //tempPoint = new Point3D(drawingEndPoint.X, drawingEndPoint.Y, 0);
+                                    //end3D.X = 0;
+                                    //end3D.Y = tempPoint.X;
+                                    //end3D.Z = tempPoint.Y/*-CalculateSceneCenter().Y*/;
+                                    //newLine = new LineElement3D(start3D, end3D, Color.Black, 3f);
+                                    //// Вращаем новую линию вместе со сценой
+                                    ////newLine.Rotate3DWithScene();
+                                    //((LineElement3D)newLine).Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+
+                                    //((LineElement3D)newLine).StartPoint3D.X = ((LineElement3D)newLine).StartPoint3D.X - (ZERO_POINT_DIFFERENCE_X - ZERO_POINT_DIFFERENCE_Y);
+                                    //((LineElement3D)newLine).StartPoint3D.Y = ((LineElement3D)newLine).StartPoint3D.Y - ZERO_POINT_DIFFERENCE_Y;
+                                    //((LineElement3D)newLine).StartPoint3D.Z = ((LineElement3D)newLine).StartPoint3D.Z + ZERO_POINT_DIFFERENCE_X;
+                                    //((LineElement3D)newLine).EndPoint3D.X = ((LineElement3D)newLine).EndPoint3D.X - (ZERO_POINT_DIFFERENCE_X - ZERO_POINT_DIFFERENCE_Y);
+                                    //((LineElement3D)newLine).EndPoint3D.Y = ((LineElement3D)newLine).EndPoint3D.Y - ZERO_POINT_DIFFERENCE_Y;
+                                    //((LineElement3D)newLine).EndPoint3D.Z = ((LineElement3D)newLine).EndPoint3D.Z + ZERO_POINT_DIFFERENCE_X;
+                                    //((LineElement3D)newLine).Update2DProjection();
                                     //так центр у вех осей координат в 000Б а не как было - у х и у в 000, а z - центр жэкрана
                                     break;
                                 case "xoz":
-                                    tempPoint = new Point3D(drawingStartPoint.X, drawingStartPoint.Y, 0);
+                                    /*Point3D*/ tempPoint = new Point3D(drawingStartPoint.X, drawingStartPoint.Y, 0);
                                     start3D.X = tempPoint.X;
                                     start3D.Y = 0;
                                     start3D.Z = tempPoint.Y /*- CalculateSceneCenter().Y*/;
@@ -2055,7 +2420,7 @@ namespace GrafRedactor
                                     end3D.Y = 0;
                                     end3D.Z = tempPoint.Y;
                                     newLine = new LineElement3D(start3D, end3D, Color.Black, 3f);
-                                    ((LineElement3D)newLine).Rotate3DWithScene(new Point3D(0, 0, 0), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                                    ((LineElement3D)newLine).Rotate3DWithScene(CalculateSceneCenter()/*new Point3D(0, 0, 0)*/, resetAngleValueX, resetAngleValueY, resetAngleValueZ);
                                     break;
                                 default:
                                     newLine = null;
@@ -2188,8 +2553,50 @@ namespace GrafRedactor
 
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            // Получаем область рисования
+            var drawingArea = GetDrawingArea();
+            float centerX = drawingArea.X + drawingArea.Width / 2;
+            float centerY = drawingArea.Y + drawingArea.Height / 2;
 
+            // Временно отключаем трансформацию для очистки
+            e.Graphics.FillRectangle(Brushes.White, drawingArea);
+
+            // Теперь применяем трансформацию (после очистки!)
+            e.Graphics.TranslateTransform(centerX, centerY);
+            e.Graphics.ScaleTransform(1, -1);
+
+            // ВСЕ остальное рисуется в новых координатах автоматически
+            coordinateAxes.Draw(e.Graphics);
+
+            foreach (var figure in figures)
+            {
+                figure.Draw(e.Graphics);
+                if (figure.IsSelected)
+                {
+                    figure.DrawSelection(e.Graphics);
+                }
+            }
+
+            if (isGroupSelected && currentGroupId != null && groupManager.GetGroupElements(currentGroupId).Count != 0)
+            {
+                groupManager.DrawGroupSelection(e.Graphics, currentGroupId);
+            }
+
+            // Временная линия - координаты автоматически трансформируются!
+            if (isDrawing)
+            {
+                using (Pen tempPen = new Pen(Color.Gray, 2) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash })
+                {
+                    // Graphics сам преобразует координаты!
+                    e.Graphics.DrawLine(tempPen, drawingStartPoint, lastMousePos);
+                }
+            }
+
+
+            /*e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            e.Graphics.TranslateTransform(ZERO_POINT_DIFFERENCE_X, ZERO_POINT_DIFFERENCE_Y);
+            // Можем также изменить направление осей (например, сделать Y направленным вверх)
+            e.Graphics.ScaleTransform(1, -1);
             // Очищаем только область рисования
             var drawingArea = GetDrawingArea();
             e.Graphics.FillRectangle(Brushes.White, drawingArea);
@@ -2224,7 +2631,7 @@ namespace GrafRedactor
                 {
                     e.Graphics.DrawLine(tempPen, drawingStartPoint, lastMousePos);
                 }
-            }
+            }*/
             // Рисуем границу области рисования (для красоты)
             //using (Pen borderPen = new Pen(Color.LightGray, 1))
             //{
@@ -2340,7 +2747,7 @@ namespace GrafRedactor
             if (e.Button == MouseButtons.Middle && is3DMode)
             {
                 isRotatingView = true;
-                lastMousePos = e.Location;
+                lastMousePos = ScreenToWorld(e.Location);
                 this.Cursor = Cursors.SizeAll; // Меняем курсор
             }
         }
@@ -2364,7 +2771,7 @@ namespace GrafRedactor
             totalRotationY += angleY;
             totalRotationZ += angleZ;
             Point3D sceneCenter = CalculateSceneCenter();//new Point3D(0, 0, 0);//CalculateSceneCenter(); ЧЕРТ да вот тут не квокруг того центра крутится
-            coordinateAxes.Rotate3D(totalRotationX, totalRotationY, totalRotationZ,/*0,*//*angleX, angleY, angleZ,*/ CalculateSceneCenter());
+            coordinateAxes.Rotate3D(totalRotationX, totalRotationY, totalRotationZ,/*0,*//*angleX, angleY, angleZ,*/ CalculateSceneCenter()/*new Point3D(0.0,0)*/);
             foreach (var figure in figures)
             {
                 if (figure is LineElement3D line3D)
@@ -2374,7 +2781,7 @@ namespace GrafRedactor
                 }
                 if(figure is Cube3D cube) 
                 {
-                    cube.Rotate3DWithScene(totalRotationX, totalRotationY, totalRotationZ/*0*//*angleX, angleY, angleZ*/, CalculateSceneCenter());
+                    cube.Rotate3DWithScene(totalRotationX, totalRotationY, totalRotationZ/*0*//*angleX, angleY, angleZ*/, sceneCenter);
                 }
             }
            
@@ -2402,7 +2809,7 @@ namespace GrafRedactor
             if (figures.Count == 0) return;
 
             // Вычисляем центр всей сцены
-            Point3D sceneCenter = CalculateSceneCenter(); //нужно ли
+            Point3D sceneCenter = CalculateSceneCenter();/*new Point3D(0.0,0)*/ //нужно ли
             //Point3D sceneCenter = new Point3D(0,0,0);
 
             // Вращаем каждую фигуру относительно центра сцены
@@ -2415,16 +2822,29 @@ namespace GrafRedactor
                 else if (figure is Cube3D cube)
                 {
                     // Для куба вращаем вокруг его центра
-                    cube.Rotate3D(angleX, angleY, angleZ, CalculateSceneCenter());
+                    cube.Rotate3D(angleX, angleY, angleZ, CalculateSceneCenter(), GetDrawingArea()/*new Point3D(0.0,0)*/);
                 }
                 // 2D фигуры не вращаем в 3D
             }
         }
 
-        private Point3D CalculateSceneCenter()
+        private PointF GetDrawingAreaCenter() 
         {
             Rectangle drawArea = GetDrawingArea();
+            return new PointF(drawArea.Width / 2, drawArea.Height / 2);
+        }
+
+        private Point3D CalculateRealSceneCenter() { return new Point3D(0, 0, 0); }
+
+        private Point3D CalculateSceneCenter()
+        {
+            // Центр сцены с учетом смещения от меню
+            //float offsetY = ZERO_POINT_DIFFERENCE_Y;//menuStrip.Height + 50f;
+            //float offsetX = ZERO_POINT_DIFFERENCE_X;//50f;
+            //return new Point3D(offsetX, offsetY, 0);
+            //return new Point3D(offsetX, offsetY, 0);
             return new Point3D(0, 0, 0);
+            Rectangle drawArea = GetDrawingArea();
             return new Point3D(drawArea.Width/2, drawArea.Height/2, 0);
 
             if (figures.Count == 0) return new Point3D(0, 0, 0);
@@ -2494,8 +2914,8 @@ namespace GrafRedactor
                 //xOz
                 case "yoz":
                     currentAxeName = axeName;
-                    resetAngleValueX = -90;
-                    resetAngleValueY = 0;
+                    resetAngleValueX = 0;
+                    resetAngleValueY = -90;
                     resetAngleValueZ = -90;
                     ResetSceneToDrawingPlane();
                     //RotateEntireScene(resetAngleValueX, resetAngleValueY, 0);
@@ -2510,6 +2930,42 @@ namespace GrafRedactor
                     //RotateEntireScene(resetAngleValueX, resetAngleValueY, 0);
                     break;
             }
+        }
+        //public PointF ScreenToWorldStatic(Point screenPoint)
+        //{
+        //    var drawingArea = GetDrawingArea();
+        //    float centerX = drawingArea.X + drawingArea.Width / 2;
+        //    float centerY = drawingArea.Y + drawingArea.Height / 2;
+
+        //    return new PointF(
+        //        screenPoint.X - centerX,
+        //        -(screenPoint.Y - centerY)
+        //    );
+        //}
+
+        private PointF ScreenToWorld(Point screenPoint)
+        {
+            var drawingArea = GetDrawingArea();
+            float centerX = drawingArea.X + ZERO_POINT_DIFFERENCE_X;//drawingArea.Width / 2;
+            float centerY = drawingArea.Y + ZERO_POINT_DIFFERENCE_Y;//drawingArea.Height / 2;
+
+            // Преобразуем экранные координаты в мировые
+            return new PointF(
+                screenPoint.X - centerX,                    // X: смещаем относительно центра
+                -(screenPoint.Y - centerY)                 // Y: смещаем и инвертируем
+            );
+        }
+
+        private float WorldToScreen(float screenPoint)
+        {
+            var drawingArea = GetDrawingArea();
+            float centerX = drawingArea.X + ZERO_POINT_DIFFERENCE_X;//drawingArea.Width / 2;
+            float centerY = drawingArea.Y + ZERO_POINT_DIFFERENCE_Y;//drawingArea.Height / 2;
+
+            // Преобразуем экранные координаты в мировые
+            return
+                screenPoint + centerX;                   // X: смещаем относительно центр               // Y: смещаем и инвертируем
+            
         }
     }
 }

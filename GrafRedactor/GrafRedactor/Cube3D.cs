@@ -138,11 +138,11 @@ namespace GrafRedactor
             foreach (LineElement3D line in edges)
             {
                 line.Move3D(delta); //сделать как мув групп!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //главное - сделать чтобы рисовательная область и панель параметров не были закрываемы сверху и снизу
-                    //операции 3д
-                    //масштабирование
-                    //зеркалирование
-                    //проецирование
+                                    //главное - сделать чтобы рисовательная область и панель параметров не были закрываемы сверху и снизу
+                                    //операции 3д
+                                    //масштабирование
+                                    //зеркалирование
+                                    //проецирование
             }
             //UpdateCubeGeometry();
             //OnPropertyChanged();
@@ -150,24 +150,76 @@ namespace GrafRedactor
 
         public override void Rotate(float angle, PointF cent)
         {
-            if(cent.IsEmpty)
-                Rotate3D(0, 0, angle, center);
+            if (cent.IsEmpty)
+                Rotate3D(0, 0, angle, center, Rectangle.Empty);
             else
-                Rotate3D(0, 0, angle, new Point3D(cent));
+                Rotate3D(0, 0, angle, new Point3D(cent), Rectangle.Empty);
         }
 
-        public void Rotate3D(float angleX, float angleY, float angleZ, Point3D center)
+        private bool CanPerformRotation3D(float angleX, float angleY, float angleZ, Point3D center, Rectangle drawingArea)
         {
-            foreach (LineElement3D line in edges) 
-            {
-                line.Rotate3D(center/*new Point3D(0,0,0)ЭТО НЕ ЦЕНТР*/, angleX, angleY, angleZ);
-            }
 
-            this.center = RotatePoint3D(Center, center, angleX, angleY, angleZ);
-            //если куб вращается относительно какой-то точки (начла координта), то почему-то его центр вращается не правильно
-            this.center.X = edges[0].StartPoint3D.X + size / 2;
-            this.center.Y = edges[0].StartPoint3D.Y + size / 2;
-            this.center.Z = edges[0].StartPoint3D.Z + size / 2;
+            foreach (var figure in edges)
+            {
+                if (figure is LineElement3D line)
+                {
+                    // Создаем копию для проверки
+                    var testLine = new LineElement3D(line.ZeroRatatedStartPoint, line.ZeroRatatedEndPoint, line.Color, line.Thickness);
+                    Point3D newStart = RotatePoint3D(testLine.ZeroRatatedStartPoint, center, angleX, angleY, angleZ);
+                    Point3D newEnd = RotatePoint3D(testLine.ZeroRatatedEndPoint, center, angleX, angleY, angleZ);
+
+                    // Обновляем реальные координаты
+                    testLine.StartPoint3D = newStart;
+                    testLine.ZeroRatatedEndPoint = newEnd;
+                    testLine.StartPoint3D = newStart;
+                    testLine.EndPoint3D = newEnd;
+
+                    var bbox = testLine.GetBoundingBox();
+                    if (bbox.Left < -drawingArea.Width / 2 || bbox.Right > drawingArea.Width/2 ||
+                        bbox.Top < -drawingArea.Height / 2 || bbox.Bottom > drawingArea.Height/2)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        public void Rotate3D(float angleX, float angleY, float angleZ, Point3D center, Rectangle drawingArea /*= new Rectangle()*/)
+        {
+            //if (CanPerformRotation3D(angleX, angleY, angleZ, center, drawingArea))
+            //{
+            //    // Вращаем всю группу как жесткое тело
+            //    foreach (LineElement3D line3D in edges)
+            //    {
+            //        // Вращаем обе точки линии
+            //        Point3D newStart = RotatePoint3D(line3D.ZeroRatatedStartPoint, center, angleX, angleY, angleZ);
+            //        Point3D newEnd = RotatePoint3D(line3D.ZeroRatatedEndPoint, center, angleX, angleY, angleZ);
+
+            //        // Обновляем реальные координаты
+            //        //line3D.StartPoint3D = newStart;
+            //        //line3D.ZeroRatatedEndPoint = newEnd;
+            //        line3D.StartPoint3D = newStart;
+            //        line3D.EndPoint3D = newEnd;
+
+            //    }
+            //}
+            //return;
+
+            if (CanPerformRotation3D(angleX, angleY, angleZ, center, drawingArea))
+            {
+                foreach (LineElement3D line in edges)
+                {
+                    line.Rotate3D(center/*new Point3D(0,0,0)ЭТО НЕ ЦЕНТР*/, angleX, angleY, angleZ);
+                }
+
+                this.center = RotatePoint3D(Center, center, angleX, angleY, angleZ);
+                //если куб вращается относительно какой-то точки (начла координта), то почему-то его центр вращается не правильно
+                //this.center.X = edges[0].StartPoint3D.X + size / 2;
+                //this.center.Y = edges[0].StartPoint3D.Y + size / 2;
+                //this.center.Z = edges[0].StartPoint3D.Z + size / 2;
+                //сейчас считает правильно, \ти сверху непрвильно считают отчего-то так 
+            }
             //пока так
 
             //// Поворачиваем каждую вершину относительно центра куба
@@ -403,8 +455,12 @@ namespace GrafRedactor
         }
         public float Size => size;
         public Color CubeColor => color;
-
-
+        плохо - масштабирование проверки не по половинам размера идут - пока не работает
+            зеркалирование куба через 2д линию непроисходит
+            3д линии через 2д линию непроисходит
+        проецирование ввобще пока нтуда работает
+            а так вроде норм
+            
         public void Projection3D(string projectionType)
         {
             switch (projectionType.ToLower())
@@ -461,5 +517,112 @@ namespace GrafRedactor
             UpdateCubeGeometry();
             OnPropertyChanged();
         }
+
+        public void Mirror3DRelativeToLine(LineElement mirrorLine)
+        {
+            if (mirrorLine is LineElement3D mirrorLine3D)
+            {
+                // Получаем направляющий вектор и точку на зеркальной прямой
+                Point3D linePoint = mirrorLine3D.ZeroRatatedStartPoint;
+                Point3D lineDirection = new Point3D(
+                    mirrorLine3D.ZeroRatatedEndPoint.X - mirrorLine3D.ZeroRatatedStartPoint.X,
+                    mirrorLine3D.ZeroRatatedEndPoint.Y - mirrorLine3D.ZeroRatatedStartPoint.Y,
+                    mirrorLine3D.ZeroRatatedEndPoint.Z - mirrorLine3D.ZeroRatatedStartPoint.Z
+                );
+
+                // Зеркалируем центр куба
+                center = MirrorPointRelativeToLine(center, linePoint, lineDirection);
+
+                // Зеркалируем все ребра
+                foreach (var edge in edges)
+                {
+                    if (edge is LineElement3D line3D)
+                    {
+                        line3D.ZeroRatatedStartPoint = MirrorPointRelativeToLine(line3D.ZeroRatatedStartPoint, linePoint, lineDirection);
+                        line3D.ZeroRatatedEndPoint = MirrorPointRelativeToLine(line3D.ZeroRatatedEndPoint, linePoint, lineDirection);
+                        line3D.StartPoint3D = line3D.ZeroRatatedStartPoint;
+                        line3D.EndPoint3D = line3D.ZeroRatatedEndPoint;
+                    }
+                }
+
+                UpdateCubeGeometry();
+                OnPropertyChanged();
+            }
+        }
+
+        private Point3D MirrorPointRelativeToLine(Point3D point, Point3D linePoint, Point3D lineDirection)
+        {
+            // Вектор от точки на прямой до зеркалируемой точки
+            Point3D v = new Point3D(
+                point.X - linePoint.X,
+                point.Y - linePoint.Y,
+                point.Z - linePoint.Z
+            );
+
+            // Проекция вектора v на направляющий вектор прямой
+            float t = (v.X * lineDirection.X + v.Y * lineDirection.Y + v.Z * lineDirection.Z) /
+                      (lineDirection.X * lineDirection.X + lineDirection.Y * lineDirection.Y + lineDirection.Z * lineDirection.Z);
+
+            // Точка проекции на прямой
+            Point3D projection = new Point3D(
+                linePoint.X + t * lineDirection.X,
+                linePoint.Y + t * lineDirection.Y,
+                linePoint.Z + t * lineDirection.Z
+            );
+
+            // Вектор от проекции до исходной точки
+            Point3D w = new Point3D(
+                point.X - projection.X,
+                point.Y - projection.Y,
+                point.Z - projection.Z
+            );
+
+            // Зеркальная точка
+            return new Point3D(
+                point.X - 2 * w.X,
+                point.Y - 2 * w.Y,
+                point.Z - 2 * w.Z
+            );
+        }
+
+
+        /*
+         * public void Mirror3D(float A, float B, float C, float D = 0)
+{
+    // Зеркалирование относительно плоскости Ax + By + Cz + D = 0
+    center = MirrorPoint3D(center, A, B, C, D);
+    
+    // Зеркалируем все ребра
+    foreach (var edge in edges)
+    {
+        if (edge is LineElement3D line3D)
+        {
+            line3D.StartPoint3D = MirrorPoint3D(line3D.ZeroRatatedStartPoint, A, B, C, D);
+            line3D.EndPoint3D = MirrorPoint3D(line3D.ZeroRatatedEndPoint, A, B, C, D);
+            line3D.ZeroRatatedStartPoint = line3D.StartPoint3D;
+            line3D.ZeroRatatedEndPoint = line3D.EndPoint3D;
+        }
+    }
+    
+    UpdateCubeGeometry();
+    OnPropertyChanged();
+}
+
+private Point3D MirrorPoint3D(Point3D point, float A, float B, float C, float D)
+{
+    // Формула отражения точки относительно плоскости
+    float denominator = A * A + B * B + C * C;
+    if (Math.Abs(denominator) < 0.0001f) return point;
+
+    float distance = (A * point.X + B * point.Y + C * point.Z + D) / denominator;
+
+    return new Point3D(
+        point.X - 2 * A * distance,
+        point.Y - 2 * B * distance,
+        point.Z - 2 * C * distance
+    );
+}
+         */
+
     }
 }

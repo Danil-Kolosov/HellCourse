@@ -141,23 +141,26 @@ namespace GrafRedactor
 
         public override void Move(PointF delta, float height, float weight, string axeName = "xoy")
         {
-            if (_startPoint.X + delta.X > weight)
-                delta.X = weight - _startPoint.X;
-            if (_startPoint.Y + delta.Y > height)
-                delta.Y = height - _startPoint.Y;
-            if (_endPoint.X + delta.X > weight)
-                delta.X = weight - _endPoint.X;
-            if (_endPoint.Y + delta.Y > height)
-                delta.Y = height - _endPoint.Y;
+            if(axeName!="group")
+            {
+                if (_startPoint.X + delta.X > weight / 2)
+                delta.X = weight/2 - _startPoint.X;
+            if (_startPoint.Y + delta.Y > height / 2)
+                delta.Y = height/2 - _startPoint.Y;
+            if (_endPoint.X + delta.X > weight/2)
+                delta.X = weight/2 - _endPoint.X;
+            if (_endPoint.Y + delta.Y > height/2)
+                delta.Y = height/2 - _endPoint.Y;
 
-            if (_startPoint.X + delta.X < 0)
-                delta.X = -_startPoint.X;
-            if (_startPoint.Y + delta.Y < 0)
-                delta.Y = -_startPoint.Y;
-            if (_endPoint.X + delta.X < 0)
-                delta.X = -_endPoint.X;
-            if (_endPoint.Y + delta.Y < 0)
-                delta.Y = -_endPoint.Y;
+            if (_startPoint.X + delta.X < -weight/2)
+                delta.X = -(weight/2 + _startPoint.X);
+            if (_startPoint.Y + delta.Y < -height/2)
+                delta.Y = -(height/2 + _startPoint.Y);
+            if (_endPoint.X + delta.X < -weight/2)
+                delta.X = -(weight/2 + _endPoint.X);
+                if (_endPoint.Y + delta.Y < -height / 2)
+                    delta.Y = -(height / 2 + _endPoint.Y);
+            }
 
 
             StartPoint = new PointF(/*Math.Max(0, Math.Min(*/_startPoint.X + delta.X/*, weight))*/, /*Math.Max(0, Math.Min(*/_startPoint.Y + delta.Y/*, height))*/);
