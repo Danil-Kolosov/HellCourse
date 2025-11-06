@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 
@@ -185,26 +186,96 @@ namespace GrafRedactor
             return true;
         }
 
-        public void Rotate3D(float angleX, float angleY, float angleZ, Point3D center, Rectangle drawingArea /*= new Rectangle()*/)
+        private Point3D[] GetUniqueVertices()
         {
-            //if (CanPerformRotation3D(angleX, angleY, angleZ, center, drawingArea))
+            HashSet<Point3D> vertices = new HashSet<Point3D>();
+            foreach (LineElement3D edge in edges)
+            {
+                vertices.Add(edge.ZeroRatatedStartPoint);
+                vertices.Add(edge.ZeroRatatedEndPoint);
+            }
+            return vertices.ToArray();
+        }
+
+        private void UpdateEdgesFromVertices(Point3D[] vertices)
+        {
+            if (vertices.Length != 8)
+            {
+                throw new ArgumentException("Для куба требуется 8 вершин");
+            }
+
+            // Обновляем координаты ребер на основе новых вершин
+            // Нижняя грань
+            UpdateEdge(0, vertices[0], vertices[1]);
+            UpdateEdge(1, vertices[1], vertices[2]);
+            UpdateEdge(2, vertices[2], vertices[3]);
+            UpdateEdge(3, vertices[3], vertices[0]);
+
+            // Верхняя грань
+            UpdateEdge(4, vertices[4], vertices[5]);
+            UpdateEdge(5, vertices[5], vertices[6]);
+            UpdateEdge(6, vertices[6], vertices[7]);
+            UpdateEdge(7, vertices[7], vertices[4]);
+
+            // Вертикальные ребра
+            UpdateEdge(8, vertices[0], vertices[4]);
+            UpdateEdge(9, vertices[1], vertices[5]);
+            UpdateEdge(10, vertices[2], vertices[6]);
+            UpdateEdge(11, vertices[3], vertices[7]);
+        }
+
+        private void UpdateEdge(int edgeIndex, Point3D startPoint, Point3D endPoint)
+        {
+            if (edgeIndex < 0 || edgeIndex >= edges.Count)
+                return;
+
+            LineElement3D edge = edges[edgeIndex];
+
+            // Обновляем базовые координаты (без поворотов)
+            edge.StartPoint3D = startPoint;
+            edge.StartPoint3D = endPoint;
+        }
+
+        private void UpdateCenterFromVertices(Point3D[] vertices)
+        {
+            float sumX = 0, sumY = 0, sumZ = 0;
+            foreach (Point3D vertex in vertices)
+            {
+                sumX += vertex.X;
+                sumY += vertex.Y;
+                sumZ += vertex.Z;
+            }
+
+            this.center = new Point3D(
+                sumX / vertices.Length,
+                sumY / vertices.Length,
+                sumZ / vertices.Length
+            );
+        }
+
+        public void Rotate3D(float angleX, float angleY, float angleZ, Point3D rotationCenter, Rectangle drawingArea /*= new Rectangle()*/)
+        {
+            //if (CanPerformRotation3D(angleX, angleY, angleZ, rotationCenter, drawingArea))
             //{
-            //    // Вращаем всю группу как жесткое тело
-            //    foreach (LineElement3D line3D in edges)
+            //    // Получаем текущие вершины
+            //    Point3D[] vertices = CalculateVertices();
+
+            //    // Вращаем каждую вершину
+            //    Point3D[] rotatedVertices = new Point3D[vertices.Length];
+            //    for (int i = 0; i < vertices.Length; i++)
             //    {
-            //        // Вращаем обе точки линии
-            //        Point3D newStart = RotatePoint3D(line3D.ZeroRatatedStartPoint, center, angleX, angleY, angleZ);
-            //        Point3D newEnd = RotatePoint3D(line3D.ZeroRatatedEndPoint, center, angleX, angleY, angleZ);
-
-            //        // Обновляем реальные координаты
-            //        //line3D.StartPoint3D = newStart;
-            //        //line3D.ZeroRatatedEndPoint = newEnd;
-            //        line3D.StartPoint3D = newStart;
-            //        line3D.EndPoint3D = newEnd;
-
+            //        rotatedVertices[i] = RotatePoint3D(vertices[i], rotationCenter, angleX, angleY, angleZ);
             //    }
+
+            //    // Обновляем рёбра с новыми вершинами
+            //    UpdateEdgesFromVertices(rotatedVertices);
+
+            //    // Обновляем центр куба из новых вершин
+            //    UpdateCenterFromVertices(rotatedVertices);
+
+            //    // Обновляем геометрию (на всякий случай)
+            //    UpdateCubeGeometry();
             //}
-            //return;
 
             if (CanPerformRotation3D(angleX, angleY, angleZ, center, drawingArea))
             {
@@ -243,7 +314,7 @@ namespace GrafRedactor
                 line.Rotate3DWithScene(center/*new Point3D(0,0,0)ЭТО НЕ ЦЕНТР*/, angleX, angleY, angleZ);
             }
 
-            OnPropertyChanged();
+            //OnPropertyChanged();
         }
 
         private void UpdateEdgesWithVertices(Point3D[] vertices)
@@ -422,11 +493,14 @@ namespace GrafRedactor
 
         public override void Projection(string coordinateAxis)
         {
+            Projection3D(coordinateAxis);
+            
             // Для куба проекция применяется ко всем вершинам
-            foreach (var edge in edges)
-            {
-                edge.Projection(coordinateAxis);
-            }
+            //старрое
+            //foreach (var edge in edges)
+            //{
+            //    edge.Projection(coordinateAxis);
+            //}
         }
 
         public override void LinkChange(FigureElement el)
@@ -455,11 +529,7 @@ namespace GrafRedactor
         }
         public float Size => size;
         public Color CubeColor => color;
-        плохо - масштабирование проверки не по половинам размера идут - пока не работает
-            зеркалирование куба через 2д линию непроисходит
-            3д линии через 2д линию непроисходит
-        проецирование ввобще пока нтуда работает
-            а так вроде норм
+        
             
         public void Projection3D(string projectionType)
         {
@@ -467,6 +537,7 @@ namespace GrafRedactor
             {
                 case "xoy":
                 case "xy":
+                case "":
                     // Проецирование на плоскость XOY (Z = 0)
                     foreach (var edge in edges)
                     {
@@ -547,6 +618,38 @@ namespace GrafRedactor
 
                 UpdateCubeGeometry();
                 OnPropertyChanged();
+            }
+
+            else 
+            {
+                if (mirrorLine is LineElement mirrorLine2d)
+                {
+                    // Получаем направляющий вектор и точку на зеркальной прямой
+                    Point3D linePoint = new Point3D(mirrorLine2d.StartPoint, 0);
+                    Point3D lineDirection = new Point3D(
+                        mirrorLine2d.EndPoint.X - mirrorLine2d.StartPoint.X,
+                        mirrorLine2d.EndPoint.Y - mirrorLine2d.StartPoint.Y,
+                        0
+                    );
+
+                    // Зеркалируем центр куба
+                    center = MirrorPointRelativeToLine(center, linePoint, lineDirection);
+
+                    // Зеркалируем все ребра
+                    foreach (var edge in edges)
+                    {
+                        if (edge is LineElement3D line3D)
+                        {
+                            line3D.ZeroRatatedStartPoint = MirrorPointRelativeToLine(line3D.ZeroRatatedStartPoint, linePoint, lineDirection);
+                            line3D.ZeroRatatedEndPoint = MirrorPointRelativeToLine(line3D.ZeroRatatedEndPoint, linePoint, lineDirection);
+                            line3D.StartPoint3D = line3D.ZeroRatatedStartPoint;
+                            line3D.EndPoint3D = line3D.ZeroRatatedEndPoint;
+                        }
+                    }
+
+                    UpdateCubeGeometry();
+                    OnPropertyChanged();
+                }
             }
         }
 

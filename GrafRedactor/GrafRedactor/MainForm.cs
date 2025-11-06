@@ -55,7 +55,7 @@ namespace GrafRedactor
         private ComboBox comboOperation;
         private Button btnDelete;
         private Label lblStartPoint, lblEndPoint, lblStartX, lblStartY, lblEndX, lblEndY, lblThickness, lblColor, lblOperations, 
-            lblEquation, lblEquation3D, lblStartZ, lblEndZ, lblCubeCenterPoint;
+            lblEquation, lblEquation3D, lblEquation2D, lblStartZ, lblEndZ, lblCubeCenterPoint;
 
         // Константы для размеров
         private const int PARAMETERS_PANEL_WIDTH = 450;
@@ -160,6 +160,15 @@ namespace GrafRedactor
                     Font = new Font("Arial", 9),
                 };
             parametersPanel.Controls.Add(lblEquation3D);
+            lblEquation2D
+                = new Label
+                {
+                    Text = "Уравнение прямой 2D\n",
+                    Location = new Point(170, y + 25),
+                    Size = new Size(400, 25),
+                    Font = new Font("Arial", 12),
+                };
+            parametersPanel.Controls.Add(lblEquation2D);
             y += 40;
 
             // Координаты начальной точки
@@ -405,14 +414,25 @@ namespace GrafRedactor
 
         private void UpdateParametersPanel()
         {
-            numStartX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
-            numStartY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
-            numEndX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
-            numEndY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
-            numStartX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
-            numStartY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
-            numEndX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
-            numEndY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+            //сейчас - опасная штука
+            numStartX.Maximum = 1000000000;
+            numStartY.Maximum = 1000000000;
+            numEndX.Maximum = 1000000000;
+            numEndY.Maximum = 1000000000;
+            numStartX.Minimum = -1000000000;
+            numStartY.Minimum = -1000000000;
+            numEndX.Minimum = -1000000000;
+            numEndY.Minimum = -1000000000;
+            //было - не очень опасная штука
+            //numStartX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+            //numStartY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+            //numEndX.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+            //numEndY.Maximum = (decimal)ZERO_POINT_DIFFERENCE_X;
+            //numStartX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+            //numStartY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+            //numEndX.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+            //numEndY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_X;
+
             if (selectedFigure is LineElement line)
             {
                 parametersPanel.Visible = true;
@@ -434,8 +454,9 @@ namespace GrafRedactor
                 //numEndY.Minimum = -(decimal)ZERO_POINT_DIFFERENCE_Y;
 
                 (float a, float b, float c, float d) = line.GetEquation();
-                lblEquation.Text = $"Уравнение прямой {a}x+{b}y+{c}=0"; //для 3 д тут z использовать еще
+                lblEquation2D.Text = $"{a}x+{b}y+{c}=0"; //для 3 д тут z использовать еще
                 lblEquation.Visible = true;
+                lblEquation2D.Visible = true;
                 lblCubeCenterPoint.Visible = false;
                 lblStartPoint.Visible = true;
                 lblEndPoint.Visible = true;
@@ -509,9 +530,11 @@ namespace GrafRedactor
                 numThickness.Value = (decimal)line.Thickness;
                 if (line is LineElement3D line3D)
                 {
+                    //ResetSceneToDrawingPlane();
                     //lblEquation.Text = $"Уравнение прямой 3D " + line3D.GetCanonicalEquation3D();
                     lblEquation.Text = "Уравнение прямой 3D";
                     lblEquation3D.Visible = true;
+                    lblEquation2D.Visible = false;
                     lblEquation3D.Text = line3D.GetCanonicalEquation3D();
 
                     //старое - не реальное
@@ -612,6 +635,11 @@ namespace GrafRedactor
                     lblEndZ.Visible = true;
                     numStartZ.Visible = true;
                     numEndZ.Visible = true;
+                    //line3D.Rotate3DWithScene(CalculateRealSceneCenter(), resetAngleValueX,resetAngleValueY, resetAngleValueZ);
+                    //if(totalRotationX!=0 || totalRotationY!=0 || totalRotationZ != 0) 
+                    //{
+                    //    line3D.Rotate3DWithScene(CalculateRealSceneCenter(), totalRotationX, totalRotationY, totalRotationZ);
+                    //}
                 }
                 else 
                 {
@@ -637,6 +665,7 @@ namespace GrafRedactor
 
             if (selectedFigure is Cube3D cube) 
             {
+                //ResetSceneToDrawingPlane();
                 parametersPanel.Visible = true;
                 UpdateParametersPanelPosition(); // Обновляем позицию
 
@@ -703,6 +732,12 @@ namespace GrafRedactor
                 numStartX.ValueChanged += Parameters_ValueChanged;
                 numStartY.ValueChanged += Parameters_ValueChanged;
                 numStartZ.ValueChanged += Parameters_ValueChanged;
+
+                //cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateRealSceneCenter());
+                //if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
+                //{
+                //    cube.Rotate3DWithScene(totalRotationX, totalRotationY, totalRotationZ, CalculateRealSceneCenter());
+                //}
             }
         }
 
@@ -737,9 +772,9 @@ namespace GrafRedactor
                             break;
                         default:
                             break;
-                    }
+                    }                    
                 }
-                
+
                 line.Thickness = (float)numThickness.Value;
                 //(float a, float b, float c, float d) = line.GetEquation();
                 //lblEquation.Text = $"Уравнение прямой {a}x+{b}y+{c}=0"; //для 3 д тут z использовать еще
@@ -790,11 +825,18 @@ namespace GrafRedactor
 
                 line3d.SetRealPoints(newStart, newEnd, CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
                 line3d.Thickness = (float)numThickness.Value;
+                line3d.Rotate3DWithScene(CalculateRealSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
+                {
+                    line3d.Rotate3DWithScene(CalculateRealSceneCenter(), totalRotationX, totalRotationY, totalRotationZ);
+                }
                 this.Invalidate();
             }
 
             if(selectedFigure is Cube3D cube && !isDragging && !isResizing) 
             {
+                cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, CalculateSceneCenter());
+                cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter());
                 switch (currentAxeName)
                 {
                     case "xoy":
@@ -810,8 +852,12 @@ namespace GrafRedactor
                         
                         break;
                 }
-
-                
+                //cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateRealSceneCenter());
+                //if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
+                //{
+                //    cube.Rotate3DWithScene(totalRotationX, totalRotationY, totalRotationZ, CalculateRealSceneCenter());
+                //}
+                cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, CalculateSceneCenter());
                 this.Invalidate();
             }
         }
@@ -1007,10 +1053,10 @@ namespace GrafRedactor
                     testLine.Scale(center, scaleX, scaleY, scaleZ);
                     testLine.Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
 
-                    if (testLine.EndPoint.X < 0 || testLine.EndPoint.X > drawingArea.Width
-                        || testLine.EndPoint3D.Y < 0 || testLine.EndPoint3D.Y > drawingArea.Height
-                        || testLine.StartPoint.X < 0 || testLine.StartPoint.X > drawingArea.Width
-                        || testLine.StartPoint.Y < 0 || testLine.StartPoint.Y > drawingArea.Width)
+                    if (testLine.EndPoint.X < -drawingArea.Width / 2 || testLine.EndPoint.X > drawingArea.Width / 2
+                        || testLine.EndPoint3D.Y < -drawingArea.Height / 2 || testLine.EndPoint3D.Y > drawingArea.Height / 2
+                        || testLine.StartPoint.X < -drawingArea.Width / 2 || testLine.StartPoint.X > drawingArea.Width / 2
+                        || testLine.StartPoint.Y < -drawingArea.Height / 2 || testLine.StartPoint.Y > drawingArea.Height / 2)
                         return false;
                         //return (false, null);
                     //return (true, testLine);
@@ -1044,10 +1090,10 @@ namespace GrafRedactor
 
                             testLine.Scale(center, scaleX, scaleY);
 
-                            if (testLine.EndPoint.X < 0 || testLine.EndPoint.X > drawingArea.Width
-                                || testLine.EndPoint.Y < 0 || testLine.EndPoint.Y > drawingArea.Height
-                                || testLine.StartPoint.X < 0 || testLine.StartPoint.X > drawingArea.Width
-                                || testLine.StartPoint.Y < 0 || testLine.StartPoint.Y > drawingArea.Width)
+                            if (testLine.EndPoint.X < -drawingArea.Width / 2 || testLine.EndPoint.X > drawingArea.Width / 2
+                                || testLine.EndPoint.Y < -drawingArea.Height / 2 || testLine.EndPoint.Y > drawingArea.Height / 2
+                                || testLine.StartPoint.X < -drawingArea.Width / 2 || testLine.StartPoint.X > drawingArea.Width/2
+                                || testLine.StartPoint.Y < -drawingArea.Height / 2 || testLine.StartPoint.Y > drawingArea.Height/2)
                                 return false;
                                 //return (false, null);
                             //return (true, testLine);
@@ -1523,7 +1569,7 @@ namespace GrafRedactor
                         //Почему это? Нет
                         //float uniformScale = Math.Min(sx, sy);
                         //groupManager.ScaleGroup(currentGroupId, uniformScale);
-                        if (!groupManager.ScaleGroup(currentGroupId, sx, sy, GetDrawingArea(), sz))
+                        if (!groupManager.ScaleGroup(currentGroupId, sx, sy, GetDrawingArea(), sz, CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ, totalRotationX, totalRotationY, totalRotationZ))
                         {
                             MessageBox.Show("Ошибка: масштабирование выносит элементы за границы экрана", "Ошибка",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1671,11 +1717,15 @@ namespace GrafRedactor
                                 {
                                     line.ScaleAverage(scale);
                                     line.Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                                    if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
+                                        line.Rotate3DWithScene(CalculateSceneCenter(), totalRotationX, totalRotationY, totalRotationZ);
                                 }
                                 if (figure is Cube3D cube)
                                 {
                                     cube.ScaleAverage(scale);
                                     cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter());
+                                    if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
+                                        cube.Rotate3DWithScene(totalRotationX, totalRotationY, totalRotationZ, CalculateSceneCenter());
                                 }
                             }
                         }
@@ -1703,7 +1753,7 @@ namespace GrafRedactor
         {
             if (selectedFigures.Count != 2 & !(isGroupSelected && currentGroupId != null & selectedFigures.Count == groupManager.GetGroupElements(currentGroupId).Count + 1))
             {
-                MessageBox.Show($"Ошибка: необходимо выбрать 2 прямые:\n1 - которую зеркалировать,\n2 - относительно которой зеркалировать", "Ошибка",
+                MessageBox.Show($"Ошибка: необходимо выбрать 2 обекта:\n1 - которую зеркалировать,\n2 - относительно которой зеркалировать", "Ошибка",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -1711,31 +1761,62 @@ namespace GrafRedactor
             FigureElement figureToMirror = selectedFigures[0];
             FigureElement mirrorLine = selectedFigures[1];
 
-            if (mirrorLine is LineElement mirrorLineElement)
+            if (figureToMirror.IsGrouped) 
             {
-                if (figureToMirror is LineElement3D line3D)
+                mirrorLine = selectedFigures.Last();
+                if (mirrorLine is LineElement mirrorLineElement)
                 {
-                    // Зеркалирование 3D линии относительно прямой
-                    line3D.Mirror3DRelativeToLine(mirrorLineElement);
-                }
-                else if (figureToMirror is Cube3D cube)
-                {
-                    // Зеркалирование куба относительно прямой
-                    cube.Mirror3DRelativeToLine(mirrorLineElement);
-                }
-                else if (figureToMirror is LineElement line2D)
-                {
-                    // Для 2D линии используем старый метод
-                    (float A, float B, float C, float tempZ) = mirrorLineElement.GetEquation();
-                    line2D.Mirror(A, B, C);
-                }
+                    (float a, float b, float c, float d) = mirrorLineElement.GetEquation();
+                    if (!groupManager.MirrorGroup(currentGroupId, mirrorLineElement, GetDrawingArea(), CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ, totalRotationX, totalRotationY, totalRotationZ))
+                    {
+                        MessageBox.Show("Ошибка: зеркалирование выносит элементы за границы экрана", "Ошибка",
+                          MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    UpdateParametersPanel();
+                    this.Invalidate();
 
-                UpdateParametersPanel();
-                this.Invalidate();
-
-                MessageBox.Show("Зеркалирование выполнено успешно", "Успех",
-                              MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Зеркалирование выполнено успешно", "Успех",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
+            else 
+            {
+                if (mirrorLine is LineElement mirrorLineElement)
+                {
+                    if (figureToMirror is LineElement3D line3D)
+                    {
+                        // Зеркалирование 3D линии относительно прямой
+                        line3D.Mirror3DRelativeToLine(mirrorLineElement);
+                        line3D.Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                        line3D.Rotate3DWithScene(CalculateSceneCenter(), totalRotationX, totalRotationY, totalRotationZ);
+                    }
+                    else if (figureToMirror is Cube3D cube)
+                    {
+                        // Зеркалирование куба относительно прямой
+                        cube.Mirror3DRelativeToLine(mirrorLineElement);
+
+                    }
+                    else if (figureToMirror is LineElement line2D)
+                    {
+                        // Для 2D линии используем старый метод
+                        (float A, float B, float C, float tempZ) = mirrorLineElement.GetEquation();
+                        line2D.Mirror(A, B, C);
+                    }
+
+                    UpdateParametersPanel();
+                    this.Invalidate();
+
+                    MessageBox.Show("Зеркалирование выполнено успешно", "Успех",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else 
+                {
+                    //если зеркалируем относительно куба
+                }
+            }
+
+            
 
 
             // старое с 2д
@@ -1770,7 +1851,6 @@ namespace GrafRedactor
             //        }
             //    }
             //    else
-            //    {
             //        //foreach (var figure in selectedFigures)
             //        //{
 
@@ -1789,10 +1869,78 @@ namespace GrafRedactor
             //}
         }
 
-        private void ApplyProjection() 
+        private void ApplyProjection()
         {
             string input = Microsoft.VisualBasic.Interaction.InputBox(
-                "Введите ось проецирования (x или y):",
+                "Введите плоскость или ось проецирования (xoy, yoz, xoz) (x, у или z):",
+                "Общее масштабирование", "1");
+            if (!string.IsNullOrEmpty(input))
+            {
+                if (input.Length == 1)
+                {
+                    try
+                    {
+                        string axis = input.ToLower();
+                        foreach (var figure in selectedFigures)
+                        {
+                            figure.Projection(axis);
+                        }
+                        UpdateParametersPanel();
+                        this.Invalidate();
+                        MessageBox.Show($"Проецирование применено: ось {axis}", "Успех",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка ввода: {ex.Message}\nВведите правильное название оси координат", "Ошибка",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        string plosk = input.ToLower();
+                        foreach (var figure in selectedFigures)
+                        {
+                            if(figure is LineElement3D line3d)
+                            { 
+                                line3d.Projection3D(plosk);
+                                line3d.Rotate3DWithScene(CalculateSceneCenter(), resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                                if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
+                                    line3d.Rotate3DWithScene(CalculateSceneCenter(), totalRotationX, totalRotationY, totalRotationZ);
+                            }
+                            else 
+                            {
+                                if(figure is Cube3D cube) 
+                                {
+                                    cube.Projection3D(plosk);
+                                }
+                            }
+                        }
+                        UpdateParametersPanel();
+                        this.Invalidate();
+                        MessageBox.Show($"Проецирование применено: плоскость {plosk}", "Успех",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка ввода: {ex.Message}\nВведите правильное название плоскости", "Ошибка",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void ApplyProjection3D()
+        {
+            
+        }        
+
+        private void ApplyProjection2D() 
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox(
+                "Введите ось проецирования (x, у или z):",
                 "Общее масштабирование", "1");
 
             if (!string.IsNullOrEmpty(input))
@@ -1876,7 +2024,7 @@ namespace GrafRedactor
                 {
                     FigureElement clickedFigure = null;
                     foreach (var figure in figures)
-                    {
+                    {                        
                         // ПРОВЕРЯЕМ в мировых координатах
                         if (figure.ContainsPoint(worldMousePos))
                         {
@@ -1905,9 +2053,15 @@ namespace GrafRedactor
                         {
                             clickedFigure.IsSelected = !clickedFigure.IsSelected;
                             if (clickedFigure.IsSelected && !selectedFigures.Contains(clickedFigure))
+                            { 
                                 selectedFigures.Add(clickedFigure);
+                                selectedFigure = clickedFigure;
+                            }
                             else if (!clickedFigure.IsSelected)
+                            { 
                                 selectedFigures.Remove(clickedFigure);
+                                selectedFigure = null;
+                            }
                         }
                         UpdateGroupSelectionState();
                     }
@@ -2945,6 +3099,8 @@ namespace GrafRedactor
 
         private PointF ScreenToWorld(Point screenPoint)
         {
+            ZERO_POINT_DIFFERENCE_X = GetDrawingAreaCenter().X;
+            ZERO_POINT_DIFFERENCE_Y = GetDrawingAreaCenter().Y;
             var drawingArea = GetDrawingArea();
             float centerX = drawingArea.X + ZERO_POINT_DIFFERENCE_X;//drawingArea.Width / 2;
             float centerY = drawingArea.Y + ZERO_POINT_DIFFERENCE_Y;//drawingArea.Height / 2;

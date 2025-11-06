@@ -425,71 +425,115 @@ namespace GrafRedactor
             return true;
         }
 
-        private bool CanPerformScaling(float scaleX, float scaleY, Rectangle drawingArea, string groupId)
+        private bool CanPerformScaling(float scaleX, float scaleY, Rectangle drawingArea, string groupId, float sz = 1)
         {
             var groupElements = groups[groupId];
+            Point3D center = GetGroupCenter3D(groupId);
             foreach (var figure in groupElements)
             {
-                if (figure is LineElement line)
+                if (figure is LineElement3D line3d)
                 {
                     // Создаем копию линии для проверки
-                    var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
+                    var testLine3d = new LineElement3D(line3d.ZeroRatatedStartPoint, line3d.ZeroRatatedEndPoint, line3d.Color, line3d.Thickness);
 
-                    PointF center = new PointF(
-                        (testLine.StartPoint.X + testLine.EndPoint.X) / 2,
-                        (testLine.StartPoint.Y + testLine.EndPoint.Y) / 2
-                    );
+                    //Point3D center = new Point3D(
+                    //    (testLine3d.ZeroRatatedStartPoint.X + testLine3d.ZeroRatatedEndPoint.X) / 2,
+                    //    (testLine3d.ZeroRatatedStartPoint.Y + testLine3d.ZeroRatatedEndPoint.Y) / 2,
+                    //    (testLine3d.ZeroRatatedStartPoint.Z + testLine3d.ZeroRatatedEndPoint.Z) / 2
+                    //);
 
-                    testLine.Scale(center, scaleX, scaleY);
+                    testLine3d.Scale(center, scaleX, scaleY, sz);
 
-                    if (testLine.EndPoint.X < 0 || testLine.EndPoint.X > drawingArea.Width
-                        || testLine.EndPoint.Y < 0 || testLine.EndPoint.Y > drawingArea.Height
-                        || testLine.StartPoint.X < 0 || testLine.StartPoint.X > drawingArea.Width
-                        || testLine.StartPoint.Y < 0 || testLine.StartPoint.Y > drawingArea.Width)
+                    if (testLine3d.EndPoint.X < -drawingArea.Width / 2 || testLine3d.EndPoint.X > drawingArea.Width/2
+                        || testLine3d.EndPoint.Y < -drawingArea.Height / 2 || testLine3d.EndPoint.Y > drawingArea.Height/2
+                        || testLine3d.StartPoint.X < -drawingArea.Width / 2 || testLine3d.StartPoint.X > drawingArea.Width/2
+                        || testLine3d.StartPoint.Y < -drawingArea.Height / 2 || testLine3d.StartPoint.Y > drawingArea.Height/2)
                         return false;
+                }
+                else 
+                {
+                    if(figure is Cube3D cube) 
+                    {
+                        var testCube = new Cube3D(cube.Center, cube.Size, cube.Color);
+                        // Зеркалируем точки линии для проверки
+                        testCube.Scale(center, scaleX, scaleY, sz);
+
+                        // Проверяем, остаются ли точки в пределах области рисования
+                        if (cube.Center.X < -drawingArea.Width / 2 || cube.Center.X > drawingArea.Width / 2
+                        || cube.Center.Y < -drawingArea.Height / 2 || cube.Center.Y > drawingArea.Height / 2)
+                            return false;
+                    }
+                    else 
+                    {
+                        if (figure is LineElement line)
+                        {
+                            // Создаем копию линии для проверки
+                            var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
+
+                            //PointF center = new PointF(
+                            //    (testLine.StartPoint.X + testLine.EndPoint.X) / 2,
+                            //    (testLine.StartPoint.Y + testLine.EndPoint.Y) / 2
+                            //);
+
+                            testLine.Scale(center.ToPoint2D(), scaleX, scaleY);
+
+                            if (testLine.EndPoint.X < -drawingArea.Width / 2 || testLine.EndPoint.X > drawingArea.Width / 2
+                                || testLine.EndPoint.Y < -drawingArea.Height / 2 || testLine.EndPoint.Y > drawingArea.Height / 2
+                                || testLine.StartPoint.X < -drawingArea.Width / 2 || testLine.StartPoint.X > drawingArea.Width / 2
+                                || testLine.StartPoint.Y < -drawingArea.Height / 2 || testLine.StartPoint.Y > drawingArea.Height / 2)
+                                return false;
+                        }
+                    }
                 }
             }
             return true;
         }
 
-        public bool ScaleGroupAverage(string groupId, float scaleFactor, Rectangle drawingArea, Point3D sceneCenter = null, float resetAngleValueX = 0, float resetAngleValueY = 0, float resetAngleValueZ = 0)
+        public bool ScaleGroupAverage(string groupId, float scaleFactor, Rectangle drawingArea, Point3D sceneCenter = null, 
+            float resetAngleValueX = 0, float resetAngleValueY = 0, float resetAngleValueZ = 0, 
+            float totalRotationX = 0, float totalRotationY = 0, float totalRotationZ = 0)
         {
             if (groups.ContainsKey(groupId))
             {
-                if(CanPerformScaling(scaleFactor, scaleFactor, drawingArea, groupId))
-                {
-                    var groupElements = groups[groupId];
-                    PointF center = GetGroupCenter(groupElements).ToPoint2D();
+                return ScaleGroup(groupId, scaleFactor, scaleFactor, drawingArea, scaleFactor, 
+                    sceneCenter, resetAngleValueX, resetAngleValueY, resetAngleValueZ, 
+                    totalRotationX, totalRotationY, totalRotationZ);
+                //if(CanPerformScaling(scaleFactor, scaleFactor, drawingArea, groupId))
+                //{
+                //    var groupElements = groups[groupId];
+                //    PointF center = GetGroupCenter(groupElements).ToPoint2D();
 
-                    foreach (var element in groupElements)
-                    {
-                        if (element is LineElement line)
-                        {
-                            ScaleLineAroundPoint(line, center, scaleFactor);
-                        }
-                        if (element is LineElement3D line3d)
-                        {
-                            line3d.ScaleAverage(scaleFactor);
-                            line3d.Rotate3DWithScene(sceneCenter, resetAngleValueX, resetAngleValueY, resetAngleValueZ);
-                        }
-                        if (element is Cube3D cube)
-                        {
-                            cube.ScaleAverage(scaleFactor);
-                            cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, sceneCenter);
-                        }
-                    }
-                    return true;
-                }
+                //    foreach (var element in groupElements)
+                //    {
+                //        if (element is LineElement line)
+                //        {
+                //            ScaleLineAroundPoint(line, center, scaleFactor);
+                //        }
+                //        if (element is LineElement3D line3d)
+                //        {
+                //            line3d.ScaleAverage(scaleFactor);
+                //            line3d.Rotate3DWithScene(sceneCenter, resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                //        }
+                //        if (element is Cube3D cube)
+                //        {
+                //            cube.ScaleAverage(scaleFactor);
+                //            cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, sceneCenter);
+                //        }
+                //    }
+                //    return true;
+                //}
             }
             return false;
         }
 
 
-        public bool ScaleGroup(string groupId, float sx, float sy, Rectangle drawingArea, float sz = 1)
+        public bool ScaleGroup(string groupId, float sx, float sy, Rectangle drawingArea, float sz = 1, Point3D sceneCenter = null, 
+            float resetAngleValueX = 0, float resetAngleValueY = 0, float resetAngleValueZ = 0, 
+            float totalRotationX = 0, float totalRotationY = 0, float totalRotationZ = 0)
         {
             if (groups.ContainsKey(groupId))
             {
-                if(CanPerformScaling(sx, sy, drawingArea, groupId))
+                if(CanPerformScaling(sx, sy, drawingArea, groupId, sz))
                 {
                     var groupElements = groups[groupId];
                     Point3D center = GetGroupCenter(groupElements);
@@ -499,12 +543,25 @@ namespace GrafRedactor
                         if (element is LineElement3D line3d)
                         {
                             line3d.Scale(center, sx, sy, sz);
+                            line3d.Rotate3DWithScene(sceneCenter, resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                            if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
+                                line3d.Rotate3DWithScene(sceneCenter, totalRotationX, totalRotationY, totalRotationZ);
                         }
                         else
                         {
                             if (element is LineElement line)
                             {
                                 line.Scale(center.ToPoint2D(), sx, sy);
+                            }
+                            else 
+                            {
+                                if (element is Cube3D cube)
+                                {
+                                    cube.Scale(center, sx, sy, sz);
+                                    cube.Rotate3DWithScene( resetAngleValueX, resetAngleValueY, resetAngleValueZ, sceneCenter);
+                                    if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
+                                        cube.Rotate3DWithScene(totalRotationX, totalRotationY, totalRotationZ, sceneCenter);
+                                }
                             }
                         }
                     }
@@ -530,26 +587,54 @@ namespace GrafRedactor
             }
         }
 
-        public bool MirrorGroup(string groupId, float A, float B, float C, Rectangle drawingArea) 
+        public bool MirrorGroup(string groupId, LineElement mirrorLine, Rectangle drawingArea, Point3D sceneCenter = null,
+            float resetAngleValueX = 0, float resetAngleValueY = 0, float resetAngleValueZ = 0,
+            float totalRotationX = 0, float totalRotationY = 0, float totalRotationZ = 0) 
         {
             if (groups.ContainsKey(groupId))
             {
+                (float A, float B, float C, float tempZ) = mirrorLine.GetEquation();
                 if (CanPerformMirror(groupId, drawingArea, A, B, C))
                 {
                     var groupElements = groups[groupId];
 
                     foreach (var element in groupElements)
                     {
-                        if (element is LineElement line)
-                        {
-                            line.Mirror(A, B, C);
+                        
+                        if (element is LineElement3D line3d)
+                        {                            
+                            line3d.Mirror3DRelativeToLine(mirrorLine);
+                            line3d.Rotate3DWithScene(sceneCenter, resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                            if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
+                                line3d.Rotate3DWithScene(sceneCenter, totalRotationX, totalRotationY, totalRotationZ);
                         }
+                        else 
+                        {
+                            if (element is LineElement line)
+                            {
+                                line.Mirror(A, B, C);
+                            }
+                            else 
+                            {
+                                if (element is Cube3D cube)
+                                {
+                                    cube.Mirror3DRelativeToLine(mirrorLine);
+                                    cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, sceneCenter);
+                                    if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
+                                        cube.Rotate3DWithScene(totalRotationX, totalRotationY, totalRotationZ, sceneCenter);
+                                }
+                            }
+                        }
+                        
+
                     }
+
+
                     return true;
                 }
             }
             return false;
-        }
+        } 
 
         private bool CanPerformMirror(string groupId, Rectangle drawingArea, float A, float B, float C)
         {
@@ -563,10 +648,24 @@ namespace GrafRedactor
                     testLine.Mirror(A, B, C);
 
                     // Проверяем, остаются ли точки в пределах области рисования
-                    if (!drawingArea.Contains(Point.Round(testLine.StartPoint)) ||
-                        !drawingArea.Contains(Point.Round(testLine.EndPoint)))
-                    {
+                    if (testLine.EndPoint.X < -drawingArea.Width / 2 || testLine.EndPoint.X > drawingArea.Width / 2
+                       || testLine.EndPoint.Y < -drawingArea.Height / 2 || testLine.EndPoint.Y > drawingArea.Height / 2
+                       || testLine.StartPoint.X < -drawingArea.Width / 2 || testLine.StartPoint.X > drawingArea.Width / 2
+                       || testLine.StartPoint.Y < -drawingArea.Height / 2 || testLine.StartPoint.Y > drawingArea.Height / 2)
                         return false;
+                }
+                else 
+                {
+                    if (figure is Cube3D cube)
+                    {
+                        var testCube = new Cube3D(cube.Center, cube.Size, cube.Color);
+                        // Зеркалируем точки линии для проверки
+                        testCube.Mirror(A, B, C);
+
+                        // Проверяем, остаются ли точки в пределах области рисования
+                        if (testCube.Center.X < -drawingArea.Width / 2 || testCube.Center.X > drawingArea.Width / 2
+                        || testCube.Center.Y < -drawingArea.Height / 2 || testCube.Center.Y > drawingArea.Height / 2)
+                            return false;
                     }
                 }
             }

@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Важно!.txt" />
+    <Content Include="Дискуссия по поводу верчения куба.txt" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

@@ -278,7 +278,7 @@ namespace GrafRedactor
             EndPoint = MirrorPoint(EndPoint, A, B, C);
         }
 
-        private PointF MirrorPoint(PointF point, float A, float B, float C)
+        protected PointF MirrorPoint(PointF point, float A, float B, float C)
         {
             // Формула отражения точки относительно прямой Ax + By + C = 0
             float denominator = A * A + B * B;
@@ -374,13 +374,20 @@ namespace GrafRedactor
 
         public override void Projection(string coordinateAxis) 
         {
+            coordinateAxis.ToLower();
             switch (coordinateAxis) 
             {
                 case "x":
+                    _startPoint.Y = 0;
+                    _endPoint.Y = 0;
+                    break;
+                case "y":
                     _startPoint.X = 0;
                     _endPoint.X = 0;
                     break;
-                case "y":
+                case "z":
+                    _startPoint.X = 0;
+                    _endPoint.X = 0;
                     _startPoint.Y = 0;
                     _endPoint.Y = 0;
                     break;

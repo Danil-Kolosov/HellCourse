@@ -1,0 +1,31 @@
+(21:3:3) ERR_RTM:hasp driver login = 7
+(21:3:3) INF_LOAD:Starting... Проект_4_0
+(21:3:3) INF_RTM:Detected RTM NT(6.2)
+(21:3:3) INF_RTM:Base TRACE MODE 6 Profiler T-Factory + ver. 6.10.2 ver. 6.10.1 
+(21:3:3) INF_LOAD:max channel = 65535
+(21:3:3) INF_LOAD:Load Channels 10(1 - 11) 
+(21:3:3) INF_LOAD:Templates=3 (math=2 sql=0 scr=1 doc=0 pnl=0) 
+(21:3:3) INF_LOAD:Objects = 0
+(21:3:3) INF_RTM:Timer=0.055s CalcLoop=550ms 
+(21:3:3) INF_LOAD:LoadTime=0.031s CalcPeriod=550ms 
+(21:3:3) INF_RTM:available(MB): pm=16307 vm=2047; free(MB): pm=5026 vm=1907 em=0 after load
+(21:3:3) INF_RTM:total use(MB): pm=11281 vm=140 after load
+(21:3:3) INF_RTM:use(MB): pm=23(23) vm=45(45) pf=1 after load
+(21:3:3) INF_RTM:gh:11 uh:9 hh:201 after load
+(21:3:5) INF_IP:hostname is DESKTOP-OHVHIQM 
+(21:3:5) INF_IP:card0 addr=0.0.0.0 
+(21:3:5) INF_IP:card1 addr=192.168.56.1 
+(21:3:5) INF_IP:card2 addr=192.168.42.36 
+(21:3:5) INF_RTM:start time is 0 s 
+(21:3:5) INF_FLT:ModeSwitch at start e15=0000 e18=0000 e20=0000 
+(21:3:5) INF_RTM:mode=2(Work) e15=00 e18=00 e20=00 [src4] 
+(21:3:5) INF_RTM:total use(MB): pm=11344 vm=361 after start
+(21:3:5) INF_RTM:use(MB): pm=101(101) vm=88(88) pf=26707 after start
+(21:3:5) INF_RTM:gh:533 uh:271 hh:512 after start
+(21:3:5) INF_GRAPH:scr:1:popup=0 scrref=0 trend=1,0 update=1 
+(21:6:12) INF_RTM:stoping... = 30
+(21:6:12) INF_RTM:main clc stop 
+(21:6:12) INF_RTM:mode=5(Stop) e15=00 e18=00 e20=00 [src0] 
+(21:6:13) INF_RTM:stop time is 1.143 s 
+(21:6:13) INF_RTM:number of calculation = 330
+(21:6:13) INF_RTM:END OF WORK 

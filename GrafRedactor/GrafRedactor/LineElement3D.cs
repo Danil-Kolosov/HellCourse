@@ -607,6 +607,7 @@ namespace GrafRedactor
             float a = _endPoint3D.X - _startPoint3D.X;
             float b = _endPoint3D.Y - _startPoint3D.Y;
             float c = _endPoint3D.Z - _startPoint3D.Z;
+            // нормально
 
             // Используем реальные координаты (ZeroRotated)
             float x1 = ZeroRatatedStartPoint.X;
@@ -675,6 +676,30 @@ namespace GrafRedactor
             Update2DProjection();
         }
 
+        private void Mirror3DRelativeTo2DLine(LineElement mirrorLine2D)
+        {
+            // Получаем уравнение 2D прямой
+            (float A, float B, float C, float tempZ) = mirrorLine2D.GetEquation();
+
+            // Зеркалируем 3D точки относительно 2D прямой в плоскости XY
+            // Сохраняем Z-координаты
+            float startZ = ZeroRatatedStartPoint.Z;
+            float endZ = ZeroRatatedEndPoint.Z;
+
+            // Зеркалируем проекции точек на плоскость XY
+            PointF mirroredStart2D = MirrorPoint(new PointF(ZeroRatatedStartPoint.X, ZeroRatatedStartPoint.Y), A, B, C);
+            PointF mirroredEnd2D = MirrorPoint(new PointF(ZeroRatatedEndPoint.X, ZeroRatatedEndPoint.Y), A, B, C);
+
+            // Обновляем 3D точки (Z-координаты сохраняются)
+            ZeroRatatedStartPoint = new Point3D(mirroredStart2D.X, mirroredStart2D.Y, startZ);
+            ZeroRatatedEndPoint = new Point3D(mirroredEnd2D.X, mirroredEnd2D.Y, endZ);
+
+            // Обновляем отображение
+            StartPoint3D = ZeroRatatedStartPoint;
+            EndPoint3D = ZeroRatatedEndPoint;
+            //Update2DProjection();
+        }
+
         public void Mirror3DRelativeToLine(LineElement mirrorLine)
         {
             // Зеркалирование 3D линии относительно другой 3D линии
@@ -693,9 +718,17 @@ namespace GrafRedactor
                 ZeroRatatedEndPoint = MirrorPointRelativeToLine(ZeroRatatedEndPoint, linePoint, lineDirection);
 
                 // Обновляем отображение
-                _startPoint3D = ZeroRatatedStartPoint;
-                _endPoint3D = ZeroRatatedEndPoint;
+                StartPoint3D = ZeroRatatedStartPoint;
+                EndPoint3D = ZeroRatatedEndPoint;
+                //_startPoint3D = ZeroRatatedStartPoint;
+                //_endPoint3D = ZeroRatatedEndPoint;
                 Update2DProjection();
+            }
+            else 
+            {
+                Mirror3DRelativeTo2DLine(mirrorLine);
+                //(float a, float b, float c, float d) = GetEquation();
+                //Mirror(a, b, c);
             }
         }
 
@@ -733,5 +766,39 @@ namespace GrafRedactor
                 point.Z - 2 * w.Z
             );
         }
+
+        public override void Projection(string coordinateAxis) 
+        {
+            base.Projection(coordinateAxis);
+            float startZ = StartPoint3D.Z;
+            float endZ = EndPoint3D.Z;
+            
+            PointF startPoint_ = _startPoint;
+            PointF endPoint_ = _endPoint;
+            switch (coordinateAxis)
+            {
+                case "x":
+                    StartPoint3D = new Point3D(startPoint_, 0);
+                    EndPoint3D = new Point3D(endPoint_, 0);
+                    break;
+                case "y":
+                    StartPoint3D = new Point3D(startPoint_, 0);
+                    EndPoint3D = new Point3D(endPoint_, 0);
+                    break;
+                case "z":
+                    StartPoint3D = new Point3D(startPoint_, startZ);
+                    EndPoint3D = new Point3D(endPoint_, endZ);
+                    break;
+            }
+            
+        }
+
+        //public override bool ContainsPoint(PointF point)
+        //{
+        //    return 
+        //    // Упрощенная проверка - расстояние от точки до отрезка
+        //    float distance = DistanceToLine(point, _startPoint, _endPoint);
+        //    return distance <= Math.Max(Thickness, 10f); // Учитываем толщину линии + запас
+        //}
     }
 }

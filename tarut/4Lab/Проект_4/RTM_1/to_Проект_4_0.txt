@@ -1,0 +1,7 @@
+(20:57:10) ERR_RTM:hasp driver login = 7
+INF_LOAD:Node=0 tags=10 templates=5 obj=2 
+INF_LOAD:Max: tags=16777215 templates=32767 obj=32767 
+INF_LOAD:Node type=90901000 
+INF_LOAD:RTM_1 
+WRN_LOAD:Экран#1:1 call disabled
+INF_LOAD:Found CH=10 Resource=2 ExtResurce=2 
