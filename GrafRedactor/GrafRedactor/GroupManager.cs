@@ -159,12 +159,16 @@ namespace GrafRedactor
         }
 
         // Остальные методы остаются без изменений...
-        public void MoveGroup(string groupId, PointF delta, float height, float weight, string axeName)
+        public void MoveGroup(string groupId, PointF delta, float height, float weight, float deltaZ, 
+            string axeName,
+            float resetAngleValueX = 0, float resetAngleValueY = 0, float resetAngleValueZ = 0,
+            float totalRotationX = 0, float totalRotationY = 0, float totalRotationZ = 0
+            )
         {
             if (groups.ContainsKey(groupId))
             {
                     // Сначала проверяем, можно ли переместить всю группу
-                if (!CanMoveGroup(groupId, delta, height, weight))
+                if (!CanMoveGroup(groupId, delta, height, weight, deltaZ))
                 {
                     return;
                 }
@@ -172,11 +176,16 @@ namespace GrafRedactor
                 // Если можно - перемещаем все элементы
                 foreach (var element in groups[groupId])
                 {
-                    element.Move(delta, height, weight, axeName);
+                    if (element is Cube3D cube) 
+                    {
+                        cube.Move3D(delta, height, weight, deltaZ, axeName);
+                    }
+                    else
+                        element.Move(delta, height, weight, deltaZ, axeName);
                 }       
             }
         }
-        public bool CanMoveGroup(string groupId, PointF delta, float height, float width)
+        public bool CanMoveGroup(string groupId, PointF delta, float height, float width, float deltaZ)
         {
             if (!groups.ContainsKey(groupId)) return false;
 
@@ -190,7 +199,7 @@ namespace GrafRedactor
                     var testLine = new LineElement(line.StartPoint, line.EndPoint, line.Color, line.Thickness);
 
                     // Пробуем применить перемещение к копии
-                    testLine.Move(delta, height, width, "group");
+                    testLine.Move(delta, height, width, deltaZ, "group");
 
                     // Проверяем bounding box после перемещения
                     var testBbox = testLine.GetBoundingBox();
@@ -206,13 +215,14 @@ namespace GrafRedactor
             return true;
         }
 
-        public bool RotateGroup(string groupId, float angleX, float angleY, float angleZ, Point3D rotationCenter, Rectangle drawingArea)
+        public bool RotateGroup(string groupId, float angleX, float angleY, float angleZ, Point3D rotationCenter, 
+            Rectangle drawingArea, float zc)
         {
             if (groups.ContainsKey(groupId))
             {
                 var groupElements = groups[groupId];
 
-                if (CanPerformRotation3D(angleX, angleY, angleZ, rotationCenter, drawingArea, groupId))
+                if (CanPerformRotation3D(angleX, angleY, angleZ, rotationCenter, drawingArea, groupId, zc))
                 {
                     // Вращаем всю группу как жесткое тело
                     foreach (var element in groupElements)
@@ -232,7 +242,7 @@ namespace GrafRedactor
                         else if (element is Cube3D cube)
                         {
                             // Для куба используем его метод вращения
-                            cube.Rotate3D(angleX, angleY, angleZ, rotationCenter, drawingArea);
+                            cube.Rotate3D(angleX, angleY, angleZ, rotationCenter, drawingArea, zc);
                         }
                     }
                     return true;
@@ -333,8 +343,10 @@ namespace GrafRedactor
             );
         }
 
-        private bool CanPerformRotation3D(float angleX, float angleY, float angleZ, Point3D rotationCenter, Rectangle drawingArea, string groupId)
+        private bool CanPerformRotation3D(float angleX, float angleY, float angleZ, Point3D rotationCenter, 
+            Rectangle drawingArea, string groupId, float zc)
         {
+            return true;
             var groupElements = groups[groupId];
 
             foreach (var figure in groupElements)
@@ -370,10 +382,11 @@ namespace GrafRedactor
                 else if (figure is Cube3D cube)
                 {
                     // Для куба создаем тестовую копию
-                    var testCube = new Cube3D(cube.Center, cube.Size, cube.CubeColor);
+                    throw new NotImplementedException();
+                    var testCube = new Cube3D(cube.Center, cube.Size, cube.CubeColor,"", 0);
 
                     // Вращаем тестовый куб
-                    testCube.Rotate3D(angleX, angleY, angleZ, rotationCenter, drawingArea);
+                    testCube.Rotate3D(angleX, angleY, angleZ, rotationCenter, drawingArea, zc);
 
                     // Проверяем bounding box
                     var bbox = testCube.GetBoundingBox();
@@ -406,6 +419,8 @@ namespace GrafRedactor
         //старое линия разваливается
         private bool CanPerformRotation(float angle, PointF center, Rectangle drawingArea, string groupId)
         {
+            return true;
+            throw new NotImplementedException();
             var groupElements = groups[groupId];
             foreach (var figure in groupElements)
             {
@@ -427,6 +442,8 @@ namespace GrafRedactor
 
         private bool CanPerformScaling(float scaleX, float scaleY, Rectangle drawingArea, string groupId, float sz = 1)
         {
+            return true;
+            throw new NotImplementedException();
             var groupElements = groups[groupId];
             Point3D center = GetGroupCenter3D(groupId);
             foreach (var figure in groupElements)
@@ -454,7 +471,7 @@ namespace GrafRedactor
                 {
                     if(figure is Cube3D cube) 
                     {
-                        var testCube = new Cube3D(cube.Center, cube.Size, cube.Color);
+                        var testCube = new Cube3D(cube.Center, cube.Size, cube.Color, "", 0);
                         // Зеркалируем точки линии для проверки
                         testCube.Scale(center, scaleX, scaleY, sz);
 
@@ -489,13 +506,13 @@ namespace GrafRedactor
             return true;
         }
 
-        public bool ScaleGroupAverage(string groupId, float scaleFactor, Rectangle drawingArea, Point3D sceneCenter = null, 
+        public bool ScaleGroupAverage(string groupId, float scaleFactor, Rectangle drawingArea, float zc, string currentAxiName, Point3D sceneCenter = null, 
             float resetAngleValueX = 0, float resetAngleValueY = 0, float resetAngleValueZ = 0, 
             float totalRotationX = 0, float totalRotationY = 0, float totalRotationZ = 0)
         {
             if (groups.ContainsKey(groupId))
             {
-                return ScaleGroup(groupId, scaleFactor, scaleFactor, drawingArea, scaleFactor, 
+                return ScaleGroup(groupId, scaleFactor, scaleFactor, drawingArea, zc, currentAxiName, scaleFactor, 
                     sceneCenter, resetAngleValueX, resetAngleValueY, resetAngleValueZ, 
                     totalRotationX, totalRotationY, totalRotationZ);
                 //if(CanPerformScaling(scaleFactor, scaleFactor, drawingArea, groupId))
@@ -527,7 +544,7 @@ namespace GrafRedactor
         }
 
 
-        public bool ScaleGroup(string groupId, float sx, float sy, Rectangle drawingArea, float sz = 1, Point3D sceneCenter = null, 
+        public bool ScaleGroup(string groupId, float sx, float sy, Rectangle drawingArea, float zc, string currentAxiName, float sz = 1, Point3D sceneCenter = null, 
             float resetAngleValueX = 0, float resetAngleValueY = 0, float resetAngleValueZ = 0, 
             float totalRotationX = 0, float totalRotationY = 0, float totalRotationZ = 0)
         {
@@ -543,9 +560,9 @@ namespace GrafRedactor
                         if (element is LineElement3D line3d)
                         {
                             line3d.Scale(center, sx, sy, sz);
-                            line3d.Rotate3DWithScene(sceneCenter, resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                            line3d.Rotate3DWithScene(sceneCenter, resetAngleValueX, resetAngleValueY, resetAngleValueZ, zc, currentAxiName);
                             if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
-                                line3d.Rotate3DWithScene(sceneCenter, totalRotationX, totalRotationY, totalRotationZ);
+                                line3d.Rotate3DWithScene(sceneCenter, totalRotationX, totalRotationY, totalRotationZ, zc, currentAxiName);
                         }
                         else
                         {
@@ -558,9 +575,9 @@ namespace GrafRedactor
                                 if (element is Cube3D cube)
                                 {
                                     cube.Scale(center, sx, sy, sz);
-                                    cube.Rotate3DWithScene( resetAngleValueX, resetAngleValueY, resetAngleValueZ, sceneCenter);
+                                    cube.Rotate3DWithScene( resetAngleValueX, resetAngleValueY, resetAngleValueZ, sceneCenter, zc, currentAxiName);
                                     if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
-                                        cube.Rotate3DWithScene(totalRotationX, totalRotationY, totalRotationZ, sceneCenter);
+                                        cube.Rotate3DWithScene(totalRotationX, totalRotationY, totalRotationZ, sceneCenter, zc, currentAxiName);
                                 }
                             }
                         }
@@ -587,7 +604,7 @@ namespace GrafRedactor
             }
         }
 
-        public bool MirrorGroup(string groupId, LineElement mirrorLine, Rectangle drawingArea, Point3D sceneCenter = null,
+        public bool MirrorGroup(string groupId, LineElement mirrorLine, Rectangle drawingArea, float zc, string currentAxiName, Point3D sceneCenter = null,
             float resetAngleValueX = 0, float resetAngleValueY = 0, float resetAngleValueZ = 0,
             float totalRotationX = 0, float totalRotationY = 0, float totalRotationZ = 0) 
         {
@@ -604,9 +621,9 @@ namespace GrafRedactor
                         if (element is LineElement3D line3d)
                         {                            
                             line3d.Mirror3DRelativeToLine(mirrorLine);
-                            line3d.Rotate3DWithScene(sceneCenter, resetAngleValueX, resetAngleValueY, resetAngleValueZ);
+                            line3d.Rotate3DWithScene(sceneCenter, resetAngleValueX, resetAngleValueY, resetAngleValueZ, zc, currentAxiName);
                             if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
-                                line3d.Rotate3DWithScene(sceneCenter, totalRotationX, totalRotationY, totalRotationZ);
+                                line3d.Rotate3DWithScene(sceneCenter, totalRotationX, totalRotationY, totalRotationZ, zc, currentAxiName);
                         }
                         else 
                         {
@@ -619,9 +636,9 @@ namespace GrafRedactor
                                 if (element is Cube3D cube)
                                 {
                                     cube.Mirror3DRelativeToLine(mirrorLine);
-                                    cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, sceneCenter);
+                                    cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, sceneCenter, zc, currentAxiName);
                                     if (totalRotationX != 0 || totalRotationY != 0 || totalRotationZ != 0)
-                                        cube.Rotate3DWithScene(totalRotationX, totalRotationY, totalRotationZ, sceneCenter);
+                                        cube.Rotate3DWithScene(totalRotationX, totalRotationY, totalRotationZ, sceneCenter, zc, currentAxiName);
                                 }
                             }
                         }
@@ -638,6 +655,8 @@ namespace GrafRedactor
 
         private bool CanPerformMirror(string groupId, Rectangle drawingArea, float A, float B, float C)
         {
+            return true;
+            throw new NotImplementedException();
             var groupElements = groups[groupId];
             foreach (var figure in groupElements)
             {
@@ -658,7 +677,7 @@ namespace GrafRedactor
                 {
                     if (figure is Cube3D cube)
                     {
-                        var testCube = new Cube3D(cube.Center, cube.Size, cube.Color);
+                        var testCube = new Cube3D(cube.Center, cube.Size, cube.Color, "", 0);
                         // Зеркалируем точки линии для проверки
                         testCube.Mirror(A, B, C);
 

@@ -23,6 +23,7 @@ namespace GrafRedactor
         private float rotationX = 0;
         private float rotationY = 0;
         private float rotationZ = 0;
+        public float _zc = float.MaxValue;
 
         private float _startZ;
         private float _endZ;
@@ -396,7 +397,7 @@ namespace GrafRedactor
         }
 
         // Переопределяем методы для работы с 3D
-        public override void Move(PointF delta, float height, float width, string axeName = "xoy") 
+        public override void Move(PointF delta, float height, float width, float deltaZ, string axeName = "xoy") 
         {
             switch (axeName) 
             {
@@ -406,21 +407,80 @@ namespace GrafRedactor
                     StartPoint3D.Y = StartPoint.Y;
                     EndPoint3D.X = EndPoint.X;
                     EndPoint3D.Y = EndPoint.Y;
+                    ZeroRatatedStartPoint.X = ZeroRatatedStartPoint.X + delta.X;
+                    ZeroRatatedStartPoint.Y = ZeroRatatedStartPoint.Y + delta.Y;
+                    ZeroRatatedStartPoint.Z = ZeroRatatedStartPoint.Z + deltaZ;
+                    ZeroRatatedEndPoint.X = ZeroRatatedEndPoint.X + delta.X;
+                    ZeroRatatedEndPoint.Y = ZeroRatatedEndPoint.Y + delta.Y;
+                    ZeroRatatedEndPoint.Z = ZeroRatatedEndPoint.Z + deltaZ;
+                    /*StartPoint3D = new Point3D(
+                        _startPoint3D.X + delta.X,
+                        _startPoint3D.Y + delta.Y,
+                        _startPoint3D.Z + deltaZ
+                    );
+                    EndPoint3D = new Point3D(
+                        _endPoint3D.X + delta.X,
+                        _endPoint3D.Y + delta.Y,
+                        _endPoint3D.Z + deltaZ
+                    );
                     ZeroRatatedStartPoint = _startPoint3D;
-                    ZeroRatatedEndPoint = _endPoint3D;
+                    ZeroRatatedEndPoint = _endPoint3D;*/
+
+                    //base.Move(delta, height, width);
+                    //StartPoint3D.X = StartPoint.X;
+                    //StartPoint3D.Y = StartPoint.Y;
+                    //StartPoint3D.Z = StartPoint3D.Z + deltaZ;
+                    //EndPoint3D.X = EndPoint.X;
+                    //EndPoint3D.Y = EndPoint.Y;
+                    //EndPoint3D.Z = EndPoint3D.Z + deltaZ;
+                    //ZeroRatatedStartPoint = _startPoint3D;
+                    //ZeroRatatedEndPoint = _endPoint3D;
                     break;
                 case "yoz":
                     //StartPoint3D = new Point3D(StartPoint3D.X, StartPoint3D.Y + delta.X, StartPoint3D.Z + delta.Y);
                     //EndPoint3D = new Point3D(EndPoint3D.X, EndPoint3D.Y + delta.X, EndPoint3D.Z + delta.Y);
+
+
                     base.Move(delta, height, width);
                     StartPoint3D.X = StartPoint.X;
                     StartPoint3D.Y = StartPoint.Y;
                     EndPoint3D.X = EndPoint.X;
                     EndPoint3D.Y = EndPoint.Y;
-                    ZeroRatatedStartPoint.Y += delta.X;
+                    ZeroRatatedStartPoint.Y = ZeroRatatedStartPoint.Y + delta.X;
+                    ZeroRatatedStartPoint.Z = ZeroRatatedStartPoint.Z + delta.Y;
+                    ZeroRatatedStartPoint.X = ZeroRatatedStartPoint.X + deltaZ;
+                    ZeroRatatedEndPoint.Y = ZeroRatatedEndPoint.Y + delta.X;
+                    ZeroRatatedEndPoint.Z = ZeroRatatedEndPoint.Z + delta.Y;
+                    ZeroRatatedEndPoint.X = ZeroRatatedEndPoint.X + deltaZ;
+
+                    /*ZeroRatatedStartPoint.Y += delta.X;
                     ZeroRatatedStartPoint.Z += delta.Y;
+                    ZeroRatatedStartPoint.X += deltaZ;
                     ZeroRatatedEndPoint.Y += delta.X;
                     ZeroRatatedEndPoint.Z += delta.Y;
+                    ZeroRatatedEndPoint.X += deltaZ;*/
+
+                    /*base.Move(delta, height, width);
+                    ZeroRatatedStartPoint.Y += delta.X;
+                    ZeroRatatedStartPoint.Z += delta.Y;
+                    ZeroRatatedStartPoint.X += deltaZ;
+                    ZeroRatatedEndPoint.Y += delta.X;
+                    ZeroRatatedEndPoint.Z += delta.Y;
+                    ZeroRatatedEndPoint.X += deltaZ;
+
+                    StartPoint3D.X += delta.X;
+                    StartPoint3D.Y += delta.Y;
+                    EndPoint3D.X += delta.X;
+                    EndPoint3D.Y += delta.Y;
+
+                    _startPoint3D = ZeroRatatedStartPoint;
+                    _endPoint3D = ZeroRatatedEndPoint;*/
+
+                    //ZeroRatatedStartPoint = StartPoint3D;
+                    //ZeroRatatedEndPoint = EndPoint3D;
+
+
+
                     //base.Move(delta, height, width);
                     //StartPoint3D.X = StartPoint.X;
                     //StartPoint3D.Y = StartPoint.Y;
@@ -443,8 +503,10 @@ namespace GrafRedactor
                     EndPoint3D.Y = EndPoint.Y;
                     ZeroRatatedStartPoint.X += delta.X;
                     ZeroRatatedStartPoint.Z += delta.Y;
+                    ZeroRatatedStartPoint.Y += deltaZ;
                     ZeroRatatedEndPoint.X += delta.X;
                     ZeroRatatedEndPoint.Z += delta.Y;
+                    ZeroRatatedEndPoint.Y += deltaZ;
                     break;
             }
 
@@ -465,10 +527,14 @@ namespace GrafRedactor
             //Move3D(new Point3D(delta.X, delta.Y, 0));
         }
 
-        public void Rotate3D(Point3D center, float angleX, float angleY, float angleZ)
+        public void Rotate3D(Point3D center, float angleX, float angleY, float angleZ, float zc)
         {
-            _startPoint3D = RotatePoint3D(ZeroRatatedStartPoint, center, angleX /*+ rotationX*/, angleY/* + rotationY*/, angleZ/* + rotationZ*/);
-            _endPoint3D = RotatePoint3D(ZeroRatatedEndPoint, center, angleX /*+ rotationX*/, angleY/* + rotationY*/, angleZ/* + rotationZ*/);
+            if (_zc != float.MaxValue)
+            {
+                zc = _zc;
+            }
+            _startPoint3D = RotatePoint3D(ZeroRatatedStartPoint, center, angleX /*+ rotationX*/, angleY/* + rotationY*/, angleZ/* + rotationZ*/, zc);
+            _endPoint3D = RotatePoint3D(ZeroRatatedEndPoint, center, angleX /*+ rotationX*/, angleY/* + rotationY*/, angleZ/* + rotationZ*/, zc);
             ZeroRatatedStartPoint = _startPoint3D;
             ZeroRatatedEndPoint = _endPoint3D;
             //rotationX = angleX + rotationX;
@@ -477,15 +543,23 @@ namespace GrafRedactor
             Update2DProjection(); //ВНИМАНИЕ - БЫЛО - tОГДА КУБ ПРИ +30 И -30 НА ИСХОДНОЕ МЕСТО НЕ ВСТАВАЛ
         }
 
-        public void Rotate3DWithScene(Point3D center, float angleX, float angleY, float angleZ) 
+        public void Rotate3DWithScene(Point3D center, float angleX, float angleY, float angleZ, float zc, string proecirStr) 
         {
-            _startPoint3D = RotatePoint3D(ZeroRatatedStartPoint, center, angleX /*+ rotationX*/, angleY/* + rotationY*/, angleZ/* + rotationZ*/);
-            _endPoint3D = RotatePoint3D(ZeroRatatedEndPoint, center, angleX /*+ rotationX*/, angleY/* + rotationY*/, angleZ/* + rotationZ*/);
+            if (_zc != float.MaxValue)
+            {
+                zc = _zc;
+            }
+            _startPoint3D = RotatePoint3D(ZeroRatatedStartPoint, center, angleX /*+ rotationX*/, angleY/* + rotationY*/, angleZ/* + rotationZ*/, zc, proecirStr);
+            _endPoint3D = RotatePoint3D(ZeroRatatedEndPoint, center, angleX /*+ rotationX*/, angleY/* + rotationY*/, angleZ/* + rotationZ*/, zc, proecirStr);
             Update2DProjection();
         }
 
-        private Point3D RotatePoint3D(Point3D point, Point3D center, float angleX, float angleY, float angleZ)
+        private Point3D RotatePoint3D(Point3D point, Point3D center, float angleX, float angleY, float angleZ, float zc, string proecirStr = "")
         {
+            if (_zc != float.MaxValue)
+            {
+                zc = _zc;
+            }
             // Перенос в систему координат с центром в center
             float x = point.X - center.X;
             float y = point.Y - center.Y;
@@ -505,6 +579,39 @@ namespace GrafRedactor
             float x1 = x * cosY * cosZ + y * (sinX * sinY * cosZ - cosX * sinZ) + z * (cosX * sinY * cosZ + sinX * sinZ);
             float y1 = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
             float z1 = x * -sinY + y * sinX * cosY + z * cosX * cosY;
+
+            // Матрица вращения (ваш текущий код)
+            //float xRot = x * cosY * cosZ + y * (sinX * sinY * cosZ - cosX * sinZ) + z * (cosX * sinY * cosZ + sinX * sinZ);
+            //float yRot = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
+            //float zRot = x * -sinY + y * sinX * cosY + z * cosX * cosY;
+
+            // ПЕРСПЕКТИВНОЕ ПРОЕЦИРОВАНИЕ
+            float perspectiveFactor = zc / (zc + z1);
+
+            if (proecirStr != "coordinateAxes")
+            {
+                x1 = x1 * perspectiveFactor;
+                y1 = y1 * perspectiveFactor;
+                z1 = z1;
+                switch (proecirStr)
+                {
+                    case "xoy":  //z=0
+                        //x1 = x * cosY * cosZ + y * (sinX * sinY * cosZ - cosX * sinZ) + z * (cosX * sinY * cosZ + sinX * sinZ);
+                        //y1 = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
+                        z1 = 0;
+                        break;
+                    case "yoz": //x=0
+                        x1 = 0;
+                        //y1 = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
+                        //z1 = x * -sinY + y * sinX * cosY + z * cosX * cosY;
+                        break;
+                    case "xoz": //y=0
+                        //x1 = x * cosY * cosZ + y * (sinX * sinY * cosZ - cosX * sinZ) + z * (cosX * sinY * cosZ + sinX * sinZ);
+                        y1 = 0;
+                        //z1 = x * -sinY + y * sinX * cosY + z * cosX * cosY;
+                        break;
+                }
+            }
 
             return new Point3D(
                 x1 + center.X,
@@ -627,14 +734,19 @@ namespace GrafRedactor
         }
 
         // Метод для установки реальных координат с обновлением отображения
-        public void SetRealPoints(Point3D start, Point3D end, Point3D center, float totalRotationX, float totalRotationY, float totalRotationZ)
+        public void SetRealPoints(Point3D start, Point3D end, Point3D center, 
+            float totalRotationX, float totalRotationY, float totalRotationZ, float zc)
         {
+            if (_zc != float.MaxValue)
+            {
+                zc = _zc;
+            }
             ZeroRatatedStartPoint = start;
             ZeroRatatedEndPoint = end;
 
             // Обновляем отображаемые точки с учетом текущего вращения сцены
-            _startPoint3D = RotatePoint3D(ZeroRatatedStartPoint, center, totalRotationX, totalRotationY, totalRotationZ);
-            _endPoint3D = RotatePoint3D(ZeroRatatedEndPoint, center, totalRotationX, totalRotationY, totalRotationZ);
+            _startPoint3D = RotatePoint3D(ZeroRatatedStartPoint, center, totalRotationX, totalRotationY, totalRotationZ, zc);
+            _endPoint3D = RotatePoint3D(ZeroRatatedEndPoint, center, totalRotationX, totalRotationY, totalRotationZ, zc);
 
             Update2DProjection();
         }

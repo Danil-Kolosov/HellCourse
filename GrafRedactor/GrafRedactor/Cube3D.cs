@@ -14,8 +14,12 @@ namespace GrafRedactor
         private Point3D center;
         private float size;
         private Color color;
+        public float _zc = float.MaxValue;
+        public PointElement3D TcX = new PointElement3D(0,0,0);
+        public PointElement3D TcY = new PointElement3D(0, 0, 0);
+        public PointElement3D TcZ = new PointElement3D(0, 0, 0);
 
-        public Cube3D(Point3D center, float size, Color color)
+        public Cube3D(Point3D center, float size, Color color, string currentAxisName, float zs)
         {
             this.center = center;
             this.size = size;
@@ -24,6 +28,7 @@ namespace GrafRedactor
             InitializeEdges();
             UpdateCubeGeometry();
             is3D = true;
+            Rotate3DWithScene(0,0,0, new Point3D(0, 0, 0), zs, currentAxisName);
         }
 
         private void InitializeEdges()
@@ -44,15 +49,11 @@ namespace GrafRedactor
             // Вычисляем 8 вершин куба
             Point3D[] vertices = CalculateVertices();
 
-            // Обновляем координаты ребер
+            // Обновляем координаты ребер БЕЗ создания подписок на события
             // Нижняя грань
             edges[0].StartPoint3D = vertices[0]; edges[0].EndPoint3D = vertices[1];
-            //edges[1].OnChanged += edges[0].LinkChange;
-            edges[0].OnChanged += edges[1].LinkChange;
             edges[1].StartPoint3D = vertices[1]; edges[1].EndPoint3D = vertices[2];
-            edges[1].OnChanged += edges[2].LinkChange;
             edges[2].StartPoint3D = vertices[2]; edges[2].EndPoint3D = vertices[3];
-            edges[2].OnChanged += edges[3].LinkChange;
             edges[3].StartPoint3D = vertices[3]; edges[3].EndPoint3D = vertices[0];
 
             // Верхняя грань
@@ -66,6 +67,13 @@ namespace GrafRedactor
             edges[9].StartPoint3D = vertices[1]; edges[9].EndPoint3D = vertices[5];
             edges[10].StartPoint3D = vertices[2]; edges[10].EndPoint3D = vertices[6];
             edges[11].StartPoint3D = vertices[3]; edges[11].EndPoint3D = vertices[7];
+
+            // Обновляем ZeroRatated точки для всех ребер
+            foreach (LineElement3D edge in edges)
+            {
+                edge.ZeroRatatedStartPoint = edge.StartPoint3D;
+                edge.ZeroRatatedEndPoint = edge.EndPoint3D;
+            }
         }
 
         private Point3D[] CalculateVertices()
@@ -95,43 +103,12 @@ namespace GrafRedactor
         }
 
         // ОБНОВЛЯЕМ ВСЕ МЕТОДЫ ДВИЖЕНИЯ И ПРЕОБРАЗОВАНИЙ
-        public override void Move(PointF delta, float height, float width, string axeName)
+        public override void Move(PointF delta, float height, float width, float deltaZ, string axeName)
         {
-            //center = new Point3D(center.X + delta.X, center.Y + delta.Y, center.Z);
-            foreach (LineElement3D line in edges)
-            {
-                line.Move(delta, height, width);
-            }
-            center.X = center.X + delta.X;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            center.Y = center.Y + delta.Y;
-            //UpdateCubeGeometry();
-            //OnPropertyChanged();
+            throw new NotImplementedException();
         }
 
-        public void Move3D(Point3D delta)
+        private void Move3DPriv(Point3D delta)
         {
             center.X += delta.X;
             center.Y += delta.Y;
@@ -149,17 +126,96 @@ namespace GrafRedactor
             //OnPropertyChanged();
         }
 
+        private void CalculateTc(float ZC, float angleY, float anfleX) 
+        {
+            float angleRadY = angleY * (float)Math.PI / 180f;
+            float angleRadX = anfleX * (float)Math.PI / 180f;
+            TcX.Point3D.X = center.X + (float)(ZC / (Math.Tan(angleRadY) * Math.Cos(anfleX)));
+            TcX.Point3D.Y = center.Y + (float)(ZC * Math.Tan(anfleX));
+            TcX.Point3D.Z = center.Z + 0;
+
+            TcY.Point3D.X = 0;
+            TcY.Point3D.Y = (float)(-ZC / Math.Tan(anfleX));
+            TcY.Point3D.Z = 0;
+
+            TcZ.Point3D.X = (float)(-ZC * (Math.Tan(angleRadY) / Math.Cos(anfleX)));
+            TcZ.Point3D.Y = (float)(ZC * Math.Tan(anfleX));
+            TcZ.Point3D.Z = 0;
+
+        }
+
+        private void MoveTc(Point3D delta)
+        {
+            
+            TcX.Move3D(delta);
+            TcY.Move3D(delta);
+            TcZ.Move3D(delta);
+        }
+
+        public void Move3D(PointF delta, float height, float width, float deltaZ, string axeName)
+        {
+            // Сначала обновляем центр куба в зависимости от плоскости
+            Point3D newCenter = center;
+
+            switch (axeName.ToLower())
+            {
+                case "xoy":
+                    newCenter = new Point3D(
+                        center.X + delta.X,
+                        center.Y + delta.Y,
+                        center.Z + deltaZ
+                    );
+                    break;
+                case "yoz":
+                    newCenter = new Point3D(
+                        center.X + deltaZ,  // X меняется через deltaZ
+                        center.Y + delta.X, // Y меняется через delta.X  
+                        center.Z + delta.Y  // Z меняется через delta.Y
+                    );
+                    break;
+                case "xoz":
+                    newCenter = new Point3D(
+                        center.X + delta.X, // X меняется через delta.X
+                        center.Y + deltaZ,  // Y меняется через deltaZ
+                        center.Z + delta.Y  // Z меняется через delta.Y
+                    );
+                    break;
+            }
+
+            // Перемещаем все ребра куба
+            foreach (LineElement3D edge in edges)
+            {
+                edge.Move(delta, height, width, deltaZ, axeName);
+            }
+
+            // Обновляем центр куба
+            center = newCenter;
+
+            if(_zc != float.MaxValue) 
+            {
+                MoveTc(new Point3D(delta, deltaZ));
+            }
+
+            // Обновляем геометрию куба (ВАЖНО!) НАХЕР ЭТО НАДО ТУТ
+            //UpdateCubeGeometry();
+
+            // Уведомляем об изменении
+            OnPropertyChanged();
+        }
+
+
         public override void Rotate(float angle, PointF cent)
         {
             if (cent.IsEmpty)
-                Rotate3D(0, 0, angle, center, Rectangle.Empty);
+                Rotate3D(0, 0, angle, center, Rectangle.Empty, float.MaxValue);
             else
-                Rotate3D(0, 0, angle, new Point3D(cent), Rectangle.Empty);
+                Rotate3D(0, 0, angle, new Point3D(cent), Rectangle.Empty, float.MaxValue);
         }
 
         private bool CanPerformRotation3D(float angleX, float angleY, float angleZ, Point3D center, Rectangle drawingArea)
         {
-
+            return true;
+            throw new NotImplementedException();
             foreach (var figure in edges)
             {
                 if (figure is LineElement3D line)
@@ -253,7 +309,8 @@ namespace GrafRedactor
             );
         }
 
-        public void Rotate3D(float angleX, float angleY, float angleZ, Point3D rotationCenter, Rectangle drawingArea /*= new Rectangle()*/)
+        public void Rotate3D(float angleX, float angleY, float angleZ, Point3D rotationCenter, 
+            Rectangle drawingArea /*= new Rectangle()*/, float zc)
         {
             //if (CanPerformRotation3D(angleX, angleY, angleZ, rotationCenter, drawingArea))
             //{
@@ -276,15 +333,22 @@ namespace GrafRedactor
             //    // Обновляем геометрию (на всякий случай)
             //    UpdateCubeGeometry();
             //}
-
+            if (_zc != float.MaxValue)
+            {
+                zc = _zc;
+            }
             if (CanPerformRotation3D(angleX, angleY, angleZ, center, drawingArea))
             {
                 foreach (LineElement3D line in edges)
                 {
-                    line.Rotate3D(center/*new Point3D(0,0,0)ЭТО НЕ ЦЕНТР*/, angleX, angleY, angleZ);
+                    line.Rotate3D(center/*new Point3D(0,0,0)ЭТО НЕ ЦЕНТР*/, angleX, angleY, angleZ, zc);
                 }
 
                 this.center = RotatePoint3D(Center, center, angleX, angleY, angleZ);
+                if (_zc != float.MaxValue)
+                {
+                    CalculateTc(zc, angleY, angleX);
+                }
                 //если куб вращается относительно какой-то точки (начла координта), то почему-то его центр вращается не правильно
                 //this.center.X = edges[0].StartPoint3D.X + size / 2;
                 //this.center.Y = edges[0].StartPoint3D.Y + size / 2;
@@ -307,13 +371,17 @@ namespace GrafRedactor
             //OnPropertyChanged();
         }
 
-        public void Rotate3DWithScene(float angleX, float angleY, float angleZ, Point3D center) 
+        public void Rotate3DWithScene(float angleX, float angleY, float angleZ, Point3D center, float zc, string currentAxiName) 
         {
+            if (_zc != float.MaxValue)
+            {
+                zc = _zc;
+            }            
             foreach (LineElement3D line in edges)
             {
-                line.Rotate3DWithScene(center/*new Point3D(0,0,0)ЭТО НЕ ЦЕНТР*/, angleX, angleY, angleZ);
+                line.Rotate3DWithScene(center/*new Point3D(0,0,0)ЭТО НЕ ЦЕНТР*/, angleX, angleY, angleZ, zc, currentAxiName);
             }
-
+            //CalculateTc(zc, angleY, angleX);
             //OnPropertyChanged();
         }
 
@@ -472,6 +540,24 @@ namespace GrafRedactor
             {
                 edge.Draw(graphics);
             }
+
+            // Рисуем точки схождения если активны
+            if (_zc != float.MaxValue)
+            {
+                TcX.Draw(graphics); TcY.Draw(graphics); TcZ.Draw(graphics);
+                // Рисуем линии от центра куба к точкам схода для отладки
+                //using (Pen debugPen = new Pen(Color.Purple, 1f))
+                //{
+                //    debugPen.DashStyle = DashStyle.Dash;
+
+                //    PointF center2D = new PointF(center.X, center.Y);
+
+                //    graphics.DrawLine(debugPen, center2D, new PointF(TcX.Point3D.X, TcX.Point3D.Y));
+                //    graphics.DrawLine(debugPen, center2D, new PointF(TcY.Point3D.X, TcY.Point3D.Y));
+                //    graphics.DrawLine(debugPen, center2D, new PointF(TcZ.Point3D.X, TcZ.Point3D.Y));
+                //}
+            }
+
         }
 
         public override void DrawSelection(Graphics graphics)
@@ -523,31 +609,48 @@ namespace GrafRedactor
             set 
             {
                 Point3D delta = new Point3D(-center.X + value.X, -center.Y + value.Y, -center.Z + value.Z);
-                Move3D(delta);
+                throw new Exception();
                 center = value; //это уже в move3d учтено                
             }
         }
+
+        public void SetMovingCenter(PointF delta, float height, float width, float deltaZ, string axeName) 
+        {
+            Move3D(delta, height, width, deltaZ, axeName);
+        }
+
         public float Size => size;
         public Color CubeColor => color;
         
             
         public void Projection3D(string projectionType)
         {
-            switch (projectionType.ToLower())
+            projectionType = projectionType.ToLower();
+            if (projectionType.Length == 1) 
+            {
+                foreach (FigureElement edge in edges)
+                {
+                    edge.Projection(projectionType);
+                }
+                    return;
+            }
+            switch (projectionType)
             {
                 case "xoy":
                 case "xy":
                 case "":
                     // Проецирование на плоскость XOY (Z = 0)
-                    foreach (var edge in edges)
+                    foreach (LineElement3D edge in edges)
                     {
-                        if (edge is LineElement3D line3D)
-                        {
-                            line3D.StartPoint3D = new Point3D(line3D.ZeroRatatedStartPoint.X, line3D.ZeroRatatedStartPoint.Y, 0);
+                        edge.Projection3D(projectionType);
+                        //if (edge is LineElement3D line3D)
+                        //{
+                            
+                            /*line3D.StartPoint3D = new Point3D(line3D.ZeroRatatedStartPoint.X, line3D.ZeroRatatedStartPoint.Y, 0);
                             line3D.EndPoint3D = new Point3D(line3D.ZeroRatatedEndPoint.X, line3D.ZeroRatatedEndPoint.Y, 0);
                             line3D.ZeroRatatedStartPoint = line3D.StartPoint3D;
-                            line3D.ZeroRatatedEndPoint = line3D.EndPoint3D;
-                        }
+                            line3D.ZeroRatatedEndPoint = line3D.EndPoint3D;*/
+                        //}
                     }
                     center = new Point3D(center.X, center.Y, 0);
                     break;
@@ -555,15 +658,16 @@ namespace GrafRedactor
                 case "xoz":
                 case "xz":
                     // Проецирование на плоскость XOZ (Y = 0)
-                    foreach (var edge in edges)
+                    foreach (LineElement3D edge in edges)
                     {
-                        if (edge is LineElement3D line3D)
+                        edge.Projection3D(projectionType);
+                        /*if (edge is LineElement3D line3D)
                         {
                             line3D.StartPoint3D = new Point3D(line3D.ZeroRatatedStartPoint.X, 0, line3D.ZeroRatatedStartPoint.Z);
                             line3D.EndPoint3D = new Point3D(line3D.ZeroRatatedEndPoint.X, 0, line3D.ZeroRatatedEndPoint.Z);
                             line3D.ZeroRatatedStartPoint = line3D.StartPoint3D;
                             line3D.ZeroRatatedEndPoint = line3D.EndPoint3D;
-                        }
+                        }*/
                     }
                     center = new Point3D(center.X, 0, center.Z);
                     break;
@@ -571,21 +675,22 @@ namespace GrafRedactor
                 case "yoz":
                 case "yz":
                     // Проецирование на плоскость YOZ (X = 0)
-                    foreach (var edge in edges)
+                    foreach (LineElement3D edge in edges)
                     {
-                        if (edge is LineElement3D line3D)
-                        {
-                            line3D.StartPoint3D = new Point3D(0, line3D.ZeroRatatedStartPoint.Y, line3D.ZeroRatatedStartPoint.Z);
-                            line3D.EndPoint3D = new Point3D(0, line3D.ZeroRatatedEndPoint.Y, line3D.ZeroRatatedEndPoint.Z);
-                            line3D.ZeroRatatedStartPoint = line3D.StartPoint3D;
-                            line3D.ZeroRatatedEndPoint = line3D.EndPoint3D;
-                        }
+                        edge.Projection3D(projectionType);
+                        //if (edge is LineElement3D line3D)
+                        //{
+                        //    line3D.StartPoint3D = new Point3D(0, line3D.ZeroRatatedStartPoint.Y, line3D.ZeroRatatedStartPoint.Z);
+                        //    line3D.EndPoint3D = new Point3D(0, line3D.ZeroRatatedEndPoint.Y, line3D.ZeroRatatedEndPoint.Z);
+                        //    line3D.ZeroRatatedStartPoint = line3D.StartPoint3D;
+                        //    line3D.ZeroRatatedEndPoint = line3D.EndPoint3D;
+                        //}
                     }
                     center = new Point3D(0, center.Y, center.Z);
                     break;
             }
 
-            UpdateCubeGeometry();
+            //UpdateCubeGeometry();
             OnPropertyChanged();
         }
 

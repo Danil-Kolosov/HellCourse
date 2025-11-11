@@ -55,7 +55,7 @@ namespace GrafRedactor
         // Новые методы для взаимодействия
         public abstract bool ContainsPoint(PointF point);
         public abstract RectangleF GetBoundingBox();
-        public abstract void Move(PointF delta, float height, float weight, string axeName);
+        public abstract void Move(PointF delta, float height, float weight, float deltaZ, string axeName);
         public abstract void Rotate(float angle, PointF centr = new PointF());
         public abstract void ScaleAverage(float scaleFactor);
         public abstract void Scale(PointF center, float sx, float sy);

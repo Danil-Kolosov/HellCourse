@@ -139,11 +139,11 @@ namespace GrafRedactor
                                 maxX - minX + Thickness * 2, maxY - minY + Thickness * 2);
         }
 
-        public override void Move(PointF delta, float height, float weight, string axeName = "xoy")
+        public override void Move(PointF delta, float height, float weight, float deltaZ = 0, string axeName = "xoy")
         {
             if(axeName!="group")
             {
-                if (_startPoint.X + delta.X > weight / 2)
+            /*if (_startPoint.X + delta.X > weight / 2)
                 delta.X = weight/2 - _startPoint.X;
             if (_startPoint.Y + delta.Y > height / 2)
                 delta.Y = height/2 - _startPoint.Y;
@@ -159,7 +159,7 @@ namespace GrafRedactor
             if (_endPoint.X + delta.X < -weight/2)
                 delta.X = -(weight/2 + _endPoint.X);
                 if (_endPoint.Y + delta.Y < -height / 2)
-                    delta.Y = -(height / 2 + _endPoint.Y);
+                    delta.Y = -(height / 2 + _endPoint.Y);*/
             }
 
 

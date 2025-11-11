@@ -105,7 +105,7 @@ namespace GrafRedactor
             throw new NotImplementedException();
         }
 
-        public override void Move(PointF delta, float height, float weight, string axeName)
+        public override void Move(PointF delta, float height, float weight, float deltaZ, string axeName)
         {
             throw new NotImplementedException();
         }
@@ -118,17 +118,17 @@ namespace GrafRedactor
         public override void Rotate(float angle, PointF cent)
         {
             Point3D center = new Point3D(0, 0, 0); // Теперь центр в (0,0,0)
-            axisX.Rotate3D(center, angle, angle, angle);
-            axisY.Rotate3D(center, angle, angle, angle);
-            axisZ.Rotate3D(center, angle, angle, angle);
+            axisX.Rotate3D(center, angle, angle, angle, float.MaxValue);
+            axisY.Rotate3D(center, angle, angle, angle, float.MaxValue);
+            axisZ.Rotate3D(center, angle, angle, angle, float.MaxValue);
         }
 
         public void Rotate3D(float angleX, float angleY, float angleZ, Point3D center = null)
         {
             center = center ?? new Point3D(0, 0, 0); // По умолчанию центр в (0,0,0)
-            axisX.Rotate3DWithScene(center, angleX, angleY, angleZ);
-            axisY.Rotate3DWithScene(center, angleX, angleY, angleZ);
-            axisZ.Rotate3DWithScene(center, angleX, angleY, angleZ);
+            axisX.Rotate3DWithScene(center, angleX, angleY, angleZ, float.MaxValue, "coordinateAxes");
+            axisY.Rotate3DWithScene(center, angleX, angleY, angleZ, float.MaxValue, "coordinateAxes");
+            axisZ.Rotate3DWithScene(center, angleX, angleY, angleZ, float.MaxValue, "coordinateAxes");
         }
 
         public override void Scale(PointF center, float sx, float sy)
