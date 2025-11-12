@@ -144,14 +144,16 @@ namespace FamilyTree
             dgvResults.Location = new Point(12, 100);
             dgvResults.Name = "dgvResults";
             dgvResults.ReadOnly = true;
-            dgvResults.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvResults.Size = new Size(550, 220);
+            dgvResults.Size = new Size(876, 450);
             dgvResults.TabIndex = 6;
             dgvResults.CellDoubleClick += dgvResults_CellDoubleClick;
+            // Добавляем возможность изменения размеров столбцов
+            dgvResults.AllowUserToResizeColumns = true;
+            dgvResults.AllowUserToResizeRows = true;
 
             btnSelect.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnSelect.Enabled = false;
-            btnSelect.Location = new Point(406, 326);
+            btnSelect.Location = new Point(732, 565);
             btnSelect.Name = "btnSelect";
             btnSelect.Size = new Size(75, 23);
             btnSelect.TabIndex = 7;
@@ -161,7 +163,7 @@ namespace FamilyTree
 
             btnCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             btnCancel.DialogResult = DialogResult.Cancel;
-            btnCancel.Location = new Point(487, 326);
+            btnCancel.Location = new Point(813, 565);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(75, 23);
             btnCancel.TabIndex = 8;
@@ -269,7 +271,7 @@ namespace FamilyTree
             // SearchConnectionForm
             AcceptButton = btnSearch;
             CancelButton = btnCancel;
-            ClientSize = new Size(574, 361);
+            ClientSize = new Size(900, 600);
             Controls.Add(btnFindDescendants);
             Controls.Add(btnFindAncestors);
             Controls.Add(btnSearchTargetPerson);
@@ -781,6 +783,7 @@ namespace FamilyTree
             }).ToList();
 
             dgvResults.DataSource = displayData;
+            AdjustDataGridView();
         }
 
         private void dgvResults_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -801,6 +804,32 @@ namespace FamilyTree
                 DialogResult = DialogResult.OK;
                 Close();
             }
+        }
+
+        private void AdjustDataGridView()
+        {
+            if (dgvResults.Columns.Count == 0) return;
+
+            // Настраиваем режим авто-размера
+            dgvResults.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
+            // Для столбцов с текстом устанавливаем Fill, для числовых - по содержимому
+            foreach (DataGridViewColumn column in dgvResults.Columns)
+            {
+                if (column.Name.Contains("ID") || column.Name == "Шаг" || column.Name == "Поколение")
+                {
+                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                }
+                else
+                {
+                    column.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    column.MinimumWidth = 100; // Минимальная ширина для читаемости
+                }
+            }
+
+            // Включаем перенос текста
+            dgvResults.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgvResults.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
         }
     }
 }

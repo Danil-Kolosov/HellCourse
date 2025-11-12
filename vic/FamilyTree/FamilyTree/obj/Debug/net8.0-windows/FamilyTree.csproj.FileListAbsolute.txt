@@ -47,7 +47,6 @@ D:\pnrpu\git\HellCourse\vic\FamilyTree\FamilyTree\bin\Debug\net8.0-windows\Famil
 D:\pnrpu\git\HellCourse\vic\FamilyTree\FamilyTree\bin\Debug\net8.0-windows\FamilyTree.pdb
 D:\pnrpu\git\HellCourse\vic\FamilyTree\FamilyTree\obj\Debug\net8.0-windows\FamilyTree.AddPersonForm.resources
 D:\pnrpu\git\HellCourse\vic\FamilyTree\FamilyTree\obj\Debug\net8.0-windows\FamilyTree.EditPersonForm.resources
-D:\pnrpu\git\HellCourse\vic\FamilyTree\FamilyTree\obj\Debug\net8.0-windows\TreeFamily.Form1.resources
 D:\pnrpu\git\HellCourse\vic\FamilyTree\FamilyTree\obj\Debug\net8.0-windows\FamilyTree.MainForm.resources
 D:\pnrpu\git\HellCourse\vic\FamilyTree\FamilyTree\obj\Debug\net8.0-windows\FamilyTree.SearchConnectionForm.resources
 D:\pnrpu\git\HellCourse\vic\FamilyTree\FamilyTree\obj\Debug\net8.0-windows\FamilyTree.SearchPersonForm.resources

@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FamilyTree.Person">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAACAAAEBgAEAAQQBAAEEAAEASAASAEAAEg=</HashCode>
+      <FileName>Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.PersonRepository">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAgAAQAgACAAAAgEAAAAAAAoAAAAAAAAAAAEAA=</HashCode>
+      <FileName>PersonRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.Gender">
+    <Position X="11.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAABAACAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Gender.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.Validator">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAgAACQAEAAAQEAACAgAAQAACAAAgAgAAACAA=</HashCode>
+      <FileName>Validator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.FamilyConnection">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIABAAAAAAAEABAAAAAAAAAAAAAEAAAAEAAAEAI=</HashCode>
+      <FileName>FamilyConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.FamilyConnectionRepository">
+    <Position X="2" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>EAYAAAIgKAAAgACACAAABAAABAABAAAgAAAAABAAUAQ=</HashCode>
+      <FileName>FamilyConnectionRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.Data">
+    <Position X="6.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.ConnectionType">
+    <Position X="4.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgEAAAAAAAAAAAAAAAAgIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ConnectionType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.DataSaver" Collapsed="true">
+    <Position X="17.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>DataSaver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.EditPersonForm" Collapsed="true">
+    <Position X="17.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQCBAEABAQAAIAEAAgAAAAkCAAAAIFgAAERAEAIBAAU=</HashCode>
+      <FileName>EditPersonForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GenealogySystem.EditConnectionForm" Collapsed="true">
+    <Position X="17.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAYJoAYAAAAIEAIAlEAAACAIoAABAAAAAQkAIAAAA=</HashCode>
+      <FileName>EditConnectionForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.SearchConnectionForm" Collapsed="true">
+    <Position X="17.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>sCSBINgAEJBFEAkAoAUAACACAABAAACkECBgQhAAFHI=</HashCode>
+      <FileName>SearchConnectionForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.SearchPersonForm" Collapsed="true">
+    <Position X="17.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EQCAIAAAAQBAUAEAAAAAAAgCAAAAAAAgAABAAAAAAFY=</HashCode>
+      <FileName>SearchPersonForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.MainForm" Collapsed="true">
+    <Position X="19.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQwgIAIFgaARCUDKAACBEIgCACBBADEAAAEQCgBABAE=</HashCode>
+      <FileName>MainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.AddConnectionForm" Collapsed="true">
+    <Position X="19.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAYJoAYAAAAAEAIAEEAAACAAIAABAAAAAQkAIAAAA=</HashCode>
+      <FileName>AddConnectionForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FamilyTree.AddPersonForm" Collapsed="true">
+    <Position X="19.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AYCAAAABAQAAAAEAAAAAAAkCAAAAIFgAAERAAAIBAAU=</HashCode>
+      <FileName>AddPersonForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -2,7 +2,7 @@
 {
     public static class Gender
     {
-        public static readonly Dictionary<int, string> Genders = new Dictionary<int, string>
+        private static readonly Dictionary<int, string> Genders = new Dictionary<int, string>
     {
         {1, "Мужской"},
         {2, "Женский"}

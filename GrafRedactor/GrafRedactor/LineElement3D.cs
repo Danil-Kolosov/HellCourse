@@ -593,24 +593,24 @@ namespace GrafRedactor
                 x1 = x1 * perspectiveFactor;
                 y1 = y1 * perspectiveFactor;
                 z1 = z1;
-                switch (proecirStr)
-                {
-                    case "xoy":  //z=0
-                        //x1 = x * cosY * cosZ + y * (sinX * sinY * cosZ - cosX * sinZ) + z * (cosX * sinY * cosZ + sinX * sinZ);
-                        //y1 = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
-                        z1 = 0;
-                        break;
-                    case "yoz": //x=0
-                        x1 = 0;
-                        //y1 = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
-                        //z1 = x * -sinY + y * sinX * cosY + z * cosX * cosY;
-                        break;
-                    case "xoz": //y=0
-                        //x1 = x * cosY * cosZ + y * (sinX * sinY * cosZ - cosX * sinZ) + z * (cosX * sinY * cosZ + sinX * sinZ);
-                        y1 = 0;
-                        //z1 = x * -sinY + y * sinX * cosY + z * cosX * cosY;
-                        break;
-                }
+                //switch (proecirStr)
+                //{
+                //    case "xoy":  //z=0
+                //        //x1 = x * cosY * cosZ + y * (sinX * sinY * cosZ - cosX * sinZ) + z * (cosX * sinY * cosZ + sinX * sinZ);
+                //        //y1 = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
+                //        z1 = 0;
+                //        break;
+                //    case "yoz": //x=0
+                //        x1 = 0;
+                //        //y1 = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
+                //        //z1 = x * -sinY + y * sinX * cosY + z * cosX * cosY;
+                //        break;
+                //    case "xoz": //y=0
+                //        //x1 = x * cosY * cosZ + y * (sinX * sinY * cosZ - cosX * sinZ) + z * (cosX * sinY * cosZ + sinX * sinZ);
+                //        y1 = 0;
+                //        //z1 = x * -sinY + y * sinX * cosY + z * cosX * cosY;
+                //        break;
+                //}
             }
 
             return new Point3D(

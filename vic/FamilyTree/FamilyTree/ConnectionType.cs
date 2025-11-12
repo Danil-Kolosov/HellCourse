@@ -5,7 +5,7 @@ namespace FamilyTree
 {
     public static class ConnectionType
     {
-        public static readonly Dictionary<int, string> ConnectionTypes = new Dictionary<int, string>
+        private static readonly Dictionary<int, string> ConnectionTypes = new Dictionary<int, string>
     {
         {1, "Мужья-жены"},
         {2, "Родители-дети"},
@@ -20,11 +20,6 @@ namespace FamilyTree
         public static bool IsValidConnectionType(int conTypeId)
         {
             return ConnectionTypes.ContainsKey(conTypeId);
-        }
-
-        public static List<KeyValuePair<int, string>> GetAllConnectionTypes()
-        {
-            return ConnectionTypes.ToList();
         }
     }
 }

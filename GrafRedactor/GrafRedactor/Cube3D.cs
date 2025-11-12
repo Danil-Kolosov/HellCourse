@@ -194,8 +194,9 @@ namespace GrafRedactor
             if(_zc != float.MaxValue) 
             {
                 MoveTc(new Point3D(delta, deltaZ));
+                this.Rotate3DWithScene(0, 0, 0, new Point3D(0, 0, 0), _zc, axeName);
             }
-
+            
             // Обновляем геометрию куба (ВАЖНО!) НАХЕР ЭТО НАДО ТУТ
             //UpdateCubeGeometry();
 
