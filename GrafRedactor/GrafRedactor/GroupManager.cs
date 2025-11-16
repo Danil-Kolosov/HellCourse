@@ -239,10 +239,20 @@ namespace GrafRedactor
                             line3D.StartPoint3D = newStart;
                             line3D.EndPoint3D = newEnd;
                         }
-                        else if (element is Cube3D cube)
+                        else 
                         {
-                            // Для куба используем его метод вращения
-                            cube.Rotate3D(angleX, angleY, angleZ, rotationCenter, drawingArea, zc);
+                            if (element is Cube3D cube)
+                            {
+                                // Для куба используем его метод вращения
+                                cube.Rotate3D(angleX, angleY, angleZ, rotationCenter, drawingArea, zc);
+                            }
+                            else
+                            {
+                                if (element is LineElement line)
+                                {
+                                    line.Rotate(angleZ, rotationCenter.ToPoint2D());
+                                }
+                            }
                         }
                     }
                     return true;
