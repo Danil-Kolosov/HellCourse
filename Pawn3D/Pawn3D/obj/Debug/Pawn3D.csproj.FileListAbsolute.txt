@@ -1,0 +1,17 @@
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\obj\Debug\Pawn3D.csproj.AssemblyReference.cache
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\obj\Debug\Pawn3D.Properties.Resources.resources
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\obj\Debug\Pawn3D.csproj.GenerateResource.cache
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\obj\Debug\Pawn3D.csproj.CoreCompileInputs.cache
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\bin\Debug\Pawn3D.exe.config
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\bin\Debug\Pawn3D.exe
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\bin\Debug\Pawn3D.pdb
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\obj\Debug\Pawn3D.exe
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\obj\Debug\Pawn3D.pdb
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\obj\Debug\Pawn3D.MainForm.resources
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\bin\Debug\OpenTK.dll
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\bin\Debug\OpenTK.GLControl.dll
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\bin\Debug\OpenTK.pdb
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\bin\Debug\OpenTK.xml
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\bin\Debug\OpenTK.GLControl.pdb
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\bin\Debug\OpenTK.GLControl.xml
+D:\pnrpu\git\HellCourse\Pawn3D\Pawn3D\obj\Debug\Pawn3D.csproj.Up2Date
