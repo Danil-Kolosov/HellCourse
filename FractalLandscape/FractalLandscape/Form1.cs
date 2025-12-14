@@ -129,7 +129,7 @@ namespace FractalLandscape
 
             // Информация
             Label helpLabel = new Label();
-            helpLabel.Text = "Зажмите ЛКМ для вращения | W/S/A/D - управление | R - сброс";
+            helpLabel.Text = "";//"Зажмите ЛКМ для вращения | W/S/A/D - управление | R - сброс";
             helpLabel.Location = new Point(450, 15);
             helpLabel.AutoSize = true;
             helpLabel.Font = new Font("Arial", 8);
@@ -331,7 +331,7 @@ namespace FractalLandscape
             DrawAxes(e.Graphics, transform, viewport);
 
             // Информация
-            string info = $"Вершин: {vertices.Count}, Треугольников: {triangles.Count} | Вращение: X={rotationX:F2}, Y={rotationY:F2}";
+            string info = "";//$"Вершин: {vertices.Count}, Треугольников: {triangles.Count} | Вращение: X={rotationX:F2}, Y={rotationY:F2}";
             e.Graphics.DrawString(info, new Font("Arial", 9), Brushes.Black, 10, drawingHeight + 90);
         }
 
