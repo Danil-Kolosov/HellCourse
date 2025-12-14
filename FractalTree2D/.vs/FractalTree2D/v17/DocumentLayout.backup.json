@@ -1,0 +1,129 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\pnrpu\\git\\HellCourse\\FractalTree2D\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8F215668-9E45-4A9F-9E47-44CDB5BE396E}|FractalTree2D\\FractalTree2D.csproj|d:\\pnrpu\\git\\hellcourse\\fractaltree2d\\fractaltree2d\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F215668-9E45-4A9F-9E47-44CDB5BE396E}|FractalTree2D\\FractalTree2D.csproj|solutionrelative:fractaltree2d\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F215668-9E45-4A9F-9E47-44CDB5BE396E}|FractalTree2D\\FractalTree2D.csproj|d:\\pnrpu\\git\\hellcourse\\fractaltree2d\\fractaltree2d\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F215668-9E45-4A9F-9E47-44CDB5BE396E}|FractalTree2D\\FractalTree2D.csproj|solutionrelative:fractaltree2d\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F215668-9E45-4A9F-9E47-44CDB5BE396E}|FractalTree2D\\FractalTree2D.csproj|d:\\pnrpu\\git\\hellcourse\\fractaltree2d\\fractaltree2d\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F215668-9E45-4A9F-9E47-44CDB5BE396E}|FractalTree2D\\FractalTree2D.csproj|solutionrelative:fractaltree2d\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F215668-9E45-4A9F-9E47-44CDB5BE396E}|FractalTree2D\\FractalTree2D.csproj|d:\\pnrpu\\git\\hellcourse\\fractaltree2d\\fractaltree2d\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{8F215668-9E45-4A9F-9E47-44CDB5BE396E}|FractalTree2D\\FractalTree2D.csproj|solutionrelative:fractaltree2d\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 836,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c9c0ae26-aa77-11d2-b3f0-0000f87570ee}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\FractalTree2D\\FractalTree2D\\Program.cs",
+              "RelativeDocumentMoniker": "FractalTree2D\\Program.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\FractalTree2D\\FractalTree2D\\Program.cs",
+              "RelativeToolTip": "FractalTree2D\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-14T13:02:18.642Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Form1.Designer.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\FractalTree2D\\FractalTree2D\\Form1.Designer.cs",
+              "RelativeDocumentMoniker": "FractalTree2D\\Form1.Designer.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\FractalTree2D\\FractalTree2D\\Form1.Designer.cs",
+              "RelativeToolTip": "FractalTree2D\\Form1.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-14T13:02:10.865Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\FractalTree2D\\FractalTree2D\\Form1.cs",
+              "RelativeDocumentMoniker": "FractalTree2D\\Form1.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\FractalTree2D\\FractalTree2D\\Form1.cs",
+              "RelativeToolTip": "FractalTree2D\\Form1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-14T13:01:49.796Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\FractalTree2D\\FractalTree2D\\Form1.cs",
+              "RelativeDocumentMoniker": "FractalTree2D\\Form1.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\FractalTree2D\\FractalTree2D\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "FractalTree2D\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-14T13:01:44.169Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{320fd13f-632f-4b16-9527-a1adfe555f6c}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{131369f2-062d-44a2-8671-91ff31efb4f4}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 137,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

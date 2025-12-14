@@ -1,0 +1,9 @@
+D:\pnrpu\git\HellCourse\FractalTree2D\FractalTree2D\obj\Debug\FractalTree2D.csproj.AssemblyReference.cache
+D:\pnrpu\git\HellCourse\FractalTree2D\FractalTree2D\obj\Debug\FractalTree2D.Properties.Resources.resources
+D:\pnrpu\git\HellCourse\FractalTree2D\FractalTree2D\obj\Debug\FractalTree2D.csproj.GenerateResource.cache
+D:\pnrpu\git\HellCourse\FractalTree2D\FractalTree2D\obj\Debug\FractalTree2D.csproj.CoreCompileInputs.cache
+D:\pnrpu\git\HellCourse\FractalTree2D\FractalTree2D\bin\Debug\FractalTree2D.exe.config
+D:\pnrpu\git\HellCourse\FractalTree2D\FractalTree2D\bin\Debug\FractalTree2D.exe
+D:\pnrpu\git\HellCourse\FractalTree2D\FractalTree2D\bin\Debug\FractalTree2D.pdb
+D:\pnrpu\git\HellCourse\FractalTree2D\FractalTree2D\obj\Debug\FractalTree2D.exe
+D:\pnrpu\git\HellCourse\FractalTree2D\FractalTree2D\obj\Debug\FractalTree2D.pdb
