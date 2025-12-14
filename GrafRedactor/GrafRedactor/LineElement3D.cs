@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace GrafRedactor
 {
@@ -904,6 +905,87 @@ namespace GrafRedactor
             }
             
         }
+
+        public override JObject Serialize()
+        {
+            var json = base.Serialize();
+
+            json["StartPoint3D"] = new JObject
+            {
+                ["X"] = StartPoint3D.X,
+                ["Y"] = StartPoint3D.Y,
+                ["Z"] = StartPoint3D.Z
+            };
+
+            json["EndPoint3D"] = new JObject
+            {
+                ["X"] = EndPoint3D.X,
+                ["Y"] = EndPoint3D.Y,
+                ["Z"] = EndPoint3D.Z
+            };
+
+            json["ZeroRatatedStartPoint"] = new JObject
+            {
+                ["X"] = ZeroRatatedStartPoint.X,
+                ["Y"] = ZeroRatatedStartPoint.Y,
+                ["Z"] = ZeroRatatedStartPoint.Z
+            };
+
+            json["ZeroRatatedEndPoint"] = new JObject
+            {
+                ["X"] = ZeroRatatedEndPoint.X,
+                ["Y"] = ZeroRatatedEndPoint.Y,
+                ["Z"] = ZeroRatatedEndPoint.Z
+            };
+
+            json["RotationX"] = rotationX;
+            json["RotationY"] = rotationY;
+            json["RotationZ"] = rotationZ;
+            json["Zc"] = _zc;
+            json["ScaleFactorS"] = _scaleFactorS;
+            json["ScaleFactorE"] = _scaleFactorE;
+
+            return json;
+        }
+
+        public override void Deserialize(JObject data)
+        {
+            base.Deserialize(data);
+
+            _startPoint3D = new Point3D(
+                (float)data["StartPoint3D"]["X"],
+                (float)data["StartPoint3D"]["Y"],
+                (float)data["StartPoint3D"]["Z"]
+            );
+
+            _endPoint3D = new Point3D(
+                (float)data["EndPoint3D"]["X"],
+                (float)data["EndPoint3D"]["Y"],
+                (float)data["EndPoint3D"]["Z"]
+            );
+
+            ZeroRatatedStartPoint = new Point3D(
+                (float)data["ZeroRatatedStartPoint"]["X"],
+                (float)data["ZeroRatatedStartPoint"]["Y"],
+                (float)data["ZeroRatatedStartPoint"]["Z"]
+            );
+
+            ZeroRatatedEndPoint = new Point3D(
+                (float)data["ZeroRatatedEndPoint"]["X"],
+                (float)data["ZeroRatatedEndPoint"]["Y"],
+                (float)data["ZeroRatatedEndPoint"]["Z"]
+            );
+
+            rotationX = (float)data["RotationX"];
+            rotationY = (float)data["RotationY"];
+            rotationZ = (float)data["RotationZ"];
+            _zc = (float)data["Zc"];
+            _scaleFactorS = (float)data["ScaleFactorS"];
+            _scaleFactorE = (float)data["ScaleFactorE"];
+
+            Update2DProjection();
+        }
+
 
         //public override bool ContainsPoint(PointF point)
         //{

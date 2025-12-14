@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -792,6 +793,114 @@ namespace GrafRedactor
                 point.Y - 2 * w.Y,
                 point.Z - 2 * w.Z
             );
+        }
+
+        public override JObject Serialize()
+        {
+            var json = base.Serialize();
+
+            json["Center"] = new JObject
+            {
+                ["X"] = center.X,
+                ["Y"] = center.Y,
+                ["Z"] = center.Z
+            };
+
+            json["Size"] = size;
+            json["CubeColor"] = ColorTranslator.ToHtml(color);
+            json["Zc"] = _zc;
+            json["CurrentAxisName"] = ""; // Добавьте это поле в класс
+            json["Zs"] = 0; // Добавьте это поле в класс
+
+            // Сериализуем все ребра
+            var edgesArray = new JArray();
+            foreach (var edge in edges)
+            {
+                edgesArray.Add(((LineElement3D)edge).Serialize());
+            }
+            json["Edges"] = edgesArray;
+
+            // Сериализуем точки схода
+            json["TcX"] = new JObject
+            {
+                ["X"] = TcX.Point3D.X,
+                ["Y"] = TcX.Point3D.Y,
+                ["Z"] = TcX.Point3D.Z
+            };
+
+            json["TcY"] = new JObject
+            {
+                ["X"] = TcY.Point3D.X,
+                ["Y"] = TcY.Point3D.Y,
+                ["Z"] = TcY.Point3D.Z
+            };
+
+            json["TcZ"] = new JObject
+            {
+                ["X"] = TcZ.Point3D.X,
+                ["Y"] = TcZ.Point3D.Y,
+                ["Z"] = TcZ.Point3D.Z
+            };
+
+            return json;
+        }
+
+        public override void Deserialize(JObject data)
+        {
+            base.Deserialize(data);
+
+            center = new Point3D(
+                (float)data["Center"]["X"],
+                (float)data["Center"]["Y"],
+                (float)data["Center"]["Z"]
+            );
+
+            size = (float)data["Size"];
+            color = ColorTranslator.FromHtml((string)data["CubeColor"]);
+            _zc = (float)data["Zc"];
+
+            string currentAxisName = (string)data["CurrentAxisName"];
+            float zs = (float)data["Zs"];
+
+            // Восстанавливаем ребра
+            edges.Clear();
+            foreach (JObject edgeData in data["Edges"])
+            {
+                var edge = FigureElement.CreateFromData(edgeData) as LineElement3D;
+                if (edge != null)
+                {
+                    edges.Add(edge);
+                }
+            }
+
+            // Восстанавливаем точки схода
+            TcX = new PointElement3D(
+                new Point3D(
+                    (float)data["TcX"]["X"],
+                    (float)data["TcX"]["Y"],
+                    (float)data["TcX"]["Z"]
+                )
+            );
+
+            TcY = new PointElement3D(
+                new Point3D(
+                    (float)data["TcY"]["X"],
+                    (float)data["TcY"]["Y"],
+                    (float)data["TcY"]["Z"]
+                )
+            );
+
+            TcZ = new PointElement3D(
+                new Point3D(
+                    (float)data["TcZ"]["X"],
+                    (float)data["TcZ"]["Y"],
+                    (float)data["TcZ"]["Z"]
+                )
+            );
+
+            // Инициализируем куб
+            InitializeEdges();
+            UpdateCubeGeometry();
         }
 
 

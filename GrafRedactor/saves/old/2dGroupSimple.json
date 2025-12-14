@@ -1,0 +1,107 @@
+{
+  "Version": "1.0",
+  "Elements": [
+    {
+      "Type": "LineElement",
+      "Position": {
+        "X": -97.0,
+        "Y": -2.0
+      },
+      "Color": "Black",
+      "Rotation": 0.0,
+      "IsSelected": false,
+      "IsGrouped": true,
+      "GroupId": "Group_1",
+      "Is3D": false,
+      "StartPoint": {
+        "X": -97.0,
+        "Y": -2.0
+      },
+      "EndPoint": {
+        "X": -62.0,
+        "Y": -2.0
+      },
+      "Length": 35.0,
+      "Thickness": 3.0
+    },
+    {
+      "Type": "LineElement",
+      "Position": {
+        "X": -38.0,
+        "Y": 55.0
+      },
+      "Color": "Black",
+      "Rotation": -90.0,
+      "IsSelected": false,
+      "IsGrouped": true,
+      "GroupId": "Group_1",
+      "Is3D": false,
+      "StartPoint": {
+        "X": -38.0,
+        "Y": 55.0
+      },
+      "EndPoint": {
+        "X": -38.0,
+        "Y": 17.0
+      },
+      "Length": 38.0,
+      "Thickness": 3.0
+    }
+  ],
+  "GroupManager": {
+    "Groups": [
+      {
+        "GroupId": "Group_1",
+        "Elements": [
+          {
+            "Type": "LineElement",
+            "Position": {
+              "X": -38.0,
+              "Y": 55.0
+            },
+            "Color": "Black",
+            "Rotation": -90.0,
+            "IsSelected": false,
+            "IsGrouped": true,
+            "GroupId": "Group_1",
+            "Is3D": false,
+            "StartPoint": {
+              "X": -38.0,
+              "Y": 55.0
+            },
+            "EndPoint": {
+              "X": -38.0,
+              "Y": 17.0
+            },
+            "Length": 38.0,
+            "Thickness": 3.0
+          },
+          {
+            "Type": "LineElement",
+            "Position": {
+              "X": -97.0,
+              "Y": -2.0
+            },
+            "Color": "Black",
+            "Rotation": 0.0,
+            "IsSelected": false,
+            "IsGrouped": true,
+            "GroupId": "Group_1",
+            "Is3D": false,
+            "StartPoint": {
+              "X": -97.0,
+              "Y": -2.0
+            },
+            "EndPoint": {
+              "X": -62.0,
+              "Y": -2.0
+            },
+            "Length": 35.0,
+            "Thickness": 3.0
+          }
+        ]
+      }
+    ],
+    "GroupCounter": 2
+  }
+}

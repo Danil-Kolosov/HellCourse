@@ -8,3 +8,6 @@ D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\obj\Debug\GrafRedactor.csproj.
 D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\obj\Debug\GrafRedactor.csproj.CoreCompileInputs.cache
 D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\obj\Debug\GrafRedactor.exe
 D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\obj\Debug\GrafRedactor.pdb
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\bin\Debug\Newtonsoft.Json.dll
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\bin\Debug\Newtonsoft.Json.xml
+D:\pnrpu\git\HellCourse\GrafRedactor\GrafRedactor\obj\Debug\GrafReda.0A36DA92.Up2Date

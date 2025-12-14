@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -394,6 +395,47 @@ namespace GrafRedactor
                 default:
                     throw new ArgumentException("Выбрана не правильная ось");
             }
+        }
+
+        public override JObject Serialize()
+        {
+            var json = base.Serialize();
+
+            json["StartPoint"] = new JObject
+            {
+                ["X"] = StartPoint.X,
+                ["Y"] = StartPoint.Y
+            };
+
+            json["EndPoint"] = new JObject
+            {
+                ["X"] = EndPoint.X,
+                ["Y"] = EndPoint.Y
+            };
+
+            json["Length"] = Length;
+            json["Thickness"] = Thickness;
+
+            return json;
+        }
+
+        public override void Deserialize(JObject data)
+        {
+            base.Deserialize(data);
+
+            // Восстанавливаем дополнительные свойства
+            _startPoint = new PointF(
+                (float)data["StartPoint"]["X"],
+                (float)data["StartPoint"]["Y"]
+            );
+
+            _endPoint = new PointF(
+                (float)data["EndPoint"]["X"],
+                (float)data["EndPoint"]["Y"]
+            );
+
+            _length = (float)data["Length"];
+            Thickness = (float)data["Thickness"];
         }
     }
 }

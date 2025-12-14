@@ -1,4 +1,5 @@
 ﻿using GrafRedactor;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -895,6 +896,78 @@ namespace GrafRedactor
         public bool IsElementInAnyGroup(FigureElement element)
         {
             return element.IsGrouped && !string.IsNullOrEmpty(element.GroupId);
+        }
+
+        // Сохраняем индексы элементов в общем списке
+        public JObject SerializeForSave(List<FigureElement> allElements)
+        {
+            var json = new JObject();
+            var groupsArray = new JArray();
+
+            foreach (var group in groups)
+            {
+                var groupObj = new JObject
+                {
+                    ["GroupId"] = group.Key
+                };
+
+                // Сохраняем индексы элементов в общем списке
+                var elementIndices = new JArray();
+                foreach (var element in group.Value)
+                {
+                    int index = allElements.IndexOf(element);
+                    if (index >= 0)
+                    {
+                        elementIndices.Add(index);
+                    }
+                }
+
+                groupObj["ElementIndices"] = elementIndices;
+                groupsArray.Add(groupObj);
+            }
+
+            json["Groups"] = groupsArray;
+            json["GroupCounter"] = groupCounter;
+
+            return json;
+        }
+
+        // Восстанавливаем группы по индексам
+        public void DeserializeFromLoad(JObject data, List<FigureElement> allFigures)
+        {
+            groups.Clear();
+
+            var groupsArray = (JArray)data["Groups"];
+            foreach (JObject groupData in groupsArray)
+            {
+                string groupId = (string)groupData["GroupId"];
+                var elements = new List<FigureElement>();
+
+                var elementIndicesArray = (JArray)groupData["ElementIndices"];
+                foreach (var indexToken in elementIndicesArray)
+                {
+                    int index = (int)indexToken;
+
+                    if (index >= 0 && index < allFigures.Count)
+                    {
+                        var figure = allFigures[index];
+                        elements.Add(figure);
+                        figure.GroupId = groupId;
+                        figure.IsGrouped = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Элемент с индексом {index} не найден при загрузке группы {groupId}");
+                    }
+                }
+
+                if (elements.Count > 0)
+                {
+                    groups[groupId] = elements;
+                }
+            }
+
+            groupCounter = (int)data["GroupCounter"];
         }
     }
 }

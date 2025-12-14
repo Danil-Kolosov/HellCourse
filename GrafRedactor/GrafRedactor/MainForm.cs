@@ -2903,6 +2903,91 @@ namespace GrafRedactor
             }
         }
 
+        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
+                saveDialog.DefaultExt = "json";
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    SceneSerializer.SaveToFile(saveDialog.FileName, figures, groupManager);
+                    MessageBox.Show("Сцена сохранена!");
+                }
+            }
+        }
+
+        private void загрузитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var openDialog = new OpenFileDialog())
+            {
+                openDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
+                openDialog.DefaultExt = "json";
+
+                if (openDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Очищаем текущую сцену
+                    figures.Clear();
+                    selectedFigures.Clear();
+                    selectedFigure = null;
+
+                    // Загружаем из файла
+                    var (loadedFigures, loadedGroupManager) =
+                        SceneSerializer.LoadFromFile(openDialog.FileName);
+
+                    // Копируем элементы в основной список
+                    figures.AddRange(loadedFigures);
+
+                    // ОБНОВЛЯЕМ ГРУПП-МЕНЕДЖЕР
+                    groupManager = loadedGroupManager;
+
+                    // СИНХРОНИЗИРУЕМ ГРУППЫ
+                    SynchronizeGroupsAfterLoad();
+
+                    // Сбрасываем выделение
+                    ClearSelection();
+                    isGroupSelected = false;
+                    currentGroupId = null;
+
+                    // Обновляем интерфейс
+                    UpdateParametersPanel();
+                    Invalidate();
+
+                    MessageBox.Show("Сцена загружена!");
+                }
+            }
+        }
+
+        private void SynchronizeGroupsAfterLoad()
+        {
+            // Проходим по всем группам в groupManager
+            foreach (var groupId in groupManager.GetAllGroupIds())
+            {
+                var groupElements = groupManager.GetGroupElements(groupId);
+
+                // Для каждого элемента в группе ищем соответствующий элемент в figures
+                for (int i = 0; i < groupElements.Count; i++)
+                {
+                    var groupElement = groupElements[i];
+
+                    // Ищем элемент с такими же координатами в figures
+                    var matchingFigure = figures.FirstOrDefault(f =>
+                        f.GetType() == groupElement.GetType() &&
+                        Math.Abs(f.Position.X - groupElement.Position.X) < 0.1f &&
+                        Math.Abs(f.Position.Y - groupElement.Position.Y) < 0.1f);
+
+                    if (matchingFigure != null)
+                    {
+                        // Заменяем элемент в группе на найденный из figures
+                        groupElements[i] = matchingFigure;
+                        matchingFigure.GroupId = groupId;
+                        matchingFigure.IsGrouped = true;
+                    }
+                }
+            }
+        }
+
         private void xOyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetDrawingAxe("xOy");

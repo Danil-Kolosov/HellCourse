@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace GrafRedactor
 {
@@ -44,5 +45,24 @@ namespace GrafRedactor
 
         public override string ToString()
             => $"({X:F1}, {Y:F1}, {Z:F1})";
+
+        public JObject Serialize()
+        {
+            return new JObject
+            {
+                ["X"] = X,
+                ["Y"] = Y,
+                ["Z"] = Z
+            };
+        }
+
+        public static Point3D Deserialize(JObject data)
+        {
+            return new Point3D(
+                (float)data["X"],
+                (float)data["Y"],
+                (float)data["Z"]
+            );
+        }
     }
 }

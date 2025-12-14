@@ -1,0 +1,65 @@
+{
+  "Version": "1.0",
+  "Figures": [
+    {
+      "Type": "LineElement",
+      "Position": {
+        "X": -101.0,
+        "Y": 131.0
+      },
+      "Color": "Black",
+      "Rotation": -88.919075,
+      "IsSelected": true,
+      "IsGrouped": true,
+      "GroupId": "Group_1",
+      "Is3D": false,
+      "StartPoint": {
+        "X": -101.0,
+        "Y": 131.0
+      },
+      "EndPoint": {
+        "X": -99.0,
+        "Y": 25.0
+      },
+      "Length": 106.018867,
+      "Thickness": 3.0,
+      "Index": 0
+    },
+    {
+      "Type": "LineElement",
+      "Position": {
+        "X": -59.0,
+        "Y": 51.0
+      },
+      "Color": "Black",
+      "Rotation": 177.229782,
+      "IsSelected": true,
+      "IsGrouped": true,
+      "GroupId": "Group_1",
+      "Is3D": false,
+      "StartPoint": {
+        "X": -59.0,
+        "Y": 51.0
+      },
+      "EndPoint": {
+        "X": -121.0,
+        "Y": 54.0
+      },
+      "Length": 62.0725365,
+      "Thickness": 3.0,
+      "Index": 1
+    }
+  ],
+  "GroupManagerData": {
+    "Groups": [
+      {
+        "GroupId": "Group_1",
+        "ElementIndices": [
+          1,
+          0
+        ]
+      }
+    ],
+    "GroupCounter": 2
+  }
+}
