@@ -3,44 +3,44 @@
   "WorkspaceRootPath": "D:\\pnrpu\\git\\HellCourse\\Robot\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|d:\\pnrpu\\git\\hellcourse\\robot\\robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\robotmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|d:\\pnrpu\\git\\hellcourse\\robot\\robot\\robotmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\robotmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\pshape.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\pshape.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\rectangleelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\rectangleelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\figureelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\figureelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\circleelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\circleelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\lineelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\lineelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\figureelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\figureelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\pshape.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\pshape.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|D:\\pnrpu\\git\\HellCourse\\Robot\\robot\\circleelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A31612C-BE72-4025-8804-58379B869924}|Robot\\Robot.csproj|solutionrelative:robot\\circleelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,8 +50,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 836,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 7,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c9c0ae26-aa77-11d2-b3f0-0000f87570ee}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
@@ -74,7 +78,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "PShape.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\PShape.cs",
               "RelativeDocumentMoniker": "Robot\\PShape.cs",
@@ -86,31 +90,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "RobotModel.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\RobotModel.cs",
               "RelativeDocumentMoniker": "Robot\\RobotModel.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\RobotModel.cs",
               "RelativeToolTip": "Robot\\RobotModel.cs",
-              "ViewState": "AgIAAHEAAAAAAAAAAAAAAIcAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAACoAAAAAAAAAAAAjwEcAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T18:14:41.117Z"
+              "WhenOpened": "2025-09-20T18:14:41.117Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "RectangleElement.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\RectangleElement.cs",
               "RelativeDocumentMoniker": "Robot\\RectangleElement.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\RectangleElement.cs",
               "RelativeToolTip": "Robot\\RectangleElement.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAQwBoAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAxwBoAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T18:13:06.171Z"
+              "WhenOpened": "2025-09-20T18:13:06.171Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "CircleElement.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\CircleElement.cs",
               "RelativeDocumentMoniker": "Robot\\CircleElement.cs",
@@ -122,31 +128,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 4,
               "Title": "LineElement.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\LineElement.cs",
               "RelativeDocumentMoniker": "Robot\\LineElement.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\LineElement.cs",
               "RelativeToolTip": "Robot\\LineElement.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwDgAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T18:11:24.037Z"
+              "WhenOpened": "2025-09-20T18:11:24.037Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "FigureElement.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\FigureElement.cs",
               "RelativeDocumentMoniker": "Robot\\FigureElement.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\FigureElement.cs",
               "RelativeToolTip": "Robot\\FigureElement.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAsAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAAAowCIAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T18:10:09.798Z"
+              "WhenOpened": "2025-09-20T18:10:09.798Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\MainForm.cs",
               "RelativeDocumentMoniker": "Robot\\MainForm.cs",
@@ -158,7 +166,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "MainForm.Designer.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\MainForm.Designer.cs",
               "RelativeDocumentMoniker": "Robot\\MainForm.Designer.cs",
@@ -166,23 +174,25 @@
               "RelativeToolTip": "Robot\\MainForm.Designer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T17:12:16.866Z"
+              "WhenOpened": "2025-09-20T17:12:16.866Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "MainForm.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\MainForm.cs",
               "RelativeDocumentMoniker": "Robot\\MainForm.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\MainForm.cs",
               "RelativeToolTip": "Robot\\MainForm.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T17:11:05.832Z"
+              "WhenOpened": "2025-09-20T17:11:05.832Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\Program.cs",
               "RelativeDocumentMoniker": "Robot\\Program.cs",
@@ -190,7 +200,8 @@
               "RelativeToolTip": "Robot\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T17:08:53.01Z"
+              "WhenOpened": "2025-09-20T17:08:53.01Z",
+              "EditorCaption": ""
             }
           ]
         },

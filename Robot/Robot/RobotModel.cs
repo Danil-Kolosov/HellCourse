@@ -64,10 +64,12 @@ namespace Robot
                 80, -30, Color.Orange, 3f);
             Elements.Add(SubArm);
 
+
             Arm = new LineElement(
                 SubArm.EndPoint, // Начинается там, где заканчивается рукоять
-                100, 0, Color.Orange, 3f);
+                100, -30, Color.Orange, 3f);
             Elements.Add(Arm);
+            //Arm.Rotation = 0;
 
 
             Boom.OnChanged += SubArm.LinkChange;

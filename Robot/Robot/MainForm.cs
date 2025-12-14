@@ -24,15 +24,18 @@ namespace Robot
         private void TrackBar_Scroll(object sender, EventArgs e)
         {
             if (sender == trackBarMove)
-                excavator.MoveX(trackBarMove.Value - excavator.BasePosition.X);            
+                excavator.MoveX(trackBarMove.Value - excavator.BasePosition.X);
             else if (sender == trackBarBoomLength)
                 excavator.Boom.Length = trackBarBoomLength.Value;
             else if (sender == trackBarSubArmAngle)
+            { 
                 excavator.SubArm.Rotation = trackBarSubArmAngle.Value;
+                excavator.Arm.Rotation = trackBarSubArmAngle.Value + trackBarArmAngle.Value;
+            }
             else if (sender == trackBarArmLength)
                 excavator.Arm.Length = trackBarArmLength.Value;
             else if (sender == trackBarArmAngle)
-                excavator.Arm.Rotation = trackBarArmAngle.Value;
+                excavator.Arm.Rotation = trackBarSubArmAngle.Value + trackBarArmAngle.Value;
             
 
 
