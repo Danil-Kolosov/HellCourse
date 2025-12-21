@@ -431,7 +431,11 @@ namespace GrafRedactor
                         ZeroRatatedEndPoint.Y + delta.Y,
                         ZeroRatatedEndPoint.Z + deltaZ
                     );
+                    StartPoint3D = ZeroRatatedStartPoint;
+                    EndPoint3D = ZeroRatatedEndPoint;
 
+                    // Обновляем 2D проекцию
+                    Update2DProjection();
 
 
                     /*base.Move(delta, height, width);  // Это уже перемещает StartPoint и EndPoint
