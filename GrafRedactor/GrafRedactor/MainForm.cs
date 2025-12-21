@@ -437,6 +437,7 @@ namespace GrafRedactor
 
             if (selectedFigure is LineElement line)
             {
+                lblEquation2D.Visible = true;
                 parametersPanel.Visible = true;
                 UpdateParametersPanelPosition(); // Обновляем позицию
 
@@ -534,6 +535,7 @@ namespace GrafRedactor
                 {
                     //ResetSceneToDrawingPlane();
                     //lblEquation.Text = $"Уравнение прямой 3D " + line3D.GetCanonicalEquation3D();
+                    lblEquation.Visible = true;
                     lblEquation.Text = "Уравнение прямой 3D";
                     lblEquation3D.Visible = true;
                     lblEquation2D.Visible = false;
@@ -667,6 +669,10 @@ namespace GrafRedactor
 
             if (selectedFigure is Cube3D cube) 
             {
+                lblEquation.Visible = false;
+                lblEquation3D.Visible = false;
+                lblEquation2D.Visible = false;
+
                 //ResetSceneToDrawingPlane();
                 parametersPanel.Visible = true;
                 UpdateParametersPanelPosition(); // Обновляем позицию
