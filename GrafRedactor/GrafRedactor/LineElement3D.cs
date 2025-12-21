@@ -403,7 +403,38 @@ namespace GrafRedactor
             switch (axeName) 
             {
                 case "xoy":
-                    base.Move(delta, height, width);  // Это уже перемещает StartPoint и EndPoint
+                    //base.Move(delta, height, width);
+
+                    //// Обновляем 3D координаты из 2D
+                    //StartPoint3D.X = StartPoint.X;
+                    //StartPoint3D.Y = StartPoint.Y;
+                    //StartPoint3D.Z += deltaZ;  // Только Z меняем
+
+                    //EndPoint3D.X = EndPoint.X;
+                    //EndPoint3D.Y = EndPoint.Y;
+                    //EndPoint3D.Z += deltaZ;    // Только Z меняем
+
+                    //// ZeroRatated точки обновляем из StartPoint3D/EndPoint3D
+                    //ZeroRatatedStartPoint = StartPoint3D;
+                    //ZeroRatatedEndPoint = EndPoint3D;
+                    base.Move(delta, height, width);
+
+                    // ОБНОВЛЯЕМ ZeroRatated точки (это БАЗОВЫЕ координаты без перспективы!)
+                    ZeroRatatedStartPoint = new Point3D(
+                        ZeroRatatedStartPoint.X + delta.X,
+                        ZeroRatatedStartPoint.Y + delta.Y,
+                        ZeroRatatedStartPoint.Z + deltaZ
+                    );
+
+                    ZeroRatatedEndPoint = new Point3D(
+                        ZeroRatatedEndPoint.X + delta.X,
+                        ZeroRatatedEndPoint.Y + delta.Y,
+                        ZeroRatatedEndPoint.Z + deltaZ
+                    );
+
+
+
+                    /*base.Move(delta, height, width);  // Это уже перемещает StartPoint и EndPoint
 
                     // Обновляем 3D координаты из 2D
                     StartPoint3D.X = StartPoint.X;
@@ -416,7 +447,7 @@ namespace GrafRedactor
 
                     // ZeroRatated точки должны обновляться из StartPoint3D/EndPoint3D, а не добавлять delta
                     ZeroRatatedStartPoint = StartPoint3D;
-                    ZeroRatatedEndPoint = EndPoint3D;
+                    ZeroRatatedEndPoint = EndPoint3D;*/
                     //РЕШЕНИЕ ПРОБЛЕМЫ СО СКАЧУЩИМ КУБОМ
 
                     /*
@@ -619,6 +650,26 @@ namespace GrafRedactor
             //float xRot = x * cosY * cosZ + y * (sinX * sinY * cosZ - cosX * sinZ) + z * (cosX * sinY * cosZ + sinX * sinZ);
             //float yRot = x * cosY * sinZ + y * (sinX * sinY * sinZ + cosX * cosZ) + z * (cosX * sinY * sinZ - sinX * cosZ);
             //float zRot = x * -sinY + y * sinX * cosY + z * cosX * cosY;
+
+            if (proecirStr != "coordinateAxes")
+            {
+                // Расстояние от камеры до точки после вращения
+                float distanceFromCamera = zc + z1;
+
+                if (Math.Abs(distanceFromCamera) > 0.001f)
+                {
+                    // Коэффициент перспективы
+                    float t = zc / distanceFromCamera;
+
+                    // Проецируем точку на плоскость камеры (z = 0)
+                    x1 = x1 * t;
+                    y1 = y1 * t;
+                    z1 = 0;  // ← ВАЖНО: после проекции Z=0!
+                }
+            }
+
+            return new Point3D(x1 + center.X, y1 + center.Y, z1 + center.Z);
+
 
             // ПЕРСПЕКТИВНОЕ ПРОЕЦИРОВАНИЕ
             float perspectiveFactor = zc / (zc + z1);

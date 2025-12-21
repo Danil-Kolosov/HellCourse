@@ -83,6 +83,7 @@ namespace GrafRedactor
             // Обработчики событий мыши и клавиатуры
             this.MouseDown += MainForm_MouseDown;
             this.MouseMove += MainForm_MouseMove;
+            this.MouseMove += SimpleRotate;
             this.MouseUp += MainForm_MouseUp;
             this.Paint += MainForm_Paint;
             this.KeyDown += MainForm_KeyDown;
@@ -2360,6 +2361,11 @@ namespace GrafRedactor
                    point.Y >= handleY - handleSize / 2 && point.Y <= handleY + handleSize / 2;
         }
 
+        private void SimpleRotate(object sender, MouseEventArgs e) 
+        {
+            //RotateEntireScene(0, 0, 0);
+        }
+
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
             // ПРЕОБРАЗУЕМ координаты мыши в мировые
@@ -2408,6 +2414,9 @@ namespace GrafRedactor
                             if(figure is Cube3D cube) 
                             {
                                 cube.Move3D(delta, ZERO_POINT_DIFFERENCE_Y, ZERO_POINT_DIFFERENCE_X, 0, currentAxeName);
+                                //cube.Rotate(0, new PointF(0, 0));
+                                //cube.Rotate3DWithScene(0, 0, 0, new Point3D(0, 0, 0), ZC, currentAxeName);
+                                //RotateEntireScene(0,0,0);
                                 //ResetSceneToDrawingPlane();
                                 //cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, CalculateSceneCenter(), ZC, currentAxeName);
                                 //cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter(), ZC, currentAxeName);
@@ -2424,6 +2433,9 @@ namespace GrafRedactor
                         if (selectedFigure is Cube3D cube)
                         {
                             cube.Move3D(delta, ZERO_POINT_DIFFERENCE_Y, ZERO_POINT_DIFFERENCE_X, 0, currentAxeName);
+                            //cube.Rotate(0, new PointF(0, 0));
+                            //cube.Rotate3DWithScene(0, 0, 0, new Point3D(0, 0, 0), ZC, currentAxeName);
+                            //RotateEntireScene(0, 0, 0);
                             //ResetSceneToDrawingPlane();
                             //cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, CalculateSceneCenter(), ZC, currentAxeName);
                             //cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter(), ZC, currentAxeName);
