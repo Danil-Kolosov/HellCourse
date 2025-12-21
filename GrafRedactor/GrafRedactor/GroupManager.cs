@@ -177,9 +177,13 @@ namespace GrafRedactor
                 // Если можно - перемещаем все элементы
                 foreach (var element in groups[groupId])
                 {
-                    if (element is Cube3D cube) 
+                    if (element is Cube3D cube)
                     {
-                        cube.Move3D(delta, height, weight, deltaZ, axeName);
+                        //cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, new Point3D(0, 0, 0), float.MaxValue, axeName);
+                        cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, new Point3D(0, 0, 0), float.MaxValue, axeName);
+                        cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, new Point3D(0, 0, 0), float.MaxValue, axeName);
+                        cube.SetMovingCenter(new PointF(delta.X, delta.Y), height, weight, deltaZ, axeName);
+                        cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, new Point3D(0, 0, 0), float.MaxValue, axeName);
                     }
                     else
                         element.Move(delta, height, weight, deltaZ, axeName);
@@ -188,6 +192,7 @@ namespace GrafRedactor
         }
         public bool CanMoveGroup(string groupId, PointF delta, float height, float width, float deltaZ)
         {
+            return true;
             if (!groups.ContainsKey(groupId)) return false;
 
             var groupElements = groups[groupId];

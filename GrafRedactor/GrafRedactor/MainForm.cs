@@ -1250,6 +1250,11 @@ namespace GrafRedactor
                             {
                                 //cube.Move3D(delta);
                                 cube.Move3D(delta.ToPoint2D(), ZERO_POINT_DIFFERENCE_Y, ZERO_POINT_DIFFERENCE_X, dz, currentAxeName);
+                                //ResetSceneToDrawingPlane();
+                                //cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, CalculateSceneCenter(), ZC, currentAxeName);
+                                //cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter(), ZC, currentAxeName);
+                                //cube.SetMovingCenter(delta.ToPoint2D(), ZERO_POINT_DIFFERENCE_Y, ZERO_POINT_DIFFERENCE_X, dz, currentAxeName);
+                                //cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, CalculateSceneCenter(), ZC, currentAxeName);
                                 any3DObject = true;
                             }
                             else
@@ -1275,6 +1280,11 @@ namespace GrafRedactor
                                 //cube.Move3D(delta); пллохой метод при не плоскости xoy
                                 //cube.Move(delta.ToPoint2D(), ZERO_POINT_DIFFERENCE_Y, ZERO_POINT_DIFFERENCE_X, dz, currentAxeName);
                                 cube.Move3D(delta.ToPoint2D(), ZERO_POINT_DIFFERENCE_Y, ZERO_POINT_DIFFERENCE_X, dz, currentAxeName);
+                                //ResetSceneToDrawingPlane();
+                                //cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, CalculateSceneCenter(), ZC, currentAxeName);
+                                //cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter(), ZC, currentAxeName);
+                                //cube.SetMovingCenter(delta.ToPoint2D(), ZERO_POINT_DIFFERENCE_Y, ZERO_POINT_DIFFERENCE_X, dz, currentAxeName);
+                                //cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, CalculateSceneCenter(), ZC, currentAxeName);
                                 any3DObject = true;
                             }
                             else
@@ -1496,7 +1506,7 @@ namespace GrafRedactor
         private void ApplayRotation2D()
         {
             string input = Microsoft.VisualBasic.Interaction.InputBox(
-        "Введите угол вращения в градусах\n(положительный - по часовой):",
+        "Введите угол вращения в градусах\n(положительный - против часовой):",
         "Вращение", "0");
 
             if (!string.IsNullOrEmpty(input))
@@ -2398,6 +2408,11 @@ namespace GrafRedactor
                             if(figure is Cube3D cube) 
                             {
                                 cube.Move3D(delta, ZERO_POINT_DIFFERENCE_Y, ZERO_POINT_DIFFERENCE_X, 0, currentAxeName);
+                                //ResetSceneToDrawingPlane();
+                                //cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, CalculateSceneCenter(), ZC, currentAxeName);
+                                //cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter(), ZC, currentAxeName);
+                                //cube.SetMovingCenter(delta, ZERO_POINT_DIFFERENCE_Y, ZERO_POINT_DIFFERENCE_X, 0, currentAxeName);
+                                //cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, CalculateSceneCenter(), ZC, currentAxeName);
                             }
                             else
                                 selectedFigure.Move(delta, drawingArea.Height, drawingArea.Width, 0, currentAxeName);
@@ -2409,6 +2424,11 @@ namespace GrafRedactor
                         if (selectedFigure is Cube3D cube)
                         {
                             cube.Move3D(delta, ZERO_POINT_DIFFERENCE_Y, ZERO_POINT_DIFFERENCE_X, 0, currentAxeName);
+                            //ResetSceneToDrawingPlane();
+                            //cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, CalculateSceneCenter(), ZC, currentAxeName);
+                            //cube.Rotate3DWithScene(resetAngleValueX, resetAngleValueY, resetAngleValueZ, CalculateSceneCenter(), ZC, currentAxeName);
+                            //cube.SetMovingCenter(delta, ZERO_POINT_DIFFERENCE_Y, ZERO_POINT_DIFFERENCE_X, 0, currentAxeName);
+                            //cube.Rotate3DWithScene(-totalRotationX, -totalRotationY, -totalRotationZ, CalculateSceneCenter(), ZC, currentAxeName);
                         }
                         else
                             selectedFigure.Move(delta, drawingArea.Height, drawingArea.Width, 0, currentAxeName);

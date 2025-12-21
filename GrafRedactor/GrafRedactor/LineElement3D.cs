@@ -403,6 +403,24 @@ namespace GrafRedactor
             switch (axeName) 
             {
                 case "xoy":
+                    base.Move(delta, height, width);  // Это уже перемещает StartPoint и EndPoint
+
+                    // Обновляем 3D координаты из 2D
+                    StartPoint3D.X = StartPoint.X;
+                    StartPoint3D.Y = StartPoint.Y;
+                    StartPoint3D.Z += deltaZ;  // Только Z меняем
+
+                    EndPoint3D.X = EndPoint.X;
+                    EndPoint3D.Y = EndPoint.Y;
+                    EndPoint3D.Z += deltaZ;    // Только Z меняем
+
+                    // ZeroRatated точки должны обновляться из StartPoint3D/EndPoint3D, а не добавлять delta
+                    ZeroRatatedStartPoint = StartPoint3D;
+                    ZeroRatatedEndPoint = EndPoint3D;
+                    //РЕШЕНИЕ ПРОБЛЕМЫ СО СКАЧУЩИМ КУБОМ
+
+                    /*
+                     Славно работл, но прошло твое время
                     base.Move(delta, height, width);
                     StartPoint3D.X = StartPoint.X;
                     StartPoint3D.Y = StartPoint.Y;
@@ -413,7 +431,7 @@ namespace GrafRedactor
                     ZeroRatatedStartPoint.Z = ZeroRatatedStartPoint.Z + deltaZ;
                     ZeroRatatedEndPoint.X = ZeroRatatedEndPoint.X + delta.X;
                     ZeroRatatedEndPoint.Y = ZeroRatatedEndPoint.Y + delta.Y;
-                    ZeroRatatedEndPoint.Z = ZeroRatatedEndPoint.Z + deltaZ;
+                    ZeroRatatedEndPoint.Z = ZeroRatatedEndPoint.Z + deltaZ;*/
                     /*StartPoint3D = new Point3D(
                         _startPoint3D.X + delta.X,
                         _startPoint3D.Y + delta.Y,
@@ -441,7 +459,22 @@ namespace GrafRedactor
                     //StartPoint3D = new Point3D(StartPoint3D.X, StartPoint3D.Y + delta.X, StartPoint3D.Z + delta.Y);
                     //EndPoint3D = new Point3D(EndPoint3D.X, EndPoint3D.Y + delta.X, EndPoint3D.Z + delta.Y);
 
+                    /*base.Move(new PointF(deltaZ, delta.X), height, width);  // Это уже перемещает StartPoint и EndPoint
 
+                    // Обновляем 3D координаты из 2D
+                    StartPoint3D.X += deltaZ;
+                    StartPoint3D.Y = StartPoint.X;
+                    StartPoint3D.Z = StartPoint.Y;
+
+                    EndPoint3D.X += deltaZ;
+                    EndPoint3D.Y = EndPoint.X;
+                    EndPoint3D.Z = EndPoint.Y;
+
+                    // ZeroRatated точки должны обновляться из StartPoint3D/EndPoint3D, а не добавлять delta
+                    ZeroRatatedStartPoint = StartPoint3D;
+                    ZeroRatatedEndPoint = EndPoint3D;*/
+
+                    //Move3D(new Point3D(deltaZ, delta.X, delta.Y));
                     base.Move(delta, height, width);
                     StartPoint3D.X = StartPoint.X;
                     StartPoint3D.Y = StartPoint.Y;
@@ -497,6 +530,7 @@ namespace GrafRedactor
                     //EndPoint3D.Z = tempPoint.Y;
                     break;
                 case "xoz":
+                    //Move3D(new Point3D(deltaZ, delta.X, delta.Y));
                     base.Move(delta, height, width);
                     StartPoint3D.X = StartPoint.X;
                     StartPoint3D.Y = StartPoint.Y;

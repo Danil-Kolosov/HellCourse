@@ -155,6 +155,7 @@ namespace GrafRedactor
 
         public void Move3D(PointF delta, float height, float width, float deltaZ, string axeName)
         {
+
             // Сначала обновляем центр куба в зависимости от плоскости
             Point3D newCenter = center;
 
@@ -195,31 +196,33 @@ namespace GrafRedactor
             if(_zc != float.MaxValue) 
             {
                 MoveTc(new Point3D(delta, deltaZ));
-                this.Rotate3DWithScene(0, 0, 0, new Point3D(0, 0, 0), _zc, axeName);
+                this.Rotate3DWithScene(0, 0, 0, new Point3D(0, 0, 0), _zc, "coordinateAxes");
             }
             else 
             {
                 //this.Rotate3DWithScene(0, 0, 0, new Point3D(0, 0, 0), _zc, axeName); //вот победа куба№1
             }
-            //switch (axeName.ToLower())
-            //{
-            //    case "xoy":
-            //        this.Rotate3DWithScene(0, 0, 0, new Point3D(0, 0, 0), _zc, axeName); //вот победа куба№1
-            //        break;
-            //    case "yoz":
-            //        this.Rotate3DWithScene(0, -90, -90, new Point3D(0, 0, 0), _zc, axeName); //вот победа куба№1
-            //        ;
-            //        break;
-            //    case "xoz":
-            //        this.Rotate3DWithScene(90, 0, 0, new Point3D(0, 0, 0), _zc, axeName); //вот победа куба№1
-            //        break;
-            //}
+            switch (axeName.ToLower())
+            {
+                case "xoy":
+                    this.Rotate3DWithScene(0, 0, 0, new Point3D(0, 0, 0), _zc, "coordinateAxes"); //вот победа куба№1
+                    break;
+                case "yoz":
+                    this.Rotate3DWithScene(0, -90, -90, new Point3D(0, 0, 0), _zc, "coordinateAxes"); //вот победа куба№1
+                    ;
+                    break;
+                case "xoz":
+                    this.Rotate3DWithScene(90, 0, 0, new Point3D(0, 0, 0), _zc, "coordinateAxes"); //вот победа куба№1
+                    break;
+            }
+            //if(axeName!= "coordinateAxes")
+            //    this.Move3D(new PointF(-2*delta.X, -2*delta.Y), height, width, -deltaZ*2, "coordinateAxes");
 
-            // Обновляем геометрию куба (ВАЖНО!) НАХЕР ЭТО НАДО ТУТ
+            // Обновляем геометрию куба (ВАЖНО!)  ЭТО НЕ НАДО ТУТ
             //UpdateCubeGeometry();
 
             // Уведомляем об изменении
-            OnPropertyChanged();
+            //OnPropertyChanged();
         }
 
 

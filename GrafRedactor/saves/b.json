@@ -1,0 +1,1047 @@
+{
+  "Version": "1.0",
+  "Figures": [
+    {
+      "Type": "LineElement",
+      "Position": {
+        "X": -126.0,
+        "Y": -37.0
+      },
+      "Color": "Black",
+      "Rotation": -90.0,
+      "IsSelected": false,
+      "IsGrouped": true,
+      "GroupId": "Group_1",
+      "Is3D": false,
+      "StartPoint": {
+        "X": -126.0,
+        "Y": -37.0
+      },
+      "EndPoint": {
+        "X": -126.0,
+        "Y": -111.0
+      },
+      "Length": 74.0,
+      "Thickness": 3.0,
+      "Index": 0
+    },
+    {
+      "Type": "LineElement",
+      "Position": {
+        "X": -57.0,
+        "Y": -112.0
+      },
+      "Color": "Black",
+      "Rotation": 180.0,
+      "IsSelected": false,
+      "IsGrouped": true,
+      "GroupId": "Group_1",
+      "Is3D": false,
+      "StartPoint": {
+        "X": -57.0,
+        "Y": -112.0
+      },
+      "EndPoint": {
+        "X": -125.0,
+        "Y": -112.0
+      },
+      "Length": 68.0,
+      "Thickness": 3.0,
+      "Index": 1
+    },
+    {
+      "Type": "LineElement3D",
+      "Position": {
+        "X": 86.0,
+        "Y": -82.0
+      },
+      "Color": "Black",
+      "Rotation": 0.0,
+      "IsSelected": false,
+      "IsGrouped": true,
+      "GroupId": "Group_1",
+      "Is3D": true,
+      "StartPoint": {
+        "X": 86.0,
+        "Y": -82.0
+      },
+      "EndPoint": {
+        "X": 149.0,
+        "Y": -82.0
+      },
+      "Length": 63.0,
+      "Thickness": 3.0,
+      "StartPoint3D": {
+        "X": 86.0,
+        "Y": -82.0,
+        "Z": 0.0
+      },
+      "EndPoint3D": {
+        "X": 149.0,
+        "Y": -82.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedStartPoint": {
+        "X": 86.0,
+        "Y": -82.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedEndPoint": {
+        "X": 149.0,
+        "Y": -82.0,
+        "Z": 0.0
+      },
+      "RotationX": 0.0,
+      "RotationY": 0.0,
+      "RotationZ": 0.0,
+      "Zc": 3.40282347E+38,
+      "ScaleFactorS": 1.0,
+      "ScaleFactorE": 1.0,
+      "Index": 2
+    },
+    {
+      "Type": "LineElement3D",
+      "Position": {
+        "X": 149.0,
+        "Y": -144.0
+      },
+      "Color": "Black",
+      "Rotation": 90.0,
+      "IsSelected": false,
+      "IsGrouped": true,
+      "GroupId": "Group_1",
+      "Is3D": true,
+      "StartPoint": {
+        "X": 149.0,
+        "Y": -144.0
+      },
+      "EndPoint": {
+        "X": 149.0,
+        "Y": -83.0
+      },
+      "Length": 61.0,
+      "Thickness": 3.0,
+      "StartPoint3D": {
+        "X": 149.0,
+        "Y": -144.0,
+        "Z": 0.0
+      },
+      "EndPoint3D": {
+        "X": 149.0,
+        "Y": -83.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedStartPoint": {
+        "X": 149.0,
+        "Y": -144.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedEndPoint": {
+        "X": 149.0,
+        "Y": -83.0,
+        "Z": 0.0
+      },
+      "RotationX": 0.0,
+      "RotationY": 0.0,
+      "RotationZ": 0.0,
+      "Zc": 3.40282347E+38,
+      "ScaleFactorS": 1.0,
+      "ScaleFactorE": 1.0,
+      "Index": 3
+    },
+    {
+      "Type": "Cube3D",
+      "Position": {
+        "X": 0.0,
+        "Y": 0.0
+      },
+      "Color": "",
+      "Rotation": 0.0,
+      "IsSelected": false,
+      "IsGrouped": true,
+      "GroupId": "Group_1",
+      "Is3D": true,
+      "Center": {
+        "X": 29.0,
+        "Y": -147.0,
+        "Z": 0.0
+      },
+      "Size": 100.0,
+      "CubeColor": "Blue",
+      "Zc": 3.40282347E+38,
+      "CurrentAxisName": "",
+      "Zs": 0,
+      "Edges": [
+        {
+          "Type": "LineElement3D",
+          "Position": {
+            "X": -21.0,
+            "Y": -197.0
+          },
+          "Color": "Blue",
+          "Rotation": 0.0,
+          "IsSelected": false,
+          "IsGrouped": false,
+          "GroupId": null,
+          "Is3D": true,
+          "StartPoint": {
+            "X": -21.0,
+            "Y": -197.0
+          },
+          "EndPoint": {
+            "X": 79.0,
+            "Y": -197.0
+          },
+          "Length": 100.0,
+          "Thickness": 2.0,
+          "StartPoint3D": {
+            "X": -21.0,
+            "Y": -197.0,
+            "Z": -50.0
+          },
+          "EndPoint3D": {
+            "X": 79.0,
+            "Y": -197.0,
+            "Z": -50.0
+          },
+          "ZeroRatatedStartPoint": {
+            "X": -21.0,
+            "Y": -197.0,
+            "Z": -50.0
+          },
+          "ZeroRatatedEndPoint": {
+            "X": 79.0,
+            "Y": -197.0,
+            "Z": -50.0
+          },
+          "RotationX": 0.0,
+          "RotationY": 0.0,
+          "RotationZ": 0.0,
+          "Zc": 3.40282347E+38,
+          "ScaleFactorS": 1.0,
+          "ScaleFactorE": 1.0
+        },
+        {
+          "Type": "LineElement3D",
+          "Position": {
+            "X": 79.0,
+            "Y": -197.0
+          },
+          "Color": "Blue",
+          "Rotation": 0.0,
+          "IsSelected": false,
+          "IsGrouped": false,
+          "GroupId": null,
+          "Is3D": true,
+          "StartPoint": {
+            "X": 79.0,
+            "Y": -197.0
+          },
+          "EndPoint": {
+            "X": 79.0,
+            "Y": -197.0
+          },
+          "Length": 0.0,
+          "Thickness": 2.0,
+          "StartPoint3D": {
+            "X": 79.0,
+            "Y": -197.0,
+            "Z": -50.0
+          },
+          "EndPoint3D": {
+            "X": 79.0,
+            "Y": -197.0,
+            "Z": 50.0
+          },
+          "ZeroRatatedStartPoint": {
+            "X": 79.0,
+            "Y": -197.0,
+            "Z": -50.0
+          },
+          "ZeroRatatedEndPoint": {
+            "X": 79.0,
+            "Y": -197.0,
+            "Z": 50.0
+          },
+          "RotationX": 0.0,
+          "RotationY": 0.0,
+          "RotationZ": 0.0,
+          "Zc": 3.40282347E+38,
+          "ScaleFactorS": 1.0,
+          "ScaleFactorE": 1.0
+        },
+        {
+          "Type": "LineElement3D",
+          "Position": {
+            "X": 79.0,
+            "Y": -197.0
+          },
+          "Color": "Blue",
+          "Rotation": 180.0,
+          "IsSelected": false,
+          "IsGrouped": false,
+          "GroupId": null,
+          "Is3D": true,
+          "StartPoint": {
+            "X": 79.0,
+            "Y": -197.0
+          },
+          "EndPoint": {
+            "X": -21.0,
+            "Y": -197.0
+          },
+          "Length": 100.0,
+          "Thickness": 2.0,
+          "StartPoint3D": {
+            "X": 79.0,
+            "Y": -197.0,
+            "Z": 50.0
+          },
+          "EndPoint3D": {
+            "X": -21.0,
+            "Y": -197.0,
+            "Z": 50.0
+          },
+          "ZeroRatatedStartPoint": {
+            "X": 79.0,
+            "Y": -197.0,
+            "Z": 50.0
+          },
+          "ZeroRatatedEndPoint": {
+            "X": -21.0,
+            "Y": -197.0,
+            "Z": 50.0
+          },
+          "RotationX": 0.0,
+          "RotationY": 0.0,
+          "RotationZ": 0.0,
+          "Zc": 3.40282347E+38,
+          "ScaleFactorS": 1.0,
+          "ScaleFactorE": 1.0
+        },
+        {
+          "Type": "LineElement3D",
+          "Position": {
+            "X": -21.0,
+            "Y": -197.0
+          },
+          "Color": "Blue",
+          "Rotation": 0.0,
+          "IsSelected": false,
+          "IsGrouped": false,
+          "GroupId": null,
+          "Is3D": true,
+          "StartPoint": {
+            "X": -21.0,
+            "Y": -197.0
+          },
+          "EndPoint": {
+            "X": -21.0,
+            "Y": -197.0
+          },
+          "Length": 0.0,
+          "Thickness": 2.0,
+          "StartPoint3D": {
+            "X": -21.0,
+            "Y": -197.0,
+            "Z": 50.0
+          },
+          "EndPoint3D": {
+            "X": -21.0,
+            "Y": -197.0,
+            "Z": -50.0
+          },
+          "ZeroRatatedStartPoint": {
+            "X": -21.0,
+            "Y": -197.0,
+            "Z": 50.0
+          },
+          "ZeroRatatedEndPoint": {
+            "X": -21.0,
+            "Y": -197.0,
+            "Z": -50.0
+          },
+          "RotationX": 0.0,
+          "RotationY": 0.0,
+          "RotationZ": 0.0,
+          "Zc": 3.40282347E+38,
+          "ScaleFactorS": 1.0,
+          "ScaleFactorE": 1.0
+        },
+        {
+          "Type": "LineElement3D",
+          "Position": {
+            "X": -21.0,
+            "Y": -97.0
+          },
+          "Color": "Blue",
+          "Rotation": 0.0,
+          "IsSelected": false,
+          "IsGrouped": false,
+          "GroupId": null,
+          "Is3D": true,
+          "StartPoint": {
+            "X": -21.0,
+            "Y": -97.0
+          },
+          "EndPoint": {
+            "X": 79.0,
+            "Y": -97.0
+          },
+          "Length": 100.0,
+          "Thickness": 2.0,
+          "StartPoint3D": {
+            "X": -21.0,
+            "Y": -97.0,
+            "Z": -50.0
+          },
+          "EndPoint3D": {
+            "X": 79.0,
+            "Y": -97.0,
+            "Z": -50.0
+          },
+          "ZeroRatatedStartPoint": {
+            "X": -21.0,
+            "Y": -97.0,
+            "Z": -50.0
+          },
+          "ZeroRatatedEndPoint": {
+            "X": 79.0,
+            "Y": -97.0,
+            "Z": -50.0
+          },
+          "RotationX": 0.0,
+          "RotationY": 0.0,
+          "RotationZ": 0.0,
+          "Zc": 3.40282347E+38,
+          "ScaleFactorS": 1.0,
+          "ScaleFactorE": 1.0
+        },
+        {
+          "Type": "LineElement3D",
+          "Position": {
+            "X": 79.0,
+            "Y": -97.0
+          },
+          "Color": "Blue",
+          "Rotation": 0.0,
+          "IsSelected": false,
+          "IsGrouped": false,
+          "GroupId": null,
+          "Is3D": true,
+          "StartPoint": {
+            "X": 79.0,
+            "Y": -97.0
+          },
+          "EndPoint": {
+            "X": 79.0,
+            "Y": -97.0
+          },
+          "Length": 0.0,
+          "Thickness": 2.0,
+          "StartPoint3D": {
+            "X": 79.0,
+            "Y": -97.0,
+            "Z": -50.0
+          },
+          "EndPoint3D": {
+            "X": 79.0,
+            "Y": -97.0,
+            "Z": 50.0
+          },
+          "ZeroRatatedStartPoint": {
+            "X": 79.0,
+            "Y": -97.0,
+            "Z": -50.0
+          },
+          "ZeroRatatedEndPoint": {
+            "X": 79.0,
+            "Y": -97.0,
+            "Z": 50.0
+          },
+          "RotationX": 0.0,
+          "RotationY": 0.0,
+          "RotationZ": 0.0,
+          "Zc": 3.40282347E+38,
+          "ScaleFactorS": 1.0,
+          "ScaleFactorE": 1.0
+        },
+        {
+          "Type": "LineElement3D",
+          "Position": {
+            "X": 79.0,
+            "Y": -97.0
+          },
+          "Color": "Blue",
+          "Rotation": 180.0,
+          "IsSelected": false,
+          "IsGrouped": false,
+          "GroupId": null,
+          "Is3D": true,
+          "StartPoint": {
+            "X": 79.0,
+            "Y": -97.0
+          },
+          "EndPoint": {
+            "X": -21.0,
+            "Y": -97.0
+          },
+          "Length": 100.0,
+          "Thickness": 2.0,
+          "StartPoint3D": {
+            "X": 79.0,
+            "Y": -97.0,
+            "Z": 50.0
+          },
+          "EndPoint3D": {
+            "X": -21.0,
+            "Y": -97.0,
+            "Z": 50.0
+          },
+          "ZeroRatatedStartPoint": {
+            "X": 79.0,
+            "Y": -97.0,
+            "Z": 50.0
+          },
+          "ZeroRatatedEndPoint": {
+            "X": -21.0,
+            "Y": -97.0,
+            "Z": 50.0
+          },
+          "RotationX": 0.0,
+          "RotationY": 0.0,
+          "RotationZ": 0.0,
+          "Zc": 3.40282347E+38,
+          "ScaleFactorS": 1.0,
+          "ScaleFactorE": 1.0
+        },
+        {
+          "Type": "LineElement3D",
+          "Position": {
+            "X": -21.0,
+            "Y": -97.0
+          },
+          "Color": "Blue",
+          "Rotation": 0.0,
+          "IsSelected": false,
+          "IsGrouped": false,
+          "GroupId": null,
+          "Is3D": true,
+          "StartPoint": {
+            "X": -21.0,
+            "Y": -97.0
+          },
+          "EndPoint": {
+            "X": -21.0,
+            "Y": -97.0
+          },
+          "Length": 0.0,
+          "Thickness": 2.0,
+          "StartPoint3D": {
+            "X": -21.0,
+            "Y": -97.0,
+            "Z": 50.0
+          },
+          "EndPoint3D": {
+            "X": -21.0,
+            "Y": -97.0,
+            "Z": -50.0
+          },
+          "ZeroRatatedStartPoint": {
+            "X": -21.0,
+            "Y": -97.0,
+            "Z": 50.0
+          },
+          "ZeroRatatedEndPoint": {
+            "X": -21.0,
+            "Y": -97.0,
+            "Z": -50.0
+          },
+          "RotationX": 0.0,
+          "RotationY": 0.0,
+          "RotationZ": 0.0,
+          "Zc": 3.40282347E+38,
+          "ScaleFactorS": 1.0,
+          "ScaleFactorE": 1.0
+        },
+        {
+          "Type": "LineElement3D",
+          "Position": {
+            "X": -21.0,
+            "Y": -197.0
+          },
+          "Color": "Blue",
+          "Rotation": 90.0,
+          "IsSelected": false,
+          "IsGrouped": false,
+          "GroupId": null,
+          "Is3D": true,
+          "StartPoint": {
+            "X": -21.0,
+            "Y": -197.0
+          },
+          "EndPoint": {
+            "X": -21.0,
+            "Y": -97.0
+          },
+          "Length": 100.0,
+          "Thickness": 2.0,
+          "StartPoint3D": {
+            "X": -21.0,
+            "Y": -197.0,
+            "Z": -50.0
+          },
+          "EndPoint3D": {
+            "X": -21.0,
+            "Y": -97.0,
+            "Z": -50.0
+          },
+          "ZeroRatatedStartPoint": {
+            "X": -21.0,
+            "Y": -197.0,
+            "Z": -50.0
+          },
+          "ZeroRatatedEndPoint": {
+            "X": -21.0,
+            "Y": -97.0,
+            "Z": -50.0
+          },
+          "RotationX": 0.0,
+          "RotationY": 0.0,
+          "RotationZ": 0.0,
+          "Zc": 3.40282347E+38,
+          "ScaleFactorS": 1.0,
+          "ScaleFactorE": 1.0
+        },
+        {
+          "Type": "LineElement3D",
+          "Position": {
+            "X": 79.0,
+            "Y": -197.0
+          },
+          "Color": "Blue",
+          "Rotation": 90.0,
+          "IsSelected": false,
+          "IsGrouped": false,
+          "GroupId": null,
+          "Is3D": true,
+          "StartPoint": {
+            "X": 79.0,
+            "Y": -197.0
+          },
+          "EndPoint": {
+            "X": 79.0,
+            "Y": -97.0
+          },
+          "Length": 100.0,
+          "Thickness": 2.0,
+          "StartPoint3D": {
+            "X": 79.0,
+            "Y": -197.0,
+            "Z": -50.0
+          },
+          "EndPoint3D": {
+            "X": 79.0,
+            "Y": -97.0,
+            "Z": -50.0
+          },
+          "ZeroRatatedStartPoint": {
+            "X": 79.0,
+            "Y": -197.0,
+            "Z": -50.0
+          },
+          "ZeroRatatedEndPoint": {
+            "X": 79.0,
+            "Y": -97.0,
+            "Z": -50.0
+          },
+          "RotationX": 0.0,
+          "RotationY": 0.0,
+          "RotationZ": 0.0,
+          "Zc": 3.40282347E+38,
+          "ScaleFactorS": 1.0,
+          "ScaleFactorE": 1.0
+        },
+        {
+          "Type": "LineElement3D",
+          "Position": {
+            "X": 79.0,
+            "Y": -197.0
+          },
+          "Color": "Blue",
+          "Rotation": 90.0,
+          "IsSelected": false,
+          "IsGrouped": false,
+          "GroupId": null,
+          "Is3D": true,
+          "StartPoint": {
+            "X": 79.0,
+            "Y": -197.0
+          },
+          "EndPoint": {
+            "X": 79.0,
+            "Y": -97.0
+          },
+          "Length": 100.0,
+          "Thickness": 2.0,
+          "StartPoint3D": {
+            "X": 79.0,
+            "Y": -197.0,
+            "Z": 50.0
+          },
+          "EndPoint3D": {
+            "X": 79.0,
+            "Y": -97.0,
+            "Z": 50.0
+          },
+          "ZeroRatatedStartPoint": {
+            "X": 79.0,
+            "Y": -197.0,
+            "Z": 50.0
+          },
+          "ZeroRatatedEndPoint": {
+            "X": 79.0,
+            "Y": -97.0,
+            "Z": 50.0
+          },
+          "RotationX": 0.0,
+          "RotationY": 0.0,
+          "RotationZ": 0.0,
+          "Zc": 3.40282347E+38,
+          "ScaleFactorS": 1.0,
+          "ScaleFactorE": 1.0
+        },
+        {
+          "Type": "LineElement3D",
+          "Position": {
+            "X": -21.0,
+            "Y": -197.0
+          },
+          "Color": "Blue",
+          "Rotation": 90.0,
+          "IsSelected": false,
+          "IsGrouped": false,
+          "GroupId": null,
+          "Is3D": true,
+          "StartPoint": {
+            "X": -21.0,
+            "Y": -197.0
+          },
+          "EndPoint": {
+            "X": -21.0,
+            "Y": -97.0
+          },
+          "Length": 100.0,
+          "Thickness": 2.0,
+          "StartPoint3D": {
+            "X": -21.0,
+            "Y": -197.0,
+            "Z": 50.0
+          },
+          "EndPoint3D": {
+            "X": -21.0,
+            "Y": -97.0,
+            "Z": 50.0
+          },
+          "ZeroRatatedStartPoint": {
+            "X": -21.0,
+            "Y": -197.0,
+            "Z": 50.0
+          },
+          "ZeroRatatedEndPoint": {
+            "X": -21.0,
+            "Y": -97.0,
+            "Z": 50.0
+          },
+          "RotationX": 0.0,
+          "RotationY": 0.0,
+          "RotationZ": 0.0,
+          "Zc": 3.40282347E+38,
+          "ScaleFactorS": 1.0,
+          "ScaleFactorE": 1.0
+        }
+      ],
+      "TcX": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "TcY": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "TcZ": {
+        "X": 0.0,
+        "Y": 0.0,
+        "Z": 0.0
+      },
+      "Index": 4
+    },
+    {
+      "Type": "LineElement3D",
+      "Position": {
+        "X": -158.0,
+        "Y": 90.0
+      },
+      "Color": "Black",
+      "Rotation": -2.38594413,
+      "IsSelected": false,
+      "IsGrouped": false,
+      "GroupId": null,
+      "Is3D": true,
+      "StartPoint": {
+        "X": -158.0,
+        "Y": 90.0
+      },
+      "EndPoint": {
+        "X": -86.0,
+        "Y": 87.0
+      },
+      "Length": 72.06247,
+      "Thickness": 3.0,
+      "StartPoint3D": {
+        "X": -158.0,
+        "Y": 90.0,
+        "Z": 0.0
+      },
+      "EndPoint3D": {
+        "X": -86.0,
+        "Y": 87.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedStartPoint": {
+        "X": -158.0,
+        "Y": 90.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedEndPoint": {
+        "X": -86.0,
+        "Y": 87.0,
+        "Z": 0.0
+      },
+      "RotationX": 0.0,
+      "RotationY": 0.0,
+      "RotationZ": 0.0,
+      "Zc": 3.40282347E+38,
+      "ScaleFactorS": 1.0,
+      "ScaleFactorE": 1.0,
+      "Index": 5
+    },
+    {
+      "Type": "LineElement3D",
+      "Position": {
+        "X": -155.0,
+        "Y": 135.0
+      },
+      "Color": "Black",
+      "Rotation": -95.3145447,
+      "IsSelected": false,
+      "IsGrouped": false,
+      "GroupId": null,
+      "Is3D": true,
+      "StartPoint": {
+        "X": -155.0,
+        "Y": 135.0
+      },
+      "EndPoint": {
+        "X": -159.0,
+        "Y": 92.0
+      },
+      "Length": 43.1856461,
+      "Thickness": 3.0,
+      "StartPoint3D": {
+        "X": -155.0,
+        "Y": 135.0,
+        "Z": 0.0
+      },
+      "EndPoint3D": {
+        "X": -159.0,
+        "Y": 92.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedStartPoint": {
+        "X": -155.0,
+        "Y": 135.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedEndPoint": {
+        "X": -159.0,
+        "Y": 92.0,
+        "Z": 0.0
+      },
+      "RotationX": 0.0,
+      "RotationY": 0.0,
+      "RotationZ": 0.0,
+      "Zc": 3.40282347E+38,
+      "ScaleFactorS": 1.0,
+      "ScaleFactorE": 1.0,
+      "Index": 6
+    },
+    {
+      "Type": "LineElement3D",
+      "Position": {
+        "X": -83.0,
+        "Y": 119.0
+      },
+      "Color": "Black",
+      "Rotation": -99.46232,
+      "IsSelected": false,
+      "IsGrouped": false,
+      "GroupId": null,
+      "Is3D": true,
+      "StartPoint": {
+        "X": -83.0,
+        "Y": 119.0
+      },
+      "EndPoint": {
+        "X": -88.0,
+        "Y": 89.0
+      },
+      "Length": 30.4138126,
+      "Thickness": 3.0,
+      "StartPoint3D": {
+        "X": -83.0,
+        "Y": 119.0,
+        "Z": 0.0
+      },
+      "EndPoint3D": {
+        "X": -88.0,
+        "Y": 89.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedStartPoint": {
+        "X": -83.0,
+        "Y": 119.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedEndPoint": {
+        "X": -88.0,
+        "Y": 89.0,
+        "Z": 0.0
+      },
+      "RotationX": 0.0,
+      "RotationY": 0.0,
+      "RotationZ": 0.0,
+      "Zc": 3.40282347E+38,
+      "ScaleFactorS": 1.0,
+      "ScaleFactorE": 1.0,
+      "Index": 7
+    },
+    {
+      "Type": "LineElement3D",
+      "Position": {
+        "X": -97.0,
+        "Y": 164.0
+      },
+      "Color": "Black",
+      "Rotation": -152.241455,
+      "IsSelected": false,
+      "IsGrouped": false,
+      "GroupId": null,
+      "Is3D": true,
+      "StartPoint": {
+        "X": -97.0,
+        "Y": 164.0
+      },
+      "EndPoint": {
+        "X": -154.0,
+        "Y": 134.0
+      },
+      "Length": 64.412735,
+      "Thickness": 3.0,
+      "StartPoint3D": {
+        "X": -97.0,
+        "Y": 164.0,
+        "Z": 0.0
+      },
+      "EndPoint3D": {
+        "X": -154.0,
+        "Y": 134.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedStartPoint": {
+        "X": -97.0,
+        "Y": 164.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedEndPoint": {
+        "X": -154.0,
+        "Y": 134.0,
+        "Z": 0.0
+      },
+      "RotationX": 0.0,
+      "RotationY": 0.0,
+      "RotationZ": 0.0,
+      "Zc": 3.40282347E+38,
+      "ScaleFactorS": 1.0,
+      "ScaleFactorE": 1.0,
+      "Index": 8
+    },
+    {
+      "Type": "LineElement3D",
+      "Position": {
+        "X": -99.0,
+        "Y": 166.0
+      },
+      "Color": "Black",
+      "Rotation": -74.19749,
+      "IsSelected": false,
+      "IsGrouped": false,
+      "GroupId": null,
+      "Is3D": true,
+      "StartPoint": {
+        "X": -99.0,
+        "Y": 166.0
+      },
+      "EndPoint": {
+        "X": -84.0,
+        "Y": 113.0
+      },
+      "Length": 55.0817566,
+      "Thickness": 3.0,
+      "StartPoint3D": {
+        "X": -99.0,
+        "Y": 166.0,
+        "Z": 0.0
+      },
+      "EndPoint3D": {
+        "X": -84.0,
+        "Y": 113.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedStartPoint": {
+        "X": -99.0,
+        "Y": 166.0,
+        "Z": 0.0
+      },
+      "ZeroRatatedEndPoint": {
+        "X": -84.0,
+        "Y": 113.0,
+        "Z": 0.0
+      },
+      "RotationX": 0.0,
+      "RotationY": 0.0,
+      "RotationZ": 0.0,
+      "Zc": 3.40282347E+38,
+      "ScaleFactorS": 1.0,
+      "ScaleFactorE": 1.0,
+      "Index": 9
+    }
+  ],
+  "GroupManagerData": {
+    "Groups": [
+      {
+        "GroupId": "Group_1",
+        "ElementIndices": [
+          4,
+          3,
+          2,
+          1,
+          0
+        ]
+      }
+    ],
+    "GroupCounter": 2
+  }
+}

@@ -3,24 +3,32 @@
   "WorkspaceRootPath": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\lineelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\lineelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\groupmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\groupmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\lineelement3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\lineelement3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\cube3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\cube3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\lineelement3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\lineelement3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|d:\\pnrpu\\git\\hellcourse\\grafredactor\\grafredactor\\lineelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\lineelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|d:\\pnrpu\\git\\hellcourse\\grafredactor\\grafredactor\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\groupmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\groupmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\pointelement3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\pointelement3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\point3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\point3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\maincoordinateaxes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -39,20 +47,12 @@
       "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\point3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\point3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\figureelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\figureelement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\pointelement3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|solutionrelative:grafredactor\\pointelement3d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1761AF72-5E81-41BA-BEE4-6CDAF3A594B7}|GrafRedactor\\GrafRedactor.csproj|D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\grafredactor\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -78,7 +78,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 836,
-          "SelectedChildIndex": 16,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -103,13 +103,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "LineElement3D.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\LineElement3D.cs",
               "RelativeDocumentMoniker": "GrafRedactor\\LineElement3D.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\LineElement3D.cs",
-              "RelativeToolTip": "GrafRedactor\\LineElement3D.cs",
-              "ViewState": "AgIAAIEBAAAAAAAAAAAgwMEBAAAfAAAAAAAAAA==",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\LineElement3D.cs*",
+              "RelativeToolTip": "GrafRedactor\\LineElement3D.cs*",
+              "ViewState": "AgIAAPwBAAAAAAAAAAAgwB8CAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-06T08:34:28.651Z",
               "IsPinned": true,
@@ -117,13 +117,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Cube3D.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\Cube3D.cs",
               "RelativeDocumentMoniker": "GrafRedactor\\Cube3D.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\Cube3D.cs",
               "RelativeToolTip": "GrafRedactor\\Cube3D.cs",
-              "ViewState": "AgIAAFwAAAAAAAAAAAAAAHsAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAL8AAAAAAAAAAAAuwNAAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-26T18:04:01.586Z",
               "IsPinned": true,
@@ -142,25 +142,38 @@
               "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MainForm.cs",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\MainForm.cs",
-              "RelativeDocumentMoniker": "GrafRedactor\\MainForm.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\MainForm.cs",
-              "RelativeToolTip": "GrafRedactor\\MainForm.cs",
-              "ViewState": "AgIAAIYJAAAAAAAAAAApwGIJAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-06T15:25:37.519Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{131369f2-062d-44a2-8671-91ff31efb4f4}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
+              "Title": "LineElement.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\LineElement.cs",
+              "RelativeDocumentMoniker": "GrafRedactor\\LineElement.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\LineElement.cs",
+              "RelativeToolTip": "GrafRedactor\\LineElement.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T16:33:16.956Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainForm.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\MainForm.cs",
+              "RelativeDocumentMoniker": "GrafRedactor\\MainForm.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\MainForm.cs",
+              "RelativeToolTip": "GrafRedactor\\MainForm.cs",
+              "ViewState": "AgIAAFcJAAAAAAAAAAAQwG4JAACYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-06T15:25:37.519Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "SceneSerializer.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\SceneSerializer.cs",
               "RelativeDocumentMoniker": "GrafRedactor\\SceneSerializer.cs",
@@ -172,44 +185,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 6,
               "Title": "Point3D.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\Point3D.cs",
               "RelativeDocumentMoniker": "GrafRedactor\\Point3D.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\Point3D.cs",
               "RelativeToolTip": "GrafRedactor\\Point3D.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAmwCcAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAwCcAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-26T14:40:34.114Z"
+              "WhenOpened": "2025-10-26T14:40:34.114Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "GroupManager.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\GroupManager.cs",
               "RelativeDocumentMoniker": "GrafRedactor\\GroupManager.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\GroupManager.cs",
               "RelativeToolTip": "GrafRedactor\\GroupManager.cs",
-              "ViewState": "AgIAAJoDAAAAAAAAAAAYwLUDAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAKMAAAAAAAAAAAApwLgAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-12T16:14:41.924Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 5,
               "Title": "PointElement3D.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\PointElement3D.cs",
               "RelativeDocumentMoniker": "GrafRedactor\\PointElement3D.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\PointElement3D.cs",
               "RelativeToolTip": "GrafRedactor\\PointElement3D.cs",
-              "ViewState": "AgIAAKAAAAAAAAAAAAAAAGoAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAIMAAAAAAAAAAAAiwJMAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T20:23:55.522Z"
+              "WhenOpened": "2025-11-11T20:23:55.522Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "MainCoordinateAxes.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\MainCoordinateAxes.cs",
               "RelativeDocumentMoniker": "GrafRedactor\\MainCoordinateAxes.cs",
@@ -217,8 +232,7 @@
               "RelativeToolTip": "GrafRedactor\\MainCoordinateAxes.cs",
               "ViewState": "AgIAADcAAAAAAAAAAAAAADwAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-11T15:28:41.442Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-11T15:28:41.442Z"
             },
             {
               "$type": "Document",
@@ -234,19 +248,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LineElement.cs",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\LineElement.cs",
-              "RelativeDocumentMoniker": "GrafRedactor\\LineElement.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\LineElement.cs",
-              "RelativeToolTip": "GrafRedactor\\LineElement.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-27T16:33:16.956Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 14,
               "Title": "SimpleCamera.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\SimpleCamera.cs",
@@ -255,11 +256,12 @@
               "RelativeToolTip": "GrafRedactor\\SimpleCamera.cs",
               "ViewState": "AgIAAH0AAAAAAAAAAAAowJIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-26T14:38:07.543Z"
+              "WhenOpened": "2025-10-26T14:38:07.543Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "FigureElement.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\FigureElement.cs",
               "RelativeDocumentMoniker": "GrafRedactor\\FigureElement.cs",
@@ -271,7 +273,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "MainForm.Designer.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\MainForm.Designer.cs",
               "RelativeDocumentMoniker": "GrafRedactor\\MainForm.Designer.cs",
@@ -284,14 +286,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\MainForm.cs",
               "RelativeDocumentMoniker": "GrafRedactor\\MainForm.cs",
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "GrafRedactor\\MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-11T18:58:02.72Z"
+              "WhenOpened": "2025-10-11T18:58:02.72Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
             },
             {
               "$type": "Document",
@@ -307,7 +310,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\GrafRedactor\\GrafRedactor\\Form1.cs",
               "RelativeDocumentMoniker": "GrafRedactor\\Form1.cs",
