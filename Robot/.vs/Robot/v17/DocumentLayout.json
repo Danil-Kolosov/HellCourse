@@ -50,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 836,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -73,6 +73,19 @@
               "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
             },
             {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RobotModel.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\RobotModel.cs",
+              "RelativeDocumentMoniker": "Robot\\RobotModel.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\RobotModel.cs",
+              "RelativeToolTip": "Robot\\RobotModel.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAjwEcAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T18:14:41.117Z",
+              "EditorCaption": ""
+            },
+            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{131369f2-062d-44a2-8671-91ff31efb4f4}"
             },
@@ -90,19 +103,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RobotModel.cs",
-              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\RobotModel.cs",
-              "RelativeDocumentMoniker": "Robot\\RobotModel.cs",
-              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\RobotModel.cs",
-              "RelativeToolTip": "Robot\\RobotModel.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAjwEcAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T18:14:41.117Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "RectangleElement.cs",
               "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\RectangleElement.cs",
@@ -111,8 +111,7 @@
               "RelativeToolTip": "Robot\\RectangleElement.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAxwBoAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T18:13:06.171Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-20T18:13:06.171Z"
             },
             {
               "$type": "Document",
@@ -136,8 +135,7 @@
               "RelativeToolTip": "Robot\\LineElement.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAgwDgAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T18:11:24.037Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-20T18:11:24.037Z"
             },
             {
               "$type": "Document",
@@ -149,8 +147,7 @@
               "RelativeToolTip": "Robot\\FigureElement.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAowCIAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T18:10:09.798Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-20T18:10:09.798Z"
             },
             {
               "$type": "Document",
@@ -161,8 +158,7 @@
               "ToolTip": "D:\\pnrpu\\git\\HellCourse\\Robot\\Robot\\MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "Robot\\MainForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T17:08:13.867Z",
-              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+              "WhenOpened": "2025-09-20T17:08:13.867Z"
             },
             {
               "$type": "Document",
@@ -174,8 +170,7 @@
               "RelativeToolTip": "Robot\\MainForm.Designer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T17:12:16.866Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-20T17:12:16.866Z"
             },
             {
               "$type": "Document",
@@ -187,8 +182,7 @@
               "RelativeToolTip": "Robot\\MainForm.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T17:11:05.832Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-20T17:11:05.832Z"
             },
             {
               "$type": "Document",
@@ -200,8 +194,7 @@
               "RelativeToolTip": "Robot\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T17:08:53.01Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-20T17:08:53.01Z"
             }
           ]
         },

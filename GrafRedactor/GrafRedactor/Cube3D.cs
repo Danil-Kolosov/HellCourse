@@ -197,7 +197,24 @@ namespace GrafRedactor
                 MoveTc(new Point3D(delta, deltaZ));
                 this.Rotate3DWithScene(0, 0, 0, new Point3D(0, 0, 0), _zc, axeName);
             }
-            
+            else 
+            {
+                //this.Rotate3DWithScene(0, 0, 0, new Point3D(0, 0, 0), _zc, axeName); //вот победа куба№1
+            }
+            //switch (axeName.ToLower())
+            //{
+            //    case "xoy":
+            //        this.Rotate3DWithScene(0, 0, 0, new Point3D(0, 0, 0), _zc, axeName); //вот победа куба№1
+            //        break;
+            //    case "yoz":
+            //        this.Rotate3DWithScene(0, -90, -90, new Point3D(0, 0, 0), _zc, axeName); //вот победа куба№1
+            //        ;
+            //        break;
+            //    case "xoz":
+            //        this.Rotate3DWithScene(90, 0, 0, new Point3D(0, 0, 0), _zc, axeName); //вот победа куба№1
+            //        break;
+            //}
+
             // Обновляем геометрию куба (ВАЖНО!) НАХЕР ЭТО НАДО ТУТ
             //UpdateCubeGeometry();
 

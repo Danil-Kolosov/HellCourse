@@ -170,15 +170,6 @@ namespace Pawn3D
                 }
             };
 
-            //var addRandomBtn = new Button()
-            //{
-            //    Text = "10 случайных",
-            //    Location = new Point(140, yPos),
-            //    Size = new Size(120, 30),
-            //    BackColor = Color.FromArgb(118, 75, 162),
-            //    ForeColor = Color.White
-            //};
-
             var addRandomBtn = new Button()
             {
                 Text = "10 случайных",
@@ -367,7 +358,14 @@ namespace Pawn3D
         // Функция Хэвисайда
         private float Heaviside(float x)
         {
-            return x >= 0 ? 1 : 0;
+            // Math.Sign возвращает: -1 если x< 0, 0 если x = 0, 1 если x > 0
+            // Преобразуем: если знак >= 0, то 1, иначе 0
+            // Для sign = -1 → 0, для 0 или 1 → 1
+            const float epsilon = 1e-10f;
+            // Добавляем очень маленькое положительное число к x
+            // Так что даже 0 становится слегка положительным
+            return Math.Max(0.0f, Math.Sign(x + epsilon));
+            //return x >= 0 ? 1 : 0;
         }
 
         // Проверка принадлежности точки пешке

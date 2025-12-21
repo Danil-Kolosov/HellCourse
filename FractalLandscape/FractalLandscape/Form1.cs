@@ -324,7 +324,7 @@ namespace FractalLandscape
                 }
 
                 // Затем рисуем силуэт (контур) для лучшей объемности
-                DrawSilhouette(e.Graphics, transform, viewport, silhouettePen);
+                //DrawSilhouette(e.Graphics, transform, viewport, silhouettePen);
             }
 
             // Рисуем оси координат
