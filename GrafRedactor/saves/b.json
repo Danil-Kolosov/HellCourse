@@ -1031,8 +1031,8 @@
     {
       "Type": "LineElement3D",
       "Position": {
-        "X": 39.0,
-        "Y": 84.0
+        "X": 29.0,
+        "Y": 73.0
       },
       "Color": "Black",
       "Rotation": -34.4183655,
@@ -1041,33 +1041,33 @@
       "GroupId": null,
       "Is3D": true,
       "StartPoint": {
-        "X": 39.0,
-        "Y": 84.0
+        "X": 29.0,
+        "Y": 73.0
       },
       "EndPoint": {
-        "X": 93.0,
-        "Y": 47.0
+        "X": 83.0,
+        "Y": 36.0
       },
       "Length": 65.4599152,
       "Thickness": 3.0,
       "StartPoint3D": {
-        "X": 39.0,
-        "Y": 84.0,
+        "X": 29.0,
+        "Y": 73.0,
         "Z": 0.0
       },
       "EndPoint3D": {
-        "X": 93.0,
-        "Y": 47.0,
+        "X": 83.0,
+        "Y": 36.0,
         "Z": 0.0
       },
       "ZeroRatatedStartPoint": {
-        "X": 39.0,
-        "Y": 84.0,
+        "X": 29.0,
+        "Y": 73.0,
         "Z": 0.0
       },
       "ZeroRatatedEndPoint": {
-        "X": 93.0,
-        "Y": 47.0,
+        "X": 83.0,
+        "Y": 36.0,
         "Z": 0.0
       },
       "RotationX": 0.0,
