@@ -1,0 +1,109 @@
+﻿@page
+@model buildingCompany.Pages.BuildingSites.IndexModel
+@{
+    ViewData["Title"] = "Объекты";
+}
+
+<h2>Объекты строительства</h2>
+
+@if (TempData["Success"] != null)
+{
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+}
+
+@if (TempData["Error"] != null)
+{
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+}
+
+<a asp-page="Index" asp-route-create="true" class="btn btn-primary mb-3">Добавить объект</a>
+
+@if (Model.ShowForm)
+{
+        <div class="card mb-4">
+            <div class="card-header">@(Model.SiteId > 0 ? "Редактирование" : "Новый объект")</div>
+            <div class="card-body">
+            @if (Model.SiteId > 0)
+            {
+                        <!-- Форма для обновления -->
+                        <form method="post" asp-page-handler="Update">
+                            <input type="hidden" asp-for="SiteId" />
+
+                            <div class="mb-3">
+                                <label asp-for="Name" class="form-label">Название</label>
+                                <input asp-for="Name" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Address" class="form-label">Адрес</label>
+                                <input asp-for="Address" class="form-control" required />
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Сохранить</button>
+                            <a asp-page="Index" class="btn btn-secondary">Отмена</a>
+                        </form>
+            }
+            else
+            {
+                        <!-- Форма для создания -->
+                        <form method="post" asp-page-handler="Create">
+                            <div class="mb-3">
+                                <label asp-for="Name" class="form-label">Название</label>
+                                <input asp-for="Name" class="form-control" required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Address" class="form-label">Адрес</label>
+                                <input asp-for="Address" class="form-control" required />
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Сохранить</button>
+                            <a asp-page="Index" class="btn btn-secondary">Отмена</a>
+                        </form>
+            }
+            </div>
+        </div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Адрес</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.BuildingSites != null && Model.BuildingSites.Any())
+        {
+            @foreach (var site in Model.BuildingSites)
+            {
+                        <tr>
+                            <td>@site.Id</td>
+                            <td>@site.Name</td>
+                            <td>@site.Address</td>
+                            <td>
+                                <a asp-page="Index" asp-route-editId="@site.Id" class="btn btn-sm btn-warning">Изменить</a>
+                                <form method="post" asp-page-handler="Delete" style="display: inline;" onsubmit="return confirm('Удалить объект @site.Name?')">
+                                    <input type="hidden" name="DeleteId" value="@site.Id" />
+                                    <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+            }
+        }
+        else
+        {
+                <tr>
+                    <td colspan="4" class="text-center text-muted">Нет данных</td>
+                </tr>
+        }
+    </tbody>
+</table>

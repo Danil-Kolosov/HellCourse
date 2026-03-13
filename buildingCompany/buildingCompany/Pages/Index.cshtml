@@ -1,0 +1,61 @@
+﻿@page
+@model buildingCompany.Pages.IndexModel
+@{
+    ViewData["Title"] = "Главная";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Строительная компания</h1>
+
+    <!-- Простая навигация -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-2">
+            <a href="/BuildingSites" class="btn btn-primary w-100">Объекты</a>
+        </div>
+        <div class="col-md-3 mb-2">
+            <a href="/WorkTypes" class="btn btn-success w-100">Виды работ</a>
+        </div>
+        <div class="col-md-3 mb-2">
+            <a href="/Employees" class="btn btn-info w-100">Сотрудники</a>
+        </div>
+        <div class="col-md-3 mb-2">
+            <a href="/WorkLogs" class="btn btn-warning w-100">Журнал работ</a>
+        </div>
+    </div>
+
+    <!-- Простая статистика -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Объекты</h5>
+                    <p class="card-text display-6">@Model.TotalBuildingSites</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Виды работ</h5>
+                    <p class="card-text display-6">@Model.TotalWorkTypes</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">Сотрудники</h5>
+                    <p class="card-text display-6">@Model.TotalEmployees</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Активные работы</h5>
+                    <p class="card-text display-6">@Model.ActiveWorkLogs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

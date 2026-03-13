@@ -1,0 +1,141 @@
+﻿@page
+@model buildingCompany.Pages.WorkLogs.IndexModel
+@{
+    ViewData["Title"] = "Журнал работ";
+}
+
+<h2>Журнал работ</h2>
+
+@if (TempData["Success"] != null)
+{
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+}
+
+@if (TempData["Error"] != null)
+{
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+}
+
+<a asp-page="Assign" class="btn btn-success mb-3">Назначить работу</a>
+
+<!-- Форма редактирования -->
+@if (Model.ShowEditForm && Model.EditWorkLog != null)
+{
+        <div class="card mb-4">
+            <div class="card-header">Редактирование записи #@Model.EditWorkLog.Id</div>
+            <div class="card-body">
+                <form method="post" asp-page-handler="Update">
+                    <input type="hidden" name="EditId" value="@Model.EditWorkLog.Id" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Объект</label>
+                        <select name="BuildingSiteId" class="form-control" required>
+                        @foreach (var site in Model.BuildingSites)
+                        {
+                                    <option value="@site.Id" selected="@(site.Id == Model.EditWorkLog.BuildingSiteId)">@site.Name</option>
+                        }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Вид работы</label>
+                        <select name="WorkTypeId" class="form-control" required>
+                        @foreach (var wt in Model.WorkTypes)
+                        {
+                                    <option value="@wt.Id" selected="@(wt.Id == Model.EditWorkLog.WorkTypeId)">@wt.Title</option>
+                        }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Сотрудник</label>
+                        <select name="EmployeeId" class="form-control" required>
+                        @foreach (var emp in Model.Employees)
+                        {
+                                    <option value="@emp.Id" selected="@(emp.Id == Model.EditWorkLog.EmployeeId)">@emp.FullName</option>
+                        }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Часы</label>
+                        <input name="HoursWorked" type="number" value="@Model.EditWorkLog.HoursWorked" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Статус</label>
+                        <select name="Status" class="form-control" required>
+                            <option value="Назначено" selected="@(Model.EditWorkLog.Status == "Назначено")">Назначено</option>
+                            <option value="В процессе" selected="@(Model.EditWorkLog.Status == "В процессе")">В процессе</option>
+                            <option value="Завершено" selected="@(Model.EditWorkLog.Status == "Завершено")">Завершено</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                    <a asp-page="Index" class="btn btn-secondary">Отмена</a>
+                </form>
+            </div>
+        </div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Объект</th>
+            <th>Вид работы</th>
+            <th>Сотрудник</th>
+            <th>Часы</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.WorkLogs != null && Model.WorkLogs.Any())
+        {
+            @foreach (var log in Model.WorkLogs)
+            {
+                        <tr>
+                            <td>@log.Id</td>
+                            <td>@log.BuildingSite?.Name</td>
+                            <td>@log.WorkType?.Title</td>
+                            <td>@(log.Employee?.FullName ?? "Не назначен")</td>
+                            <td>@log.HoursWorked</td>
+                            <td>
+                        @if (log.Status == "Завершено")
+                        {
+                                        <span class="badge bg-success">Завершено</span>
+                        }
+                        else if (log.Status == "В процессе")
+                        {
+                                        <span class="badge bg-warning">В процессе</span>
+                        }
+                        else
+                        {
+                                        <span class="badge bg-secondary">@log.Status</span>
+                        }
+                            </td>
+                            <td>
+                                <a asp-page="Index" asp-route-editId="@log.Id" class="btn btn-sm btn-warning">Изменить</a>
+                                <form method="post" asp-page-handler="Delete" style="display: inline;" onsubmit="return confirm('Удалить запись?')">
+                                    <input type="hidden" name="DeleteId" value="@log.Id" />
+                                    <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+            }
+        }
+        else
+        {
+                <tr>
+                    <td colspan="7" class="text-center text-muted">Нет данных</td>
+                </tr>
+        }
+    </tbody>
+</table>
