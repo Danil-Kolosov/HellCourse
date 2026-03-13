@@ -1,0 +1,576 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\employees\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\employees\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24528419-52A7-4160-B0EC-AD842ECFE7F9}|Test\\Test.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\test\\tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{24528419-52A7-4160-B0EC-AD842ECFE7F9}|Test\\Test.csproj|solutionrelative:test\\tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\pnrpu\\redmine\\lab-project\\buildingCompany\\Test\\UnitTest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\employees\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\employees\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\buildingsites\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\buildingsites\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\worklogs\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\worklogs\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\wwwroot\\lib\\jquery\\dist\\jquery.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\wwwroot\\lib\\jquery\\dist\\jquery.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\error.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\worklogs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\worklogs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\worktypes\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\worktypes\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\buildingsites\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\buildingsites\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\models\\worktype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\models\\worktype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\models\\worklog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\models\\worklog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\models\\buildingsite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\models\\buildingsite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\worklogs\\assign.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\worklogs\\assign.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\box\\create.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\box\\create.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\box\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\box\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\worklogs\\assign.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\worklogs\\assign.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\employees\\index.cshtml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\employees\\index.cshtml||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|d:\\pnrpu\\git\\hellcourse\\lab-project\\buildingcompany\\buildingcompany\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF84C5AF-BA83-4AA7-A753-1D53AC22AD24}|buildingCompany\\buildingCompany.csproj|solutionrelative:buildingcompany\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 133,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 836,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c9c0ae26-aa77-11d2-b3f0-0000f87570ee}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\Index.cshtml",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Index.cshtml",
+              "RelativeToolTip": "buildingCompany\\Pages\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T13:45:15.589Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Employees\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\Employees\\Index.cshtml.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Employees\\Index.cshtml.cs",
+              "RelativeToolTip": "buildingCompany\\Pages\\Employees\\Index.cshtml.cs",
+              "ViewState": "AgIAAM8AAAAAAAAAAAAAAOEAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T14:08:20.88Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{320fd13f-632f-4b16-9527-a1adfe555f6c}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{131369f2-062d-44a2-8671-91ff31efb4f4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Tests.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\Test\\Tests.cs",
+              "RelativeDocumentMoniker": "Test\\Tests.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\Test\\Tests.cs",
+              "RelativeToolTip": "Test\\Tests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-13T21:32:18.449Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "jquery.js",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "RelativeDocumentMoniker": "buildingCompany\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "RelativeToolTip": "buildingCompany\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+              "ViewState": "AgIAAP0CAAAAAAAAAAAIwBEDAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-03-13T18:09:41.592Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Error.cshtml",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Error.cshtml",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\Error.cshtml",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Error.cshtml",
+              "RelativeToolTip": "buildingCompany\\Pages\\Error.cshtml",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAwAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-13T18:09:40.343Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "bootstrap.bundle.js.map",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+              "RelativeDocumentMoniker": "buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+              "RelativeToolTip": "buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAADMAgUAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-03-13T18:09:37.502Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "bootstrap.bundle.js",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+              "RelativeDocumentMoniker": "buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+              "RelativeToolTip": "buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAACMAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-03-13T18:08:59.715Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "bootstrap-reboot.rtl.min.css.map",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+              "RelativeDocumentMoniker": "buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+              "RelativeToolTip": "buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAACTBgAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-03-13T18:08:58.202Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "bootstrap-reboot.min.css.map",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+              "RelativeDocumentMoniker": "buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+              "RelativeToolTip": "buildingCompany\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAB4BgAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-03-13T18:08:52.838Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "additional-methods.js",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+              "RelativeDocumentMoniker": "buildingCompany\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+              "RelativeToolTip": "buildingCompany\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+              "ViewState": "AgIAAK0FAAAAAAAAAAAAAK0FAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-03-13T18:08:48.512Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Assign.cshtml.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\WorkLogs\\Assign.cshtml.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\WorkLogs\\Assign.cshtml.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\WorkLogs\\Assign.cshtml.cs",
+              "RelativeToolTip": "buildingCompany\\Pages\\WorkLogs\\Assign.cshtml.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAAwEYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T14:49:27.314Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Assign.cshtml",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\WorkLogs\\Assign.cshtml",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\WorkLogs\\Assign.cshtml",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\WorkLogs\\Assign.cshtml",
+              "RelativeToolTip": "buildingCompany\\Pages\\WorkLogs\\Assign.cshtml",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAYwC4AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T14:49:17.838Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\WorkTypes\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\WorkTypes\\Index.cshtml.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\WorkTypes\\Index.cshtml.cs",
+              "RelativeToolTip": "buildingCompany\\Pages\\WorkTypes\\Index.cshtml.cs",
+              "ViewState": "AgIAAHwAAAAAAAAAAAAAAI8AAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T14:11:08.748Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Create.cshtml.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\box\\Create.cshtml.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\box\\Create.cshtml.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\box\\Create.cshtml.cs",
+              "RelativeToolTip": "buildingCompany\\box\\Create.cshtml.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAEYAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T14:10:42.802Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\box\\Create.cshtml",
+              "RelativeDocumentMoniker": "buildingCompany\\box\\Create.cshtml",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\box\\Create.cshtml",
+              "RelativeToolTip": "buildingCompany\\box\\Create.cshtml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAgwD0AAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T14:10:25.155Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Employees\\Index.cshtml",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\Employees\\Index.cshtml",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Employees\\Index.cshtml",
+              "RelativeToolTip": "buildingCompany\\Pages\\Employees\\Index.cshtml",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAAACkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T14:10:13.063Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\BuildingSites\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\BuildingSites\\Index.cshtml.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\BuildingSites\\Index.cshtml.cs",
+              "RelativeToolTip": "buildingCompany\\Pages\\BuildingSites\\Index.cshtml.cs",
+              "ViewState": "AgIAAHwAAAAAAAAAAAAAAI8AAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T14:10:03.308Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\BuildingSites\\Index.cshtml",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\BuildingSites\\Index.cshtml",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\BuildingSites\\Index.cshtml",
+              "RelativeToolTip": "buildingCompany\\Pages\\BuildingSites\\Index.cshtml",
+              "ViewState": "AgIAADgAAAAAAAAAAAAIwEwAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T14:09:57.085Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Employees\\Index.cshtml",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\Employees\\Index.cshtml",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Employees\\Index.cshtml",
+              "RelativeToolTip": "buildingCompany\\Pages\\Employees\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T14:07:44.467Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "buildingCompany\\Pages\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T13:58:06.284Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\Index.cshtml.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\Index.cshtml.cs",
+              "RelativeToolTip": "buildingCompany\\Pages\\Index.cshtml.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAA1wC8AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T13:48:16.244Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\_ViewImports.cshtml",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\_ViewImports.cshtml",
+              "RelativeToolTip": "buildingCompany\\Pages\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T13:45:22.689Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\WorkLogs\\Index.cshtml",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\WorkLogs\\Index.cshtml",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\WorkLogs\\Index.cshtml",
+              "RelativeToolTip": "buildingCompany\\Pages\\WorkLogs\\Index.cshtml",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAIwFkAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-07T13:44:28.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\WorkLogs\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\Pages\\WorkLogs\\Index.cshtml.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Pages\\WorkLogs\\Index.cshtml.cs",
+              "RelativeToolTip": "buildingCompany\\Pages\\WorkLogs\\Index.cshtml.cs",
+              "ViewState": "AgIAAMMAAAAAAAAAAAAAALsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T13:43:35.929Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\appsettings.json",
+              "RelativeDocumentMoniker": "buildingCompany\\appsettings.json",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\appsettings.json",
+              "RelativeToolTip": "buildingCompany\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-07T13:37:08.727Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Program.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\Program.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Program.cs",
+              "RelativeToolTip": "buildingCompany\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEsAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T13:36:32.536Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\Data\\AppDbContext.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "buildingCompany\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAQwCUAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T13:20:41.708Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "WorkLog.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Models\\WorkLog.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\Models\\WorkLog.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Models\\WorkLog.cs",
+              "RelativeToolTip": "buildingCompany\\Models\\WorkLog.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T13:17:16.968Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Employee.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Models\\Employee.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\Models\\Employee.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Models\\Employee.cs",
+              "RelativeToolTip": "buildingCompany\\Models\\Employee.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T13:17:07.494Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "WorkType.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Models\\WorkType.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\Models\\WorkType.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Models\\WorkType.cs",
+              "RelativeToolTip": "buildingCompany\\Models\\WorkType.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T13:16:53.866Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "BuildingSite.cs",
+              "DocumentMoniker": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Models\\BuildingSite.cs",
+              "RelativeDocumentMoniker": "buildingCompany\\Models\\BuildingSite.cs",
+              "ToolTip": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\Models\\BuildingSite.cs",
+              "RelativeToolTip": "buildingCompany\\Models\\BuildingSite.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-07T13:16:36.77Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UnitTest1.cs",
+              "DocumentMoniker": "D:\\pnrpu\\redmine\\lab-project\\buildingCompany\\Test\\UnitTest1.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\redmine\\lab-project\\buildingCompany\\Test\\UnitTest1.cs",
+              "ToolTip": "D:\\pnrpu\\redmine\\lab-project\\buildingCompany\\Test\\UnitTest1.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\redmine\\lab-project\\buildingCompany\\Test\\UnitTest1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-09T15:50:36.759Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 137,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

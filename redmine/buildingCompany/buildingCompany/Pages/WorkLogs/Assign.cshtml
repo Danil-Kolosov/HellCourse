@@ -1,0 +1,54 @@
+﻿@page
+@model buildingCompany.Pages.WorkLogs.AssignModel
+@{
+    ViewData["Title"] = "Назначение работы";
+}
+
+<h2>Назначение работы</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div class="mb-3">
+                <label>Объект</label>
+                <select name="BuildingSiteId" class="form-control" required>
+                    <option value="">-- Выберите объект --</option>
+                    @foreach (var site in Model.BuildingSites)
+                    {
+                            <option value="@site.Id">@site.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Вид работы</label>
+                <select name="WorkTypeId" class="form-control" required>
+                    <option value="">-- Выберите работу --</option>
+                    @foreach (var wt in Model.WorkTypes)
+                    {
+                            <option value="@wt.Id">@wt.Title</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Сотрудник</label>
+                <select name="EmployeeId" class="form-control" required>
+                    <option value="">-- Выберите сотрудника --</option>
+                    @foreach (var emp in Model.Employees)
+                    {
+                            <option value="@emp.Id">@emp.FullName</option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Часы</label>
+                <input name="HoursWorked" type="number" class="form-control" required />
+            </div>
+
+            <button type="submit" class="btn btn-success">Назначить</button>
+            <a asp-page="Index" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</div>

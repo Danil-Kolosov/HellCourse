@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Hotspots>
+  <Hotspot>
+    <Assembly>buildingCompany</Assembly>
+    <Class>buildingCompany.Pages.WorkLogs.Pages_WorkLogs_Index</Class>
+    <MethodName>ExecuteAsync()</MethodName>
+    <ShortName />
+    <Line>4</Line>
+    <FileIndex>0</FileIndex>
+    <Metrics>
+      <Metric>
+        <Name>Cyclomatic complexity</Name>
+        <Exceeded>true</Exceeded>
+        <Value>36</Value>
+      </Metric>
+    </Metrics>
+  </Hotspot>
+  <Hotspot>
+    <Assembly>buildingCompany</Assembly>
+    <Class>buildingCompany.Pages.Employees.Pages_Employees_Index</Class>
+    <MethodName>ExecuteAsync()</MethodName>
+    <ShortName />
+    <Line>4</Line>
+    <FileIndex>0</FileIndex>
+    <Metrics>
+      <Metric>
+        <Name>Cyclomatic complexity</Name>
+        <Exceeded>true</Exceeded>
+        <Value>34</Value>
+      </Metric>
+    </Metrics>
+  </Hotspot>
+</Hotspots>

@@ -1,0 +1,126 @@
+﻿@page
+@model buildingCompany.Pages.Employees.IndexModel
+@{
+    ViewData["Title"] = "Сотрудники";
+}
+
+<h2>Сотрудники</h2>
+
+@if (TempData["Success"] != null)
+{
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+}
+
+@if (TempData["Error"] != null)
+{
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+}
+
+@if (TempData["Info"] != null)
+{
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        @TempData["Info"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+}
+
+@if (!string.IsNullOrEmpty(Model.ConcurrencyError))
+{
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            ⚠️ @Model.ConcurrencyError
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+}
+
+<a asp-page="Index" asp-route-create="true" class="btn btn-primary mb-3">Добавить сотрудника</a>
+
+@if (Model.ShowForm)
+{
+        <div class="card mb-4">
+            <div class="card-header">@(Model.IsEditMode ? "Редактирование" : "Новый сотрудник")</div>
+            <div class="card-body">
+            @if (Model.IsEditMode)
+            {
+                        <form method="post" asp-page-handler="Update">
+                            <input type="hidden" asp-for="EmployeeId" />
+                            <input type="hidden" asp-for="RowVersion" />
+
+                            <div class="mb-3">
+                                <label asp-for="FullName" class="form-label">ФИО</label>
+                                <input asp-for="FullName" class="form-control" required />
+                                <span asp-validation-for="FullName" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Position" class="form-label">Должность</label>
+                                <input asp-for="Position" class="form-control" required />
+                                <span asp-validation-for="Position" class="text-danger"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Сохранить</button>
+                            <button type="submit" asp-page-handler="Cancel" class="btn btn-secondary">Отмена</button>
+                        </form>
+            }
+            else
+            {
+                        <form method="post" asp-page-handler="Create">
+                            <div class="mb-3">
+                                <label asp-for="FullName" class="form-label">ФИО</label>
+                                <input asp-for="FullName" class="form-control" required />
+                                <span asp-validation-for="FullName" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Position" class="form-label">Должность</label>
+                                <input asp-for="Position" class="form-control" required />
+                                <span asp-validation-for="Position" class="text-danger"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Сохранить</button>
+                            <a asp-page="Index" class="btn btn-secondary">Отмена</a>
+                        </form>
+            }
+            </div>
+        </div>
+}
+
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>ФИО</th>
+            <th>Должность</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Employees != null && Model.Employees.Any())
+        {
+            @foreach (var emp in Model.Employees)
+            {
+                        <tr>
+                            <td>@emp.FullName</td>
+                            <td>@emp.Position</td>
+                            <td>
+                                <a asp-page="Index" asp-route-editId="@emp.Id" class="btn btn-sm btn-warning">Изменить</a>
+                                <form method="post" asp-page-handler="Delete" style="display: inline;" onsubmit="return confirm('Удалить сотрудника @emp.FullName?')">
+                                    <input type="hidden" name="deleteId" value="@emp.Id" />
+                                    <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                                </form>
+                            </td>
+                        </tr>
+            }
+        }
+        else
+        {
+                <tr>
+                    <td colspan="3" class="text-center text-muted">Нет данных</td>
+                </tr>
+        }
+    </tbody>
+</table>
