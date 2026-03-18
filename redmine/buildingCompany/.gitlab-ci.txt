@@ -1,0 +1,51 @@
+# .gitlab-ci.yml
+stages:
+  - build
+  - test
+  - deploy
+
+# Этап 1: Сборка (Build)
+build:
+  stage: build
+  script:
+    - echo "===== СБОРКА ПРИЛОЖЕНИЯ ====="
+    - pwd
+    - dotnet build buildingCompany/buildingCompany/buildingCompany.csproj
+
+# Этап 2: Тестирование (Test)
+test:
+  stage: test
+  script:
+    - echo "===== ЗАПУСК ТЕСТОВ ====="
+    - dotnet test buildingCompany/Test/Test.csproj
+    - if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+  dependencies:
+    - build
+
+# Этап 3: Деплой (Deploy)
+deploy:
+  stage: deploy
+  script:
+    - echo "===== ОСТАНОВКА СТАРОГО ПРИЛОЖЕНИЯ ====="
+    - |
+      $process = Get-Process -Name "buildingCompany" -ErrorAction SilentlyContinue
+      if ($process) {
+        $process | Stop-Process -Force
+        echo "Приложение остановлено"
+      } else {
+        echo "Приложение не запущено"
+      }
+
+    - echo "===== ДЕПЛОЙ НА СЕРВЕР ====="
+    - dotnet publish buildingCompany/buildingCompany/buildingCompany.csproj -c Release -o D:\myapp_deploy\ # собирает приложение в готовый к запуску вид (все .dll, .exe в одну папку) конфигурация Release (оптимизированная версия)
+
+    - echo "===== ПРИМЕНЕНИЕ МИГРАЦИЙ ====="
+    - dotnet ef database update --project buildingCompany/buildingCompany/buildingCompany.csproj --connection "Data Source=D:\myapp_deploy\construction.db"
+
+    - echo "===== ЗАПУСК НОВОГО ПРИЛОЖЕНИЯ ====="
+    # Запускаем с указанием рабочей директории
+    - Start-Process -FilePath "D:\myapp_deploy\buildingCompany.exe" -WorkingDirectory "D:\myapp_deploy" -WindowStyle Hidden
+    
+    - echo "===== ДЕПЛОЙ ЗАВЕРШЕН ====="
+  only:
+    - main  # только когда пушим в main
