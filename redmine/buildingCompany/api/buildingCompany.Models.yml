@@ -1,0 +1,70 @@
+### YamlMime:ManagedReference
+items:
+- uid: buildingCompany.Models
+  commentId: N:buildingCompany.Models
+  id: buildingCompany.Models
+  children:
+  - buildingCompany.Models.BuildingSite
+  - buildingCompany.Models.Employee
+  - buildingCompany.Models.WorkLog
+  - buildingCompany.Models.WorkType
+  langs:
+  - csharp
+  - vb
+  name: buildingCompany.Models
+  nameWithType: buildingCompany.Models
+  fullName: buildingCompany.Models
+  type: Namespace
+  assemblies:
+  - buildingCompany
+references:
+- uid: buildingCompany.Models.BuildingSite
+  commentId: T:buildingCompany.Models.BuildingSite
+  parent: buildingCompany.Models
+  href: buildingCompany.Models.BuildingSite.html
+  name: BuildingSite
+  nameWithType: BuildingSite
+  fullName: buildingCompany.Models.BuildingSite
+- uid: buildingCompany.Models.Employee
+  commentId: T:buildingCompany.Models.Employee
+  parent: buildingCompany.Models
+  href: buildingCompany.Models.Employee.html
+  name: Employee
+  nameWithType: Employee
+  fullName: buildingCompany.Models.Employee
+- uid: buildingCompany.Models.WorkLog
+  commentId: T:buildingCompany.Models.WorkLog
+  parent: buildingCompany.Models
+  href: buildingCompany.Models.WorkLog.html
+  name: WorkLog
+  nameWithType: WorkLog
+  fullName: buildingCompany.Models.WorkLog
+- uid: buildingCompany.Models.WorkType
+  commentId: T:buildingCompany.Models.WorkType
+  parent: buildingCompany.Models
+  href: buildingCompany.Models.WorkType.html
+  name: WorkType
+  nameWithType: WorkType
+  fullName: buildingCompany.Models.WorkType
+- uid: buildingCompany.Models
+  commentId: N:buildingCompany.Models
+  href: buildingCompany.html
+  name: buildingCompany.Models
+  nameWithType: buildingCompany.Models
+  fullName: buildingCompany.Models
+  spec.csharp:
+  - uid: buildingCompany
+    name: buildingCompany
+    href: buildingCompany.html
+  - name: .
+  - uid: buildingCompany.Models
+    name: Models
+    href: buildingCompany.Models.html
+  spec.vb:
+  - uid: buildingCompany
+    name: buildingCompany
+    href: buildingCompany.html
+  - name: .
+  - uid: buildingCompany.Models
+    name: Models
+    href: buildingCompany.Models.html

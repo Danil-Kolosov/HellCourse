@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title> | mysite </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content=" | mysite ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="mysite">
+            mysite
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+
+<h2 id="about">About</h2>
+<p><code>Microsoft.Extensions.Primitives</code> contains isolated types that are used in many places within console or ASP.NET Core applications using framework extensions.</p>
+<h2 id="key-features">Key Features</h2>
+<ul>
+<li>IChangeToken: An interface that represents a token that can notify when a change occurs. This can be used to trigger actions or invalidate caches when something changes. For example, the configuration and file providers libraries use this interface to reload settings or files when they are modified.</li>
+<li>StringValues: A struct that represents a single string or an array of strings. This can be used to efficiently store and manipulate multiple values that are logically a single value. For example, the HTTP headers and query strings libraries use this struct to handle multiple values for the same key.</li>
+<li>StringSegment: A struct that represents a substring of another string. This can be used to avoid allocating new strings when performing operations on parts of a string. For example, the configuration and logging libraries use this struct to parse and format strings.</li>
+</ul>
+<h2 id="how-to-use">How to Use</h2>
+<h4 id="ichangetoken-with-configuration-example">IChangeToken with configuration example</h4>
+<pre><code class="lang-C#">using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Create a configuration builder
+        var configurationBuilder = new ConfigurationBuilder()
+            .SetBasePath(Environment.CurrentDirectory)
+            // appsettings.json expected to have the following contents:
+            // {
+            //   &quot;SomeKey&quot;: &quot;SomeValue&quot;
+            // }
+            .AddJsonFile(&quot;appsettings.json&quot;, optional: true, reloadOnChange: true);
+
+        // Build the configuration
+        IConfiguration configuration = configurationBuilder.Build();
+
+        // Create a change token for the configuration
+        IChangeToken changeToken = configuration.GetReloadToken();
+
+        // Attach a change callback
+        IDisposable changeTokenRegistration = changeToken.RegisterChangeCallback(state =&gt;
+        {
+            Console.WriteLine(&quot;Configuration changed!&quot;);
+            IConfigurationRoot root = (IConfigurationRoot)state;
+            var someValue = root[&quot;SomeKey&quot;]; // Access the updated configuration value
+            Console.WriteLine($&quot;New value of SomeKey: {someValue}&quot;);
+        }, configuration);
+
+        // go and update the value of the key SomeKey in appsettings.json.
+        // The change callback will be invoked when the file is saved.
+        Console.WriteLine(&quot;Listening for configuration changes. Press any key to exit.&quot;);
+        Console.ReadKey();
+
+        // Clean up the change token registration when no longer needed
+        changeTokenRegistration.Dispose();
+    }
+}
+</code></pre>
+<h4 id="stringvalues-example">StringValues example</h4>
+<pre><code class="lang-C#">using System;
+using Microsoft.Extensions.Primitives;
+
+namespace StringValuesSample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Create a StringValues object from a single string or an array of strings
+            StringValues single = &quot;Hello&quot;;
+            StringValues multiple = new string[] { &quot;Hello&quot;, &quot;World&quot; };
+
+            // Use the implicit conversion to string or the ToString method to get the values
+            Console.WriteLine($&quot;Single: {single}&quot;); // Single: Hello
+            Console.WriteLine($&quot;Multiple: {multiple}&quot;); // Multiple: Hello,World
+
+            // Use the indexer, the Count property, and the IsNullOrEmpty method to access the values
+            Console.WriteLine($&quot;Multiple[1]: {multiple[1]}&quot;); // Multiple[1]: World
+            Console.WriteLine($&quot;Single.Count: {single.Count}&quot;); // Single.Count: 1
+            Console.WriteLine($&quot;Multiple.IsNullOrEmpty: {StringValues.IsNullOrEmpty(multiple)}&quot;); // Multiple.IsNullOrEmpty: False
+
+            // Use the Equals method or the == operator to compare two StringValues objects
+            Console.WriteLine($&quot;single == \&quot;Hello\&quot;: {single == &quot;Hello&quot;}&quot;); // single == &quot;Hello&quot;: True
+            Console.WriteLine($&quot;multiple == \&quot;Hello\&quot;: {multiple == &quot;Hello&quot;}&quot;); // multiple == &quot;Hello&quot;: False
+       }
+    }
+}
+</code></pre>
+<h2 id="main-types">Main Types</h2>
+<p>The main types provided by this library are:</p>
+<ul>
+<li><code>IChangeToken</code></li>
+<li><code>StringValues</code></li>
+<li><code>StringSegment</code></li>
+</ul>
+<h2 id="additional-documentation">Additional Documentation</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/core/extensions/primitives">Conceptual documentation</a></li>
+<li><a href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.primitives">API documentation</a></li>
+</ul>
+<h2 id="related-packages">Related Packages</h2>
+<ul>
+<li><a href="https://www.nuget.org/packages/Microsoft.Extensions.Configuration">Microsoft.Extensions.Configuration</a></li>
+</ul>
+<h2 id="feedback--contributing">Feedback &amp; Contributing</h2>
+<p>Microsoft.Extensions.Primitives is released as open source under the <a href="https://licenses.nuget.org/MIT">MIT license</a>. Bug reports and contributions are welcome at <a href="https://github.com/dotnet/runtime">the GitHub repository</a>.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

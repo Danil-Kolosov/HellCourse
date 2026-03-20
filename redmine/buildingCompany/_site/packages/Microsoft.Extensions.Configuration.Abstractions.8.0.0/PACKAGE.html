@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title> | mysite </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content=" | mysite ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="mysite">
+            mysite
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+
+<h2 id="about">About</h2>
+<!-- A description of the package and where one can find more documentation -->
+<p>Provides abstractions of key-value pair based configuration. Interfaces defined in this package are implemented by classes in <a href="https://www.nuget.org/packages/Microsoft.Extensions.Configuration/">Microsoft.Extensions.Configuration</a> and other configuration packages.</p>
+<h2 id="key-features">Key Features</h2>
+<!-- The key features of this package -->
+<ul>
+<li>Abstractions for string key-value pair configuration sources and sections</li>
+<li>Path conventions of keys establishing a heirachy of values</li>
+<li>Support for multiple configuration sources, aggregating and defining precdence for values</li>
+<li>Support for reload on change</li>
+</ul>
+<h2 id="how-to-use">How to Use</h2>
+<!-- A compelling example on how to use this package with code, as well as any specific guidelines for when to use the package -->
+<p>The example below shows a small code sample using this library and trying out the <code>ConfigurationKeyName</code> attribute available since .NET 6:</p>
+<pre><code class="lang-cs">public class MyClass
+{
+    [ConfigurationKeyName(&quot;named_property&quot;)]
+    public string NamedProperty { get; set; }
+}
+</code></pre>
+<p>Given the simple class above, we can create a dictionary to hold the configuration data and use it as the memory source to build a configuration section:</p>
+<pre><code class="lang-cs">var dic = new Dictionary&lt;string, string&gt;
+{
+    {&quot;named_property&quot;, &quot;value for named property&quot;},
+};
+
+var config = new ConfigurationBuilder()
+    .AddInMemoryCollection(dic)
+    .Build();
+
+var options = config.Get&lt;MyClass&gt;();
+Console.WriteLine(options.NamedProperty); // returns &quot;value for named property&quot;
+</code></pre>
+<h2 id="main-types">Main Types</h2>
+<!-- The main types provided in this library -->
+<p>The main types provided by this library are:</p>
+<ul>
+<li><code>Microsoft.Extensions.Configuration.IConfiguration</code></li>
+<li><code>Microsoft.Extensions.Configuration.IConfigurationBuilder</code></li>
+<li><code>Microsoft.Extensions.Configuration.IConfigurationProvider</code></li>
+<li><code>Microsoft.Extensions.Configuration.IConfigurationRoot</code></li>
+<li><code>Microsoft.Extensions.Configuration.IConfigurationSection</code></li>
+</ul>
+<h2 id="additional-documentation">Additional Documentation</h2>
+<!-- Links to further documentation -->
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/core/extensions/configuration">Configuration in .NET</a></li>
+<li><a href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.configuration">API documentation</a></li>
+</ul>
+<h2 id="related-packages">Related Packages</h2>
+<!-- The related packages associated with this package -->
+<ul>
+<li><a href="https://www.nuget.org/packages/Microsoft.Extensions.Configuration">Microsoft.Extensions.Configuration</a></li>
+<li><a href="https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Binder">Microsoft.Extensions.Configuration.Binder</a></li>
+<li><a href="https://www.nuget.org/packages/Microsoft.Extensions.Configuration.CommandLine">Microsoft.Extensions.Configuration.CommandLine</a></li>
+<li><a href="https://www.nuget.org/packages/Microsoft.Extensions.Configuration.EnvironmentVariables">Microsoft.Extensions.Configuration.EnvironmentVariables</a></li>
+<li><a href="https://www.nuget.org/packages/Microsoft.Extensions.Configuration.FileExtensions">Microsoft.Extensions.Configuration.FileExtensions</a></li>
+<li><a href="https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Ini">Microsoft.Extensions.Configuration.Ini</a></li>
+<li><a href="https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Json">Microsoft.Extensions.Configuration.Json</a></li>
+<li><a href="https://www.nuget.org/packages/Microsoft.Extensions.Configuration.UserSecrets">Microsoft.Extensions.Configuration.UserSecrets</a></li>
+<li><a href="https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Xml">Microsoft.Extensions.Configuration.Xml</a></li>
+</ul>
+<h2 id="feedback--contributing">Feedback &amp; Contributing</h2>
+<!-- How to provide feedback on this package and contribute to it -->
+<p>Microsoft.Extensions.Caching.Abstractions is released as open source under the <a href="https://licenses.nuget.org/MIT">MIT license</a>. Bug reports and contributions are welcome at <a href="https://github.com/dotnet/runtime">the GitHub repository</a>.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

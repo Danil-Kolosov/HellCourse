@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: buildingCompany.Pages.WorkTypes
+  commentId: N:buildingCompany.Pages.WorkTypes
+  id: buildingCompany.Pages.WorkTypes
+  children:
+  - buildingCompany.Pages.WorkTypes.IndexModel
+  langs:
+  - csharp
+  - vb
+  name: buildingCompany.Pages.WorkTypes
+  nameWithType: buildingCompany.Pages.WorkTypes
+  fullName: buildingCompany.Pages.WorkTypes
+  type: Namespace
+  assemblies:
+  - buildingCompany
+references:
+- uid: buildingCompany.Pages.WorkTypes.IndexModel
+  commentId: T:buildingCompany.Pages.WorkTypes.IndexModel
+  href: buildingCompany.Pages.WorkTypes.IndexModel.html
+  name: IndexModel
+  nameWithType: IndexModel
+  fullName: buildingCompany.Pages.WorkTypes.IndexModel

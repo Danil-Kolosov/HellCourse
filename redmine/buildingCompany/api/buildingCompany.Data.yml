@@ -1,0 +1,46 @@
+### YamlMime:ManagedReference
+items:
+- uid: buildingCompany.Data
+  commentId: N:buildingCompany.Data
+  id: buildingCompany.Data
+  children:
+  - buildingCompany.Data.AppDbContext
+  langs:
+  - csharp
+  - vb
+  name: buildingCompany.Data
+  nameWithType: buildingCompany.Data
+  fullName: buildingCompany.Data
+  type: Namespace
+  assemblies:
+  - buildingCompany
+references:
+- uid: buildingCompany.Data.AppDbContext
+  commentId: T:buildingCompany.Data.AppDbContext
+  parent: buildingCompany.Data
+  href: buildingCompany.Data.AppDbContext.html
+  name: AppDbContext
+  nameWithType: AppDbContext
+  fullName: buildingCompany.Data.AppDbContext
+- uid: buildingCompany.Data
+  commentId: N:buildingCompany.Data
+  href: buildingCompany.html
+  name: buildingCompany.Data
+  nameWithType: buildingCompany.Data
+  fullName: buildingCompany.Data
+  spec.csharp:
+  - uid: buildingCompany
+    name: buildingCompany
+    href: buildingCompany.html
+  - name: .
+  - uid: buildingCompany.Data
+    name: Data
+    href: buildingCompany.Data.html
+  spec.vb:
+  - uid: buildingCompany
+    name: buildingCompany
+    href: buildingCompany.html
+  - name: .
+  - uid: buildingCompany.Data
+    name: Data
+    href: buildingCompany.Data.html

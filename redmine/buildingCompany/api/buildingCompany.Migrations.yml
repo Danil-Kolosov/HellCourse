@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: buildingCompany.Migrations
+  commentId: N:buildingCompany.Migrations
+  id: buildingCompany.Migrations
+  children:
+  - buildingCompany.Migrations.AddRowVersion
+  - buildingCompany.Migrations.InitialCreate
+  langs:
+  - csharp
+  - vb
+  name: buildingCompany.Migrations
+  nameWithType: buildingCompany.Migrations
+  fullName: buildingCompany.Migrations
+  type: Namespace
+  assemblies:
+  - buildingCompany
+references:
+- uid: buildingCompany.Migrations.InitialCreate
+  commentId: T:buildingCompany.Migrations.InitialCreate
+  href: buildingCompany.Migrations.InitialCreate.html
+  name: InitialCreate
+  nameWithType: InitialCreate
+  fullName: buildingCompany.Migrations.InitialCreate
+- uid: buildingCompany.Migrations.AddRowVersion
+  commentId: T:buildingCompany.Migrations.AddRowVersion
+  href: buildingCompany.Migrations.AddRowVersion.html
+  name: AddRowVersion
+  nameWithType: AddRowVersion
+  fullName: buildingCompany.Migrations.AddRowVersion

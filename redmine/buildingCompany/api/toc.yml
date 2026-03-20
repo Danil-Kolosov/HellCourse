@@ -1,0 +1,104 @@
+### YamlMime:TableOfContent
+items:
+- uid: Test
+  name: Test
+  type: Namespace
+  items:
+  - uid: Test.Test1
+    name: Test1
+    type: Class
+- uid: Tests
+  name: Tests
+  type: Namespace
+  items:
+  - uid: Tests.Test1
+    name: Test1
+    type: Class
+- uid: buildingCompany
+  name: buildingCompany
+  type: Namespace
+  items:
+  - uid: buildingCompany.UnitTest1
+    name: UnitTest1
+    type: Class
+- uid: buildingCompany.Data
+  name: buildingCompany.Data
+  type: Namespace
+  items:
+  - uid: buildingCompany.Data.AppDbContext
+    name: AppDbContext
+    type: Class
+- uid: buildingCompany.Migrations
+  name: buildingCompany.Migrations
+  type: Namespace
+  items:
+  - uid: buildingCompany.Migrations.AddRowVersion
+    name: AddRowVersion
+    type: Class
+  - uid: buildingCompany.Migrations.InitialCreate
+    name: InitialCreate
+    type: Class
+- uid: buildingCompany.Models
+  name: buildingCompany.Models
+  type: Namespace
+  items:
+  - uid: buildingCompany.Models.BuildingSite
+    name: BuildingSite
+    type: Class
+  - uid: buildingCompany.Models.Employee
+    name: Employee
+    type: Class
+  - uid: buildingCompany.Models.WorkLog
+    name: WorkLog
+    type: Class
+  - uid: buildingCompany.Models.WorkType
+    name: WorkType
+    type: Class
+- uid: buildingCompany.Pages
+  name: buildingCompany.Pages
+  type: Namespace
+  items:
+  - uid: buildingCompany.Pages.ErrorModel
+    name: ErrorModel
+    type: Class
+  - uid: buildingCompany.Pages.IndexModel
+    name: IndexModel
+    type: Class
+  - uid: buildingCompany.Pages.PrivacyModel
+    name: PrivacyModel
+    type: Class
+- uid: buildingCompany.Pages.BuildingSites
+  name: buildingCompany.Pages.BuildingSites
+  type: Namespace
+  items:
+  - uid: buildingCompany.Pages.BuildingSites.IndexModel
+    name: IndexModel
+    type: Class
+- uid: buildingCompany.Pages.Employees
+  name: buildingCompany.Pages.Employees
+  type: Namespace
+  items:
+  - uid: buildingCompany.Pages.Employees.IndexModel
+    name: IndexModel
+    type: Class
+  - uid: buildingCompany.Pages.Employees.Testing
+    name: Testing
+    type: Class
+- uid: buildingCompany.Pages.WorkLogs
+  name: buildingCompany.Pages.WorkLogs
+  type: Namespace
+  items:
+  - uid: buildingCompany.Pages.WorkLogs.AssignModel
+    name: AssignModel
+    type: Class
+  - uid: buildingCompany.Pages.WorkLogs.IndexModel
+    name: IndexModel
+    type: Class
+- uid: buildingCompany.Pages.WorkTypes
+  name: buildingCompany.Pages.WorkTypes
+  type: Namespace
+  items:
+  - uid: buildingCompany.Pages.WorkTypes.IndexModel
+    name: IndexModel
+    type: Class
+memberLayout: SamePage

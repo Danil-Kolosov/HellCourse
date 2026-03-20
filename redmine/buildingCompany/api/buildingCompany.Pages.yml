@@ -1,0 +1,37 @@
+### YamlMime:ManagedReference
+items:
+- uid: buildingCompany.Pages
+  commentId: N:buildingCompany.Pages
+  id: buildingCompany.Pages
+  children:
+  - buildingCompany.Pages.ErrorModel
+  - buildingCompany.Pages.IndexModel
+  - buildingCompany.Pages.PrivacyModel
+  langs:
+  - csharp
+  - vb
+  name: buildingCompany.Pages
+  nameWithType: buildingCompany.Pages
+  fullName: buildingCompany.Pages
+  type: Namespace
+  assemblies:
+  - buildingCompany
+references:
+- uid: buildingCompany.Pages.ErrorModel
+  commentId: T:buildingCompany.Pages.ErrorModel
+  href: buildingCompany.Pages.ErrorModel.html
+  name: ErrorModel
+  nameWithType: ErrorModel
+  fullName: buildingCompany.Pages.ErrorModel
+- uid: buildingCompany.Pages.IndexModel
+  commentId: T:buildingCompany.Pages.IndexModel
+  href: buildingCompany.Pages.IndexModel.html
+  name: IndexModel
+  nameWithType: IndexModel
+  fullName: buildingCompany.Pages.IndexModel
+- uid: buildingCompany.Pages.PrivacyModel
+  commentId: T:buildingCompany.Pages.PrivacyModel
+  href: buildingCompany.Pages.PrivacyModel.html
+  name: PrivacyModel
+  nameWithType: PrivacyModel
+  fullName: buildingCompany.Pages.PrivacyModel

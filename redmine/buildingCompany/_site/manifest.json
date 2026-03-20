@@ -1,0 +1,678 @@
+{
+  "source_base_path": "D:/pnrpu/redmine/lab-project/buildingCompany",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Test.Test1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Test.Test1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Test.Test1",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Test.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Test.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Test",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tests.Test1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tests.Test1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Tests.Test1",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Tests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Tests.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Tests",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Data.AppDbContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Data.AppDbContext.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Data.AppDbContext",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Data.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Data.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Data",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Migrations.AddRowVersion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Migrations.AddRowVersion.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Migrations.AddRowVersion",
+      "Summary": "<p sourcefile=\"api/buildingCompany.Migrations.AddRowVersion.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Migrations.InitialCreate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Migrations.InitialCreate.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Migrations.InitialCreate",
+      "Summary": "<p sourcefile=\"api/buildingCompany.Migrations.InitialCreate.yml\" sourcestartlinenumber=\"1\">A base class inherited by each EF Core migration.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Migrations.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Migrations.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Migrations",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Models.BuildingSite.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Models.BuildingSite.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Models.BuildingSite",
+      "Summary": "<p sourcefile=\"api/buildingCompany.Models.BuildingSite.yml\" sourcestartlinenumber=\"1\">Класс, представляющий строительный объект.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Models.Employee.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Models.Employee.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Models.Employee",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Models.WorkLog.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Models.WorkLog.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Models.WorkLog",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Models.WorkType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Models.WorkType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Models.WorkType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Models.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Models",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.BuildingSites.IndexModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.BuildingSites.IndexModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.BuildingSites.IndexModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.BuildingSites.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.BuildingSites.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.BuildingSites",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.Employees.IndexModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.Employees.IndexModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.Employees.IndexModel",
+      "Summary": "<p sourcefile=\"api/buildingCompany.Pages.Employees.IndexModel.yml\" sourcestartlinenumber=\"1\">Страница управления сотрудниками строительной компании.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.Employees.Testing.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.Employees.Testing.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.Employees.Testing",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.Employees.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.Employees.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.Employees",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.ErrorModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.ErrorModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.ErrorModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.IndexModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.IndexModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.IndexModel",
+      "Summary": "<p sourcefile=\"api/buildingCompany.Pages.IndexModel.yml\" sourcestartlinenumber=\"1\">Главная страница приложения.\nОтображает приветствие и основную информацию о компании.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.PrivacyModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.PrivacyModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.PrivacyModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.WorkLogs.AssignModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.WorkLogs.AssignModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.WorkLogs.AssignModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.WorkLogs.IndexModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.WorkLogs.IndexModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.WorkLogs.IndexModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.WorkLogs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.WorkLogs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.WorkLogs",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.WorkTypes.IndexModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.WorkTypes.IndexModel.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.WorkTypes.IndexModel",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.WorkTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.WorkTypes.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages.WorkTypes",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.Pages.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.Pages.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.Pages",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.UnitTest1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.UnitTest1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany.UnitTest1",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/buildingCompany.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/buildingCompany.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "buildingCompany",
+      "Summary": null
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "buildingCompany/wwwroot/lib/jquery-validation/LICENSE.md",
+      "output": {
+        ".html": {
+          "relative_path": "buildingCompany/wwwroot/lib/jquery-validation/LICENSE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/getting-started.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/introduction.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/introduction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "docs/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/toc.html"
+        },
+        ".json": {
+          "relative_path": "docs/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Microsoft.Bcl.AsyncInterfaces.8.0.0/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Microsoft.Bcl.AsyncInterfaces.8.0.0/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Microsoft.Extensions.Caching.Abstractions.8.0.0/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Microsoft.Extensions.Caching.Abstractions.8.0.0/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Microsoft.Extensions.Caching.Memory.8.0.1/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Microsoft.Extensions.Caching.Memory.8.0.1/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Microsoft.Extensions.Configuration.Abstractions.8.0.0/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Microsoft.Extensions.Configuration.Abstractions.8.0.0/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Microsoft.Extensions.DependencyInjection.8.0.1/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Microsoft.Extensions.DependencyInjection.8.0.1/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Microsoft.Extensions.DependencyInjection.Abstractions.8.0.2/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Microsoft.Extensions.DependencyInjection.Abstractions.8.0.2/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Microsoft.Extensions.FileProviders.Abstractions.8.0.0/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Microsoft.Extensions.FileProviders.Abstractions.8.0.0/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Microsoft.Extensions.Hosting.Abstractions.8.0.1/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Microsoft.Extensions.Hosting.Abstractions.8.0.1/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Microsoft.Extensions.Logging.Abstractions.8.0.2/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Microsoft.Extensions.Logging.Abstractions.8.0.2/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Microsoft.Extensions.Options.8.0.2/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Microsoft.Extensions.Options.8.0.2/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Microsoft.Extensions.Primitives.8.0.0/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Microsoft.Extensions.Primitives.8.0.0/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Newtonsoft.Json.13.0.1/LICENSE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Newtonsoft.Json.13.0.1/LICENSE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/Newtonsoft.Json.Bson.1.0.2/LICENSE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/Newtonsoft.Json.Bson.1.0.2/LICENSE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/System.Buffers.4.6.0/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/System.Buffers.4.6.0/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/System.Runtime.CompilerServices.Unsafe.6.1.0/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/System.Runtime.CompilerServices.Unsafe.6.1.0/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "packages/System.Threading.Tasks.Extensions.4.6.0/PACKAGE.md",
+      "output": {
+        ".html": {
+          "relative_path": "packages/System.Threading.Tasks.Extensions.4.6.0/PACKAGE.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

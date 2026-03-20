@@ -8,34 +8,90 @@ using Microsoft.EntityFrameworkCore;
 
 namespace buildingCompany.Pages.Employees;
 
+/// <summary>
+/// Страница управления сотрудниками строительной компании.
+/// </summary>
+/// <remarks>
+/// <para>Страница поддерживает следующие операции:</para>
+/// <list type="bullet">
+/// <item><description>Просмотр списка всех сотрудников</description></item>
+/// <item><description>Добавление нового сотрудника</description></item>
+/// <item><description>Редактирование данных сотрудника</description></item>
+/// <item><description>Удаление сотрудника с проверкой связей</description></item>
+/// </list>
+/// <para>Реализована оптимистическая блокировка (optimistic concurrency) через поле RowVersion.</para>
+/// </remarks>
 public class IndexModel : PageModel
 {
     private readonly string _connectionString;
 
+    /// <summary>
+    /// Инициализирует новый экземпляр страницы сотрудников.
+    /// </summary>
+    /// <param name="configuration">Конфигурация приложения для получения строки подключения к БД.</param>
+    /// <exception cref="ArgumentNullException">Выбрасывается, если configuration равен null.</exception>
     public IndexModel(IConfiguration configuration)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection");
     }
 
+    /// <summary>
+    /// Список всех сотрудников для отображения на странице.
+    /// </summary>
     public List<Employee> Employees { get; set; } = new();
 
+    /// <summary>
+    /// Идентификатор редактируемого сотрудника.
+    /// </summary>
     [BindProperty]
     public int EmployeeId { get; set; }
 
+    /// <summary>
+    /// Полное имя сотрудника (Фамилия Имя Отчество).
+    /// </summary>
+    /// <remarks>Поле обязательно для заполнения.</remarks>
     [BindProperty]
     public string FullName { get; set; } = string.Empty;
 
+    /// <summary>
+    /// Должность сотрудника.
+    /// </summary>
+    /// <example>Маляр, Плотник, Разнорабочий</example>
     [BindProperty]
     public string Position { get; set; } = string.Empty;
 
+
+    /// <summary>
+    /// Версия записи для оптимистической блокировки.
+    /// Используется для предотвращения конфликтов при одновременном редактировании.
+    /// </summary>
     [BindProperty]
     public byte[]? RowVersion { get; set; }
 
+    /// <summary>
+    /// Сообщение об ошибке при конфликте версий.
+    /// </summary>
     public string? ConcurrencyError { get; set; }
 
+    /// <summary>
+    /// Флаг отображения формы добавления/редактирования.
+    /// </summary>
     public bool ShowForm { get; set; }
+
+    /// <summary>
+    /// Флаг, указывающий, находится ли форма в режиме редактирования.
+    /// </summary>
     public bool IsEditMode { get; set; }
 
+    /// <summary>
+    /// Обработчик GET-запроса для страницы сотрудников.
+    /// </summary>
+    /// <param name="create">Если true, открывает форму для создания нового сотрудника.</param>
+    /// <param name="editId">Если указан, открывает форму для редактирования сотрудника с данным ID.</param>    
+    /// <remarks>
+    /// Метод загружает список всех сотрудников и, при необходимости,
+    /// открывает форму для создания или редактирования.
+    /// </remarks>
     public async Task OnGetAsync(bool? create, int? editId)
     {
         ConcurrencyError = null;
@@ -95,7 +151,7 @@ public class IndexModel : PageModel
     {
         using var connection = new SqliteConnection(_connectionString);
         await connection.OpenAsync();
-    
+
         var sql = "SELECT Id, FullName, Position, RowVersion FROM Employees WHERE Id = $id";
 
         using var command = new SqliteCommand(sql, connection);
@@ -164,6 +220,18 @@ public class IndexModel : PageModel
         }
     }
 
+    /// <summary>
+    /// Обработчик POST-запроса для обновления существующего сотрудника.
+    /// </summary>
+    /// <returns>Перенаправление на страницу списка сотрудников при успехе, иначе возврат к странице с ошибкой.</returns>
+    /// <remarks>
+    /// <para>Реализует оптимистическую блокировку (optimistic concurrency):</para>
+    /// <list type="bullet">
+    /// <item><description>Проверяет версию записи перед обновлением</description></item>
+    /// <item><description>При обнаружении конфликта отображает актуальные данные</description></item>
+    /// <item><description>Генерирует новую версию при успешном обновлении</description></item>
+    /// </list>
+    /// </remarks>
     public async Task<IActionResult> OnPostUpdateAsync()
     {
         ModelState.Remove("RowVersion");
@@ -286,7 +354,7 @@ public class IndexModel : PageModel
     }
 
     public async Task<IActionResult> OnPostDeleteAsync(int deleteId)
-    {        
+    {
         try
         {
             using var connection = new SqliteConnection(_connectionString);

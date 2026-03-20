@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title> | mysite </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content=" | mysite ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../../toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="mysite">
+            mysite
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+
+      <div class="content">
+        <div class="actionbar">
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+
+<h2 id="about">About</h2>
+<p>Supports the lower-level abstractions for the dependency injection (DI) software design pattern which is a technique for achieving Inversion of Control (IoC) between classes and their dependencies.</p>
+<h2 id="key-features">Key Features</h2>
+<ul>
+<li>Interfaces for DI implementations which are provided in other packages including <code>Microsoft.Extensions.DependencyInjection</code>.</li>
+<li>An implementation of a service collection, which is used to add services to and later retrieve them either directly or through constructor injection.</li>
+<li>Interfaces, attributes and extensions methods to support various DI concepts including specifying a service's lifetime and supporting keyed services.</li>
+</ul>
+<h2 id="how-to-use">How to Use</h2>
+<p>This package is typically used with an implementation of the DI abstractions, such as <code>Microsoft.Extensions.DependencyInjection</code>.</p>
+<h2 id="main-types">Main Types</h2>
+<p>The main types provided by this library are:</p>
+<ul>
+<li><code>Microsoft.Extensions.DependencyInjection.ActivatorUtilities</code></li>
+<li><code>Microsoft.Extensions.DependencyInjection.IServiceCollection</code></li>
+<li><code>Microsoft.Extensions.DependencyInjection.ServiceCollection</code></li>
+<li><code>Microsoft.Extensions.DependencyInjection.ServiceCollectionDescriptorExtensions</code></li>
+<li><code>Microsoft.Extensions.DependencyInjection.ServiceDescriptor</code></li>
+<li><code>Microsoft.Extensions.DependencyInjection.IServiceProviderFactory&lt;TContainerBuilder&gt;</code></li>
+</ul>
+<h2 id="additional-documentation">Additional Documentation</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/core/extensions/dependency-injection">Conceptual documentation</a></li>
+<li>API documentation
+<ul>
+<li><a href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.defaultserviceproviderfactory">ActivatorUtilities</a></li>
+<li><a href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.servicecollection">ServiceCollection</a></li>
+<li><a href="https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.servicedescriptor">ServiceDescriptor</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="related-packages">Related Packages</h2>
+<ul>
+<li><code>Microsoft.Extensions.DependencyInjection</code></li>
+<li><code>Microsoft.Extensions.Hosting</code></li>
+<li><code>Microsoft.Extensions.Options</code></li>
+</ul>
+<h2 id="feedback--contributing">Feedback &amp; Contributing</h2>
+<p>Microsoft.Extensions.DependencyInjection.Abstractions is released as open source under the <a href="https://licenses.nuget.org/MIT">MIT license</a>. Bug reports and contributions are welcome at <a href="https://github.com/dotnet/runtime">the GitHub repository</a>.</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

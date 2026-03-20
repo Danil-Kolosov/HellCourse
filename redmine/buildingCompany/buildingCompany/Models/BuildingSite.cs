@@ -2,6 +2,9 @@
 
 namespace buildingCompany.Models
 {
+    /// <summary>
+    /// Класс, представляющий строительный объект.
+    /// </summary>
     public class BuildingSite
     {
         public int Id { get; set; }
