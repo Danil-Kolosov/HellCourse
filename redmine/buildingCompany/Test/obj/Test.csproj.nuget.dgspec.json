@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\Test\\Test.csproj": {}
+    "D:\\pnrpu\\git\\HellCourse\\redmine\\buildingCompany\\Test\\Test.csproj": {}
   },
   "projects": {
-    "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\buildingCompany.csproj": {
+    "D:\\pnrpu\\git\\HellCourse\\redmine\\buildingCompany\\buildingCompany\\buildingCompany.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\buildingCompany.csproj",
+        "projectUniqueName": "D:\\pnrpu\\git\\HellCourse\\redmine\\buildingCompany\\buildingCompany\\buildingCompany.csproj",
         "projectName": "buildingCompany",
-        "projectPath": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\buildingCompany.csproj",
+        "projectPath": "D:\\pnrpu\\git\\HellCourse\\redmine\\buildingCompany\\buildingCompany\\buildingCompany.csproj",
         "packagesPath": "C:\\Users\\Данил\\.nuget\\packages\\",
-        "outputPath": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\obj\\",
+        "outputPath": "D:\\pnrpu\\git\\HellCourse\\redmine\\buildingCompany\\buildingCompany\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -104,14 +104,14 @@
         }
       }
     },
-    "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\Test\\Test.csproj": {
+    "D:\\pnrpu\\git\\HellCourse\\redmine\\buildingCompany\\Test\\Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\Test\\Test.csproj",
+        "projectUniqueName": "D:\\pnrpu\\git\\HellCourse\\redmine\\buildingCompany\\Test\\Test.csproj",
         "projectName": "Test",
-        "projectPath": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\Test\\Test.csproj",
+        "projectPath": "D:\\pnrpu\\git\\HellCourse\\redmine\\buildingCompany\\Test\\Test.csproj",
         "packagesPath": "C:\\Users\\Данил\\.nuget\\packages\\",
-        "outputPath": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\Test\\obj\\",
+        "outputPath": "D:\\pnrpu\\git\\HellCourse\\redmine\\buildingCompany\\Test\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -132,8 +132,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\buildingCompany.csproj": {
-                "projectPath": "D:\\pnrpu\\git\\HellCourse\\lab-project\\buildingCompany\\buildingCompany\\buildingCompany.csproj"
+              "D:\\pnrpu\\git\\HellCourse\\redmine\\buildingCompany\\buildingCompany\\buildingCompany.csproj": {
+                "projectPath": "D:\\pnrpu\\git\\HellCourse\\redmine\\buildingCompany\\buildingCompany\\buildingCompany.csproj"
               }
             }
           }

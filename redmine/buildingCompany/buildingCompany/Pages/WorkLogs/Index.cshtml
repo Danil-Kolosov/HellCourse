@@ -28,7 +28,7 @@
 @if (Model.ShowEditForm && Model.EditWorkLog != null)
 {
         <div class="card mb-4">
-            <div class="card-header">Редактирование записи #@Model.EditWorkLog.Id</div>
+            <div class="card-header">Редактирование записи</div>
             <div class="card-body">
                 <form method="post" asp-page-handler="Update">
                     <input type="hidden" name="EditId" value="@Model.EditWorkLog.Id" />
@@ -87,7 +87,6 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Объект</th>
             <th>Вид работы</th>
             <th>Сотрудник</th>
@@ -102,7 +101,6 @@
             @foreach (var log in Model.WorkLogs)
             {
                         <tr>
-                            <td>@log.Id</td>
                             <td>@log.BuildingSite?.Name</td>
                             <td>@log.WorkType?.Title</td>
                             <td>@(log.Employee?.FullName ?? "Не назначен")</td>

@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using buildingCompany.Models;
-using buildingCompany.Data;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 
 namespace buildingCompany.Pages.WorkTypes
 {
     public class IndexModel : PageModel
     {
-        private readonly AppDbContext _context;
+        private readonly string _connectionString;
 
-        public IndexModel(AppDbContext context)
+        public IndexModel(IConfiguration configuration)
         {
-            _context = context;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public List<WorkType> Items { get; set; } = new();
@@ -40,13 +40,7 @@ namespace buildingCompany.Pages.WorkTypes
                 // Удаление (если передан deleteId)
                 if (deleteId.HasValue)
                 {
-                    var item = await _context.WorkTypes.FindAsync(deleteId.Value);
-                    if (item != null)
-                    {
-                        _context.WorkTypes.Remove(item);
-                        await _context.SaveChangesAsync();
-                        TempData["Success"] = $"Вид работ {item.Title} удален";
-                    }
+                    await DeleteWorkTypeAsync(deleteId.Value);
                 }
 
                 // Режим создания
@@ -60,7 +54,7 @@ namespace buildingCompany.Pages.WorkTypes
                 // Режим редактирования
                 else if (editId.HasValue)
                 {
-                    var item = await _context.WorkTypes.FindAsync(editId.Value);
+                    var item = await GetWorkTypeByIdAsync(editId.Value);
                     if (item != null)
                     {
                         ShowForm = true;
@@ -71,13 +65,114 @@ namespace buildingCompany.Pages.WorkTypes
                 }
 
                 // Загрузка списка
-                Items = await _context.WorkTypes.ToListAsync();
+                Items = await GetAllWorkTypesAsync();
                 Console.WriteLine($"Загружено видов работ: {Items.Count}");
             }
             catch (Exception ex)
             {
                 TempData["Error"] = $"Ошибка: {ex.Message}";
                 Console.WriteLine($"Ошибка в OnGetAsync: {ex}");
+            }
+        }
+
+        private async Task<List<WorkType>> GetAllWorkTypesAsync()
+        {
+            var workTypes = new List<WorkType>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var sql = "SELECT Id, Title, PricePerHour FROM WorkTypes ORDER BY Title";
+
+            using var command = new SqliteCommand(sql, connection);
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                workTypes.Add(new WorkType
+                {
+                    Id = reader.GetInt32(0),
+                    Title = reader.GetString(1),
+                    PricePerHour = reader.GetDecimal(2)
+                });
+            }
+
+            return workTypes;
+        }
+
+        private async Task<WorkType?> GetWorkTypeByIdAsync(int id)
+        {
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var sql = "SELECT Id, Title, PricePerHour FROM WorkTypes WHERE Id = $id";
+
+            using var command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("$id", id);
+
+            using var reader = await command.ExecuteReaderAsync();
+
+            if (await reader.ReadAsync())
+            {
+                return new WorkType
+                {
+                    Id = reader.GetInt32(0),
+                    Title = reader.GetString(1),
+                    PricePerHour = reader.GetDecimal(2)
+                };
+            }
+
+            return null;
+        }
+
+        private async Task DeleteWorkTypeAsync(int id)
+        {
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            // Проверяем наличие связанных записей в WorkLogs
+            var checkLogsSql = "SELECT COUNT(*) FROM WorkLogs WHERE WorkTypeId = $id";
+            int workLogsCount = 0;
+
+            using (var checkCommand = new SqliteCommand(checkLogsSql, connection))
+            {
+                checkCommand.Parameters.AddWithValue("$id", id);
+                workLogsCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+            }
+
+            if (workLogsCount > 0)
+            {
+                TempData["Error"] =
+                    $"Невозможно удалить вид работ. Он используется в {workLogsCount} " +
+                    $"записях журнала работ. Пожалуйста, сначала удалите эти записи.";
+                return;
+            }
+
+            // Получаем название для сообщения
+            var getNameSql = "SELECT Title FROM WorkTypes WHERE Id = $id";
+            string? title = null;
+
+            using (var getNameCommand = new SqliteCommand(getNameSql, connection))
+            {
+                getNameCommand.Parameters.AddWithValue("$id", id);
+                title = await getNameCommand.ExecuteScalarAsync() as string;
+            }
+
+            // Удаляем запись
+            var deleteSql = "DELETE FROM WorkTypes WHERE Id = $id";
+            using var deleteCommand = new SqliteCommand(deleteSql, connection);
+            deleteCommand.Parameters.AddWithValue("$id", id);
+
+            var rowsAffected = await deleteCommand.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0 && !string.IsNullOrEmpty(title))
+            {
+                TempData["Success"] = $"Вид работ {title} удален";
+                Console.WriteLine($"Вид работ {title} удален");
+            }
+            else
+            {
+                TempData["Error"] = "Запись не найдена";
             }
         }
 
@@ -93,32 +188,27 @@ namespace buildingCompany.Pages.WorkTypes
                     Console.WriteLine("Поля некорректны");
                     ModelState.AddModelError("", "Все поля должны быть заполнены корректно");
                     ShowForm = true;
-                    Items = await _context.WorkTypes.ToListAsync();
+                    Items = await GetAllWorkTypesAsync();
                     return Page();
                 }
 
-                var item = new WorkType
-                {
-                    Title = Title.Trim(),
-                    PricePerHour = PricePerHour
-                };
+                using var connection = new SqliteConnection(_connectionString);
+                await connection.OpenAsync();
 
-                Console.WriteLine($"Добавление вида работ: {item.Title}, {item.PricePerHour}");
+                var sql = @"
+                    INSERT INTO WorkTypes (Title, PricePerHour) 
+                    VALUES ($title, $pricePerHour);
+                    SELECT last_insert_rowid();";
 
-                _context.WorkTypes.Add(item);
-                var result = await _context.SaveChangesAsync();
+                using var command = new SqliteCommand(sql, connection);
+                command.Parameters.AddWithValue("$title", Title.Trim());
+                command.Parameters.AddWithValue("$pricePerHour", PricePerHour);
 
-                Console.WriteLine($"SaveChangesAsync результат: {result}");
-                Console.WriteLine($"ID нового вида работ: {item.Id}");
+                var newId = await command.ExecuteScalarAsync();
 
-                if (result > 0)
-                {
-                    TempData["Success"] = $"Вид работ {item.Title} успешно добавлен";
-                }
-                else
-                {
-                    TempData["Error"] = "Не удалось добавить вид работ";
-                }
+                Console.WriteLine($"ID нового вида работ: {newId}");
+
+                TempData["Success"] = $"Вид работ {Title.Trim()} успешно добавлен";
 
                 return RedirectToPage("Index");
             }
@@ -127,7 +217,7 @@ namespace buildingCompany.Pages.WorkTypes
                 Console.WriteLine($"Ошибка в OnPostCreateAsync: {ex}");
                 ModelState.AddModelError("", $"Ошибка при сохранении: {ex.Message}");
                 ShowForm = true;
-                Items = await _context.WorkTypes.ToListAsync();
+                Items = await GetAllWorkTypesAsync();
                 return Page();
             }
         }
@@ -143,30 +233,52 @@ namespace buildingCompany.Pages.WorkTypes
                 {
                     ModelState.AddModelError("", "Некорректный ID");
                     ShowForm = true;
-                    Items = await _context.WorkTypes.ToListAsync();
+                    Items = await GetAllWorkTypesAsync();
                     return Page();
                 }
 
-                var item = await _context.WorkTypes.FindAsync(ItemId);
-                if (item == null)
+                if (string.IsNullOrWhiteSpace(Title) || PricePerHour <= 0)
                 {
-                    Console.WriteLine($"Вид работ не найден");
-                    ModelState.AddModelError("", "Запись не найдена");
+                    ModelState.AddModelError("", "Все поля должны быть заполнены корректно");
                     ShowForm = true;
-                    Items = await _context.WorkTypes.ToListAsync();
+                    Items = await GetAllWorkTypesAsync();
                     return Page();
                 }
 
-                item.Title = Title.Trim();
-                item.PricePerHour = PricePerHour;
+                using var connection = new SqliteConnection(_connectionString);
+                await connection.OpenAsync();
 
-                var result = await _context.SaveChangesAsync();
-
-                Console.WriteLine($"SaveChangesAsync результат: {result}");
-
-                if (result > 0)
+                // Проверяем существование записи
+                var checkSql = "SELECT Id FROM WorkTypes WHERE Id = $id";
+                using (var checkCommand = new SqliteCommand(checkSql, connection))
                 {
-                    TempData["Success"] = $"Вид работ {item.Title} обновлен";
+                    checkCommand.Parameters.AddWithValue("$id", ItemId);
+                    var exists = await checkCommand.ExecuteScalarAsync();
+
+                    if (exists == null)
+                    {
+                        Console.WriteLine($"Вид работ с ID {ItemId} не найден");
+                        ModelState.AddModelError("", "Запись не найдена");
+                        ShowForm = true;
+                        Items = await GetAllWorkTypesAsync();
+                        return Page();
+                    }
+                }
+
+                // Обновляем запись
+                var updateSql = "UPDATE WorkTypes SET Title = $title, PricePerHour = $pricePerHour WHERE Id = $id";
+                using var updateCommand = new SqliteCommand(updateSql, connection);
+                updateCommand.Parameters.AddWithValue("$title", Title.Trim());
+                updateCommand.Parameters.AddWithValue("$pricePerHour", PricePerHour);
+                updateCommand.Parameters.AddWithValue("$id", ItemId);
+
+                var rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+                Console.WriteLine($"SaveChangesAsync результат: {rowsAffected}");
+
+                if (rowsAffected > 0)
+                {
+                    TempData["Success"] = $"Вид работ {Title.Trim()} обновлен";
                 }
                 else
                 {
@@ -180,7 +292,7 @@ namespace buildingCompany.Pages.WorkTypes
                 Console.WriteLine($"Ошибка в OnPostUpdateAsync: {ex}");
                 ModelState.AddModelError("", $"Ошибка при обновлении: {ex.Message}");
                 ShowForm = true;
-                Items = await _context.WorkTypes.ToListAsync();
+                Items = await GetAllWorkTypesAsync();
                 return Page();
             }
         }
@@ -197,18 +309,7 @@ namespace buildingCompany.Pages.WorkTypes
                     return RedirectToPage("Index");
                 }
 
-                var item = await _context.WorkTypes.FindAsync(DeleteId);
-                if (item != null)
-                {
-                    _context.WorkTypes.Remove(item);
-                    await _context.SaveChangesAsync();
-                    TempData["Success"] = $"Вид работ {item.Title} удален";
-                    Console.WriteLine($"Вид работ {item.Title} удален");
-                }
-                else
-                {
-                    TempData["Error"] = "Запись не найдена";
-                }
+                await DeleteWorkTypeAsync(DeleteId);
             }
             catch (Exception ex)
             {

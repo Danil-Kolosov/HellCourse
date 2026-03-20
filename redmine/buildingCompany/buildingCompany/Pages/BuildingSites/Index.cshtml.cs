@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using buildingCompany.Models;
-using buildingCompany.Data;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 
 namespace buildingCompany.Pages.BuildingSites
 {
     public class IndexModel : PageModel
     {
-        private readonly AppDbContext _context;
+        private readonly string _connectionString;
 
-        public IndexModel(AppDbContext context)
+        public IndexModel(IConfiguration configuration)
         {
-            _context = context;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public List<BuildingSite> BuildingSites { get; set; } = new();
@@ -40,13 +40,7 @@ namespace buildingCompany.Pages.BuildingSites
                 // Удаление (если передан deleteId)
                 if (deleteId.HasValue)
                 {
-                    var site = await _context.BuildingSites.FindAsync(deleteId.Value);
-                    if (site != null)
-                    {
-                        _context.BuildingSites.Remove(site);
-                        await _context.SaveChangesAsync();
-                        TempData["Success"] = $"Объект {site.Name} удален";
-                    }
+                    await DeleteBuildingSiteAsync(deleteId.Value);
                 }
 
                 // Режим создания
@@ -60,7 +54,7 @@ namespace buildingCompany.Pages.BuildingSites
                 // Режим редактирования
                 else if (editId.HasValue)
                 {
-                    var site = await _context.BuildingSites.FindAsync(editId.Value);
+                    var site = await GetBuildingSiteByIdAsync(editId.Value);
                     if (site != null)
                     {
                         ShowForm = true;
@@ -71,13 +65,122 @@ namespace buildingCompany.Pages.BuildingSites
                 }
 
                 // Загрузка списка
-                BuildingSites = await _context.BuildingSites.ToListAsync();
+                BuildingSites = await GetAllBuildingSitesAsync();
                 Console.WriteLine($"Загружено объектов: {BuildingSites.Count}");
             }
             catch (Exception ex)
             {
                 TempData["Error"] = $"Ошибка: {ex.Message}";
                 Console.WriteLine($"Ошибка в OnGetAsync: {ex}");
+            }
+        }
+
+        private async Task<List<BuildingSite>> GetAllBuildingSitesAsync()
+        {
+            var buildingSites = new List<BuildingSite>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var sql = "SELECT Id, Name, Address FROM BuildingSites ORDER BY Id";
+
+            using var command = new SqliteCommand(sql, connection);
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                buildingSites.Add(new BuildingSite
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Address = reader.GetString(2)
+                });
+            }
+
+            return buildingSites;
+        }
+
+        private async Task<BuildingSite?> GetBuildingSiteByIdAsync(int id)
+        {
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var sql = "SELECT Id, Name, Address FROM BuildingSites WHERE Id = $id";
+
+            using var command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("$id", id);
+
+            using var reader = await command.ExecuteReaderAsync();
+
+            if (await reader.ReadAsync())
+            {
+                return new BuildingSite
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Address = reader.GetString(2)
+                };
+            }
+
+            return null;
+        }
+
+        private async Task DeleteBuildingSiteAsync(int id)
+        {
+            try
+            {
+                using var connection = new SqliteConnection(_connectionString);
+                await connection.OpenAsync();
+
+                // Проверяем наличие связанных записей в WorkLogs
+                var checkLogsSql = "SELECT COUNT(*) FROM WorkLogs WHERE BuildingSiteId = $id";
+                int workLogsCount = 0;
+
+                using (var checkCommand = new SqliteCommand(checkLogsSql, connection))
+                {
+                    checkCommand.Parameters.AddWithValue("$id", id);
+                    workLogsCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+                }
+
+                if (workLogsCount > 0)
+                {
+                    TempData["Error"] =
+                        $"Невозможно удалить объект. У него есть {workLogsCount} " +
+                        $"записей в журнале работ. Пожалуйста, сначала удалите эти записи.";
+                    return;
+                }
+
+                // Получаем имя объекта для сообщения
+                var getNameSql = "SELECT Name FROM BuildingSites WHERE Id = $id";
+                string? siteName = null;
+
+                using (var getNameCommand = new SqliteCommand(getNameSql, connection))
+                {
+                    getNameCommand.Parameters.AddWithValue("$id", id);
+                    siteName = await getNameCommand.ExecuteScalarAsync() as string;
+                }
+
+                // Удаляем объект
+                var deleteSql = "DELETE FROM BuildingSites WHERE Id = $id";
+                using var deleteCommand = new SqliteCommand(deleteSql, connection);
+                deleteCommand.Parameters.AddWithValue("$id", id);
+
+                var rowsAffected = await deleteCommand.ExecuteNonQueryAsync();
+
+                if (rowsAffected > 0 && !string.IsNullOrEmpty(siteName))
+                {
+                    TempData["Success"] = $"Объект {siteName} удален";
+                    Console.WriteLine($"Объект {siteName} удален");
+                }
+                else
+                {
+                    TempData["Error"] = "Объект не найден";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при удалении: {ex}");
+                TempData["Error"] = $"Ошибка при удалении: {ex.Message}";
             }
         }
 
@@ -93,32 +196,27 @@ namespace buildingCompany.Pages.BuildingSites
                     Console.WriteLine("Поля пустые");
                     ModelState.AddModelError("", "Все поля обязательны для заполнения");
                     ShowForm = true;
-                    BuildingSites = await _context.BuildingSites.ToListAsync();
+                    BuildingSites = await GetAllBuildingSitesAsync();
                     return Page();
                 }
 
-                var site = new BuildingSite
-                {
-                    Name = Name.Trim(),
-                    Address = Address.Trim()
-                };
+                using var connection = new SqliteConnection(_connectionString);
+                await connection.OpenAsync();
 
-                Console.WriteLine($"Добавление объекта: {site.Name}, {site.Address}");
+                var sql = @"
+                    INSERT INTO BuildingSites (Name, Address) 
+                    VALUES ($name, $address);
+                    SELECT last_insert_rowid();";
 
-                _context.BuildingSites.Add(site);
-                var result = await _context.SaveChangesAsync();
+                using var command = new SqliteCommand(sql, connection);
+                command.Parameters.AddWithValue("$name", Name.Trim());
+                command.Parameters.AddWithValue("$address", Address.Trim());
 
-                Console.WriteLine($"SaveChangesAsync результат: {result}");
-                Console.WriteLine($"ID нового объекта: {site.Id}");
+                var newId = await command.ExecuteScalarAsync();
 
-                if (result > 0)
-                {
-                    TempData["Success"] = $"Объект {site.Name} успешно добавлен";
-                }
-                else
-                {
-                    TempData["Error"] = "Не удалось добавить объект";
-                }
+                Console.WriteLine($"ID нового объекта: {newId}");
+
+                TempData["Success"] = $"Объект {Name.Trim()} успешно добавлен";
 
                 return RedirectToPage("Index");
             }
@@ -127,7 +225,7 @@ namespace buildingCompany.Pages.BuildingSites
                 Console.WriteLine($"Ошибка в OnPostCreateAsync: {ex}");
                 ModelState.AddModelError("", $"Ошибка при сохранении: {ex.Message}");
                 ShowForm = true;
-                BuildingSites = await _context.BuildingSites.ToListAsync();
+                BuildingSites = await GetAllBuildingSitesAsync();
                 return Page();
             }
         }
@@ -143,30 +241,52 @@ namespace buildingCompany.Pages.BuildingSites
                 {
                     ModelState.AddModelError("", "Некорректный ID объекта");
                     ShowForm = true;
-                    BuildingSites = await _context.BuildingSites.ToListAsync();
+                    BuildingSites = await GetAllBuildingSitesAsync();
                     return Page();
                 }
 
-                var site = await _context.BuildingSites.FindAsync(SiteId);
-                if (site == null)
+                if (string.IsNullOrWhiteSpace(Name) || string.IsNullOrWhiteSpace(Address))
                 {
-                    Console.WriteLine($"Объект  не найден");
-                    ModelState.AddModelError("", "Объект не найден");
+                    ModelState.AddModelError("", "Все поля обязательны для заполнения");
                     ShowForm = true;
-                    BuildingSites = await _context.BuildingSites.ToListAsync();
+                    BuildingSites = await GetAllBuildingSitesAsync();
                     return Page();
                 }
 
-                site.Name = Name.Trim();
-                site.Address = Address.Trim();
+                using var connection = new SqliteConnection(_connectionString);
+                await connection.OpenAsync();
 
-                var result = await _context.SaveChangesAsync();
-
-                Console.WriteLine($"SaveChangesAsync результат: {result}");
-
-                if (result > 0)
+                // Проверяем существование объекта
+                var checkSql = "SELECT Id FROM BuildingSites WHERE Id = $id";
+                using (var checkCommand = new SqliteCommand(checkSql, connection))
                 {
-                    TempData["Success"] = $"Объект {site.Name} обновлен";
+                    checkCommand.Parameters.AddWithValue("$id", SiteId);
+                    var exists = await checkCommand.ExecuteScalarAsync();
+
+                    if (exists == null)
+                    {
+                        Console.WriteLine($"Объект с ID {SiteId} не найден");
+                        ModelState.AddModelError("", "Объект не найден");
+                        ShowForm = true;
+                        BuildingSites = await GetAllBuildingSitesAsync();
+                        return Page();
+                    }
+                }
+
+                // Обновляем объект
+                var updateSql = "UPDATE BuildingSites SET Name = $name, Address = $address WHERE Id = $id";
+                using var updateCommand = new SqliteCommand(updateSql, connection);
+                updateCommand.Parameters.AddWithValue("$name", Name.Trim());
+                updateCommand.Parameters.AddWithValue("$address", Address.Trim());
+                updateCommand.Parameters.AddWithValue("$id", SiteId);
+
+                var rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+                Console.WriteLine($"Rows affected: {rowsAffected}");
+
+                if (rowsAffected > 0)
+                {
+                    TempData["Success"] = $"Объект {Name.Trim()} обновлен";
                 }
                 else
                 {
@@ -180,7 +300,7 @@ namespace buildingCompany.Pages.BuildingSites
                 Console.WriteLine($"Ошибка в OnPostUpdateAsync: {ex}");
                 ModelState.AddModelError("", $"Ошибка при обновлении: {ex.Message}");
                 ShowForm = true;
-                BuildingSites = await _context.BuildingSites.ToListAsync();
+                BuildingSites = await GetAllBuildingSitesAsync();
                 return Page();
             }
         }
@@ -197,26 +317,16 @@ namespace buildingCompany.Pages.BuildingSites
                     return RedirectToPage("Index");
                 }
 
-                var site = await _context.BuildingSites.FindAsync(DeleteId);
-                if (site != null)
-                {
-                    _context.BuildingSites.Remove(site);
-                    await _context.SaveChangesAsync();
-                    TempData["Success"] = $"Объект {site.Name} удален";
-                    Console.WriteLine($"Объект {site.Name} удален");
-                }
-                else
-                {
-                    TempData["Error"] = "Объект не найден";
-                }
+                await DeleteBuildingSiteAsync(DeleteId);
+
+                return RedirectToPage("Index");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Ошибка в OnPostDeleteAsync: {ex}");
                 TempData["Error"] = $"Ошибка при удалении: {ex.Message}";
+                return RedirectToPage("Index");
             }
-
-            return RedirectToPage("Index");
         }
     }
 }

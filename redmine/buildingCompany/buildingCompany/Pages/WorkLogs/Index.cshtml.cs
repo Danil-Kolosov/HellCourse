@@ -1,18 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using buildingCompany.Models;
-using buildingCompany.Data;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
+using System.Text;
 
 namespace buildingCompany.Pages.WorkLogs
 {
     public class IndexModel : PageModel
     {
-        private readonly AppDbContext _context;
+        private readonly string _connectionString;
 
-        public IndexModel(AppDbContext context)
+        public IndexModel(IConfiguration configuration)
         {
-            _context = context;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public List<WorkLog> WorkLogs { get; set; } = new();
@@ -53,44 +54,31 @@ namespace buildingCompany.Pages.WorkLogs
                 // Удаление записи
                 if (deleteId.HasValue)
                 {
-                    var workLog = await _context.WorkLogs.FindAsync(deleteId.Value);
-                    if (workLog != null)
-                    {
-                        _context.WorkLogs.Remove(workLog);
-                        await _context.SaveChangesAsync();
-                        TempData["Success"] = "Запись удалена";
-                    }
+                    await DeleteWorkLogAsync(deleteId.Value);
                 }
 
                 // Режим редактирования
                 if (editId.HasValue)
                 {
-                    EditWorkLog = await _context.WorkLogs
-                        .Include(w => w.BuildingSite)
-                        .Include(w => w.WorkType)
-                        .Include(w => w.Employee)
-                        .FirstOrDefaultAsync(w => w.Id == editId.Value);
+                    EditWorkLog = await GetWorkLogByIdAsync(editId.Value);
 
                     if (EditWorkLog != null)
                     {
                         ShowEditForm = true;
                         EditId = EditWorkLog.Id;
+                        BuildingSiteId = EditWorkLog.BuildingSiteId;
+                        WorkTypeId = EditWorkLog.WorkTypeId;
+                        EmployeeId = EditWorkLog.EmployeeId;
+                        HoursWorked = EditWorkLog.HoursWorked;
+                        Status = EditWorkLog.Status;
 
                         // Загружаем данные для выпадающих списков
-                        BuildingSites = await _context.BuildingSites.ToListAsync();
-                        WorkTypes = await _context.WorkTypes.ToListAsync();
-                        Employees = await _context.Employees.ToListAsync();
+                        await LoadDropdownDataAsync();
                     }
                 }
 
                 // Загрузка списка всех записей
-                WorkLogs = await _context.WorkLogs
-                    .Include(w => w.BuildingSite)
-                    .Include(w => w.WorkType)
-                    .Include(w => w.Employee)
-                    .OrderByDescending(w => w.Id)
-                    .ToListAsync();
-
+                WorkLogs = await GetAllWorkLogsAsync();
                 Console.WriteLine($"Загружено записей: {WorkLogs.Count}");
             }
             catch (Exception ex)
@@ -98,6 +86,236 @@ namespace buildingCompany.Pages.WorkLogs
                 TempData["Error"] = $"Ошибка: {ex.Message}";
                 Console.WriteLine($"Ошибка в OnGetAsync: {ex}");
             }
+        }
+
+        private async Task<List<WorkLog>> GetAllWorkLogsAsync()
+        {
+            var workLogs = new List<WorkLog>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            // JOIN запрос для получения всех связанных данных
+            var sql = @"
+                SELECT 
+                    wl.Id, wl.BuildingSiteId, wl.WorkTypeId, wl.EmployeeId, 
+                    wl.HoursWorked, wl.Status,
+                    bs.Id, bs.Name, bs.Address,
+                    wt.Id, wt.Title, wt.PricePerHour,
+                    e.Id, e.FullName, e.Position, e.RowVersion
+                FROM WorkLogs wl
+                INNER JOIN BuildingSites bs ON wl.BuildingSiteId = bs.Id
+                INNER JOIN WorkTypes wt ON wl.WorkTypeId = wt.Id
+                INNER JOIN Employees e ON wl.EmployeeId = e.Id
+                ORDER BY wl.Id DESC";
+
+            using var command = new SqliteCommand(sql, connection);
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                var workLog = new WorkLog
+                {
+                    Id = reader.GetInt32(0),
+                    BuildingSiteId = reader.GetInt32(1),
+                    WorkTypeId = reader.GetInt32(2),
+                    EmployeeId = reader.GetInt32(3),
+                    HoursWorked = reader.GetInt32(4),
+                    Status = reader.GetString(5),
+
+                    BuildingSite = new BuildingSite
+                    {
+                        Id = reader.GetInt32(6),
+                        Name = reader.GetString(7),
+                        Address = reader.GetString(8)
+                    },
+
+                    WorkType = new WorkType
+                    {
+                        Id = reader.GetInt32(9),
+                        Title = reader.GetString(10),
+                        PricePerHour = reader.GetDecimal(11)
+                    },
+
+                    Employee = new Employee
+                    {
+                        Id = reader.GetInt32(12),
+                        FullName = reader.GetString(13),
+                        Position = reader.GetString(14),
+                        RowVersion = reader.IsDBNull(15) ? Array.Empty<byte>() : (byte[])reader[15]
+                    }
+                };
+
+                workLogs.Add(workLog);
+            }
+
+            return workLogs;
+        }
+
+        private async Task<WorkLog?> GetWorkLogByIdAsync(int id)
+        {
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var sql = @"
+                SELECT 
+                    wl.Id, wl.BuildingSiteId, wl.WorkTypeId, wl.EmployeeId, 
+                    wl.HoursWorked, wl.Status,
+                    bs.Id, bs.Name, bs.Address,
+                    wt.Id, wt.Title, wt.PricePerHour,
+                    e.Id, e.FullName, e.Position, e.RowVersion
+                FROM WorkLogs wl
+                INNER JOIN BuildingSites bs ON wl.BuildingSiteId = bs.Id
+                INNER JOIN WorkTypes wt ON wl.WorkTypeId = wt.Id
+                INNER JOIN Employees e ON wl.EmployeeId = e.Id
+                WHERE wl.Id = $id";
+
+            using var command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("$id", id);
+
+            using var reader = await command.ExecuteReaderAsync();
+
+            if (await reader.ReadAsync())
+            {
+                return new WorkLog
+                {
+                    Id = reader.GetInt32(0),
+                    BuildingSiteId = reader.GetInt32(1),
+                    WorkTypeId = reader.GetInt32(2),
+                    EmployeeId = reader.GetInt32(3),
+                    HoursWorked = reader.GetInt32(4),
+                    Status = reader.GetString(5),
+
+                    BuildingSite = new BuildingSite
+                    {
+                        Id = reader.GetInt32(6),
+                        Name = reader.GetString(7),
+                        Address = reader.GetString(8)
+                    },
+
+                    WorkType = new WorkType
+                    {
+                        Id = reader.GetInt32(9),
+                        Title = reader.GetString(10),
+                        PricePerHour = reader.GetDecimal(11)
+                    },
+
+                    Employee = new Employee
+                    {
+                        Id = reader.GetInt32(12),
+                        FullName = reader.GetString(13),
+                        Position = reader.GetString(14),
+                        RowVersion = reader.IsDBNull(15) ? Array.Empty<byte>() : (byte[])reader[15]
+                    }
+                };
+            }
+
+            return null;
+        }
+
+        private async Task<List<BuildingSite>> GetAllBuildingSitesAsync()
+        {
+            var buildingSites = new List<BuildingSite>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var sql = "SELECT Id, Name, Address FROM BuildingSites ORDER BY Name";
+
+            using var command = new SqliteCommand(sql, connection);
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                buildingSites.Add(new BuildingSite
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Address = reader.GetString(2)
+                });
+            }
+
+            return buildingSites;
+        }
+
+        private async Task<List<WorkType>> GetAllWorkTypesAsync()
+        {
+            var workTypes = new List<WorkType>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var sql = "SELECT Id, Title, PricePerHour FROM WorkTypes ORDER BY Title";
+
+            using var command = new SqliteCommand(sql, connection);
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                workTypes.Add(new WorkType
+                {
+                    Id = reader.GetInt32(0),
+                    Title = reader.GetString(1),
+                    PricePerHour = reader.GetDecimal(2)
+                });
+            }
+
+            return workTypes;
+        }
+
+        private async Task<List<Employee>> GetAllEmployeesAsync()
+        {
+            var employees = new List<Employee>();
+
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var sql = "SELECT Id, FullName, Position, RowVersion FROM Employees ORDER BY FullName";
+
+            using var command = new SqliteCommand(sql, connection);
+            using var reader = await command.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                employees.Add(new Employee
+                {
+                    Id = reader.GetInt32(0),
+                    FullName = reader.GetString(1),
+                    Position = reader.GetString(2),
+                    RowVersion = reader.IsDBNull(3) ? Array.Empty<byte>() : (byte[])reader[3]
+                });
+            }
+
+            return employees;
+        }
+
+        private async Task DeleteWorkLogAsync(int id)
+        {
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            var deleteSql = "DELETE FROM WorkLogs WHERE Id = $id";
+            using var deleteCommand = new SqliteCommand(deleteSql, connection);
+            deleteCommand.Parameters.AddWithValue("$id", id);
+
+            var rowsAffected = await deleteCommand.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
+            {
+                TempData["Success"] = "Запись удалена";
+                Console.WriteLine($"Запись {id} удалена");
+            }
+            else
+            {
+                TempData["Error"] = "Запись не найдена";
+            }
+        }
+
+        private async Task LoadDropdownDataAsync()
+        {
+            BuildingSites = await GetAllBuildingSitesAsync();
+            WorkTypes = await GetAllWorkTypesAsync();
+            Employees = await GetAllEmployeesAsync();
         }
 
         public async Task<IActionResult> OnPostDeleteAsync()
@@ -112,18 +330,7 @@ namespace buildingCompany.Pages.WorkLogs
                     return RedirectToPage("Index");
                 }
 
-                var workLog = await _context.WorkLogs.FindAsync(DeleteId);
-                if (workLog != null)
-                {
-                    _context.WorkLogs.Remove(workLog);
-                    await _context.SaveChangesAsync();
-                    TempData["Success"] = "Запись удалена";
-                    Console.WriteLine($"Запись {DeleteId} удалена");
-                }
-                else
-                {
-                    TempData["Error"] = "Запись не найдена";
-                }
+                await DeleteWorkLogAsync(DeleteId);
             }
             catch (Exception ex)
             {
@@ -136,178 +343,95 @@ namespace buildingCompany.Pages.WorkLogs
 
         public async Task<IActionResult> OnPostUpdateAsync()
         {
+            SqliteConnection? connection = null;
+            SqliteTransaction? transaction = null;
+
             try
             {
-                Console.WriteLine("WorkLogs OnPostUpdateAsync вызван");
-                Console.WriteLine($"EditId: {EditId}, BuildingSiteId: {BuildingSiteId}, WorkTypeId: {WorkTypeId}, EmployeeId: {EmployeeId}, HoursWorked: {HoursWorked}, Status: {Status}");
+                connection = new SqliteConnection(_connectionString);
+                await connection.OpenAsync();
 
-                if (EditId <= 0)
-                {
-                    TempData["Error"] = "Некорректный ID";
-                    return RedirectToPage("Index");
-                }
+                // BEGIN IMMEDIATE блокирует БД для записи, 
+                // но чтение разрешено другим подключениям
+                transaction = (SqliteTransaction?)await connection.BeginTransactionAsync(System.Data.IsolationLevel.Serializable);
 
-                var workLog = await _context.WorkLogs.FindAsync(EditId);
-                if (workLog == null)
+                // Проверяем существование записи и сразу получаем данные
+                var selectSql = "SELECT Id, BuildingSiteId, WorkTypeId, EmployeeId, HoursWorked, Status FROM WorkLogs WHERE Id = $id";
+
+                using var selectCommand = new SqliteCommand(selectSql, connection, transaction);
+                selectCommand.Parameters.AddWithValue("$id", EditId);
+
+                using var reader = await selectCommand.ExecuteReaderAsync();
+                if (!await reader.ReadAsync())
                 {
+                    await transaction.RollbackAsync();
                     TempData["Error"] = "Запись не найдена";
                     return RedirectToPage("Index");
                 }
 
-                // Проверяем существование связанных записей
-                var buildingSite = await _context.BuildingSites.FindAsync(BuildingSiteId);
-                var workType = await _context.WorkTypes.FindAsync(WorkTypeId);
-                var employee = await _context.Employees.FindAsync(EmployeeId);
+                // Обновляем запись
+                var updateSql = @"
+            UPDATE WorkLogs 
+            SET BuildingSiteId = $buildingSiteId,
+                WorkTypeId = $workTypeId,
+                EmployeeId = $employeeId,
+                HoursWorked = $hoursWorked,
+                Status = $status
+            WHERE Id = $id";
+                // Задержка для демонстрации блокировки
+                await Task.Delay(10000);
+                using var updateCommand = new SqliteCommand(updateSql, connection, transaction);
+                updateCommand.Parameters.AddWithValue("$buildingSiteId", BuildingSiteId);
+                updateCommand.Parameters.AddWithValue("$workTypeId", WorkTypeId);
+                updateCommand.Parameters.AddWithValue("$employeeId", EmployeeId);
+                updateCommand.Parameters.AddWithValue("$hoursWorked", HoursWorked);
+                updateCommand.Parameters.AddWithValue("$status", Status);
+                updateCommand.Parameters.AddWithValue("$id", EditId);
 
-                if (buildingSite == null || workType == null || employee == null)
+                var rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+                // Подтверждаем транзакцию - БЛОКИРОВКА СНИМАЕТСЯ!
+                await transaction.CommitAsync();
+                transaction = null;
+
+                if (rowsAffected > 0)
                 {
-                    TempData["Error"] = "Одна из связанных записей не найдена";
-                    return RedirectToPage("Index");
+                    TempData["Success"] = "Запись успешно обновлена";
+                    Console.WriteLine($"Запись {EditId} обновлена с пессимистичной блокировкой");
                 }
-
-                // Обновляем поля
-                workLog.BuildingSiteId = BuildingSiteId;
-                workLog.WorkTypeId = WorkTypeId;
-                workLog.EmployeeId = EmployeeId;
-                workLog.HoursWorked = HoursWorked;
-                workLog.Status = Status;
-
-                await _context.SaveChangesAsync();
-
-                TempData["Success"] = "Запись успешно обновлена";
-                Console.WriteLine($"Запись {EditId} обновлена");
-
-                return RedirectToPage("Index");
+                else
+                {
+                    TempData["Error"] = "Запись не найдена";
+                }
+            }
+            catch (SqliteException ex) when (ex.SqliteErrorCode == 5) // SQLITE_BUSY
+            {
+                // База заблокирована другим процессом
+                if (transaction != null) await transaction.RollbackAsync();
+                TempData["Error"] = "База данных занята. Попробуйте позже.";
+                Console.WriteLine($"SQLite busy: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка в OnPostUpdateAsync: {ex}");
+                if (transaction != null) await transaction.RollbackAsync();
                 TempData["Error"] = $"Ошибка при обновлении: {ex.Message}";
-                return RedirectToPage("Index", new { editId = EditId });
+                Console.WriteLine($"Ошибка в OnPostUpdateWithPessimisticLockAsync: {ex}");
             }
+            finally
+            {
+                // ВАЖНО: Всегда закрываем соединение
+                if (transaction != null)
+                {
+                    await transaction.RollbackAsync();
+                }
+                if (connection != null)
+                {
+                    await connection.CloseAsync();
+                    await connection.DisposeAsync();
+                }
+            }
+
+            return RedirectToPage("Index");
         }
-    }
+        }
 }
-
-
-
-/*
-using buildingCompany.Data;
-using buildingCompany.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-
-public class AssignModel : PageModel
-{
-    private readonly AppDbContext _context;
-
-    public AssignModel(AppDbContext context)
-    {
-        _context = context;
-    }
-
-    [BindProperty]
-    public int WorkLogId { get; set; }
-
-    [BindProperty]
-    public int SelectedEmployeeId { get; set; }
-
-    public string WorkDescription { get; set; }
-    public List<Employee> AvailableEmployees { get; set; }
-
-    public async Task<IActionResult> OnGetAsync(int workLogId)
-    {
-        WorkLogId = workLogId;
-
-        // 1. ПЕССИМИСТИЧНАЯ БЛОКИРОВКА (RAW SQL - FOR UPDATE)
-        // Мы блокируем запись WorkLog, чтобы никто другой не мог её изменить,
-        // пока мы выбираем сотрудника.
-        // В EF Core нет прямого .ForUpdate(), но можно выполнить сырой SQL.
-        // Важно: Эта транзакция должна быть открыта долго (плохая практика в вебе,
-        // но для лабы сойдет). В реальности так не делают.
-        var connection = _context.Database.GetDbConnection();
-        await connection.OpenAsync();
-        var transaction = await connection.BeginTransactionAsync();
-
-        try
-        {
-            // Блокируем строку WorkLog
-            var cmd = connection.CreateCommand();
-            cmd.CommandText = "SELECT * FROM WorkLogs WHERE Id = @id FOR UPDATE;";
-            cmd.Parameters.Add(new SqlParameter("@id", workLogId));
-            var reader = await cmd.ExecuteReaderAsync();
-
-            if (await reader.ReadAsync())
-            {
-                // Получаем описание работы
-                var buildingSiteId = reader.GetInt32(1);
-                var workTypeId = reader.GetInt32(2);
-
-                // Здесь нам нужно получить данные через другой контекст или до-выборку.
-                // Упростим: просто сохраним транзакцию в TempData или свойство.
-                // Для простоты я просто загружу данные позже через основной контекст,
-                // но это нарушит блокировку. Поэтому в реальном проекте нужно
-                // проектировать иначе.
-                WorkDescription = $"Запись #{workLogId} заблокирована для редактирования.";
-            }
-            reader.Close();
-
-            // Сохраняем транзакцию, чтобы использовать её позже в OnPost
-            // (Сложно, для лабы достаточно просто показать концепцию).
-            // Второй вариант (проще) - использовать оптимистичную для редактирования,
-            // а пессимистичную показать на отдельном примере, например, при генерации отчета.
-
-            // Загружаем доступных сотрудников (без блокировки)
-            AvailableEmployees = await _context.Employees.ToListAsync();
-        }
-        finally
-        {
-            // В реальном коде тут бы не закрывали, а хранили транзакцию.
-            await transaction.CommitAsync(); // Или Rollback если ошибка
-            await connection.CloseAsync();
-        }
-
-        return Page();
-    }
-
-    public async Task<IActionResult> OnPostAsync()
-    {
-        // 2. ОПТИМИСТИЧНАЯ БЛОКИРОВКА
-        // Мы предполагаем, что данные не изменятся между чтением и записью.
-        // Для этого используем RowVersion (Concurrency Token).
-
-        // Добавим поле Timestamp в модель WorkLog:
-        // [Timestamp] public byte[] RowVersion { get; set; }
-
-        try
-        {
-            var workLog = await _context.WorkLogs
-                .FirstOrDefaultAsync(w => w.Id == WorkLogId);
-
-            if (workLog == null)
-            {
-                return NotFound();
-            }
-
-            workLog.EmployeeId = SelectedEmployeeId;
-            workLog.Status = "В процессе";
-
-            // Сохраняем изменения. Если RowVersion в БД отличается от того,
-            // что был загружен в workLog, EF кинет DbUpdateConcurrencyException.
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            // Ловим исключение. Значит, кто-то другой изменил эту запись.
-            ModelState.AddModelError(string.Empty, "Запись была изменена другим пользователем. Попробуйте снова.");
-            // Перезагружаем данные для формы
-            AvailableEmployees = await _context.Employees.ToListAsync();
-            return Page();
-        }
-    }
-}*/

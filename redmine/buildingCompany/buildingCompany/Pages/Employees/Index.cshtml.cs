@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using buildingCompany.Models;
-using buildingCompany.Data;
 using System.Text;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace buildingCompany.Pages.Employees;
 
 public class IndexModel : PageModel
 {
-    private readonly AppDbContext _context;
+    private readonly string _connectionString;
 
-    public IndexModel(AppDbContext context)
+    public IndexModel(IConfiguration configuration)
     {
-        _context = context;
+        _connectionString = configuration.GetConnectionString("DefaultConnection");
     }
 
     public List<Employee> Employees { get; set; } = new();
@@ -49,7 +50,7 @@ public class IndexModel : PageModel
         }
         else if (editId.HasValue)
         {
-            var emp = await _context.Employees.FindAsync(editId.Value);
+            var emp = await GetEmployeeByIdAsync(editId.Value);
             if (emp != null)
             {
                 ShowForm = true;
@@ -61,7 +62,59 @@ public class IndexModel : PageModel
             }
         }
 
-        Employees = await _context.Employees.ToListAsync();
+        Employees = await GetAllEmployeesAsync();
+    }
+
+    private async Task<List<Employee>> GetAllEmployeesAsync()
+    {
+        var employees = new List<Employee>();
+
+        using var connection = new SqliteConnection(_connectionString);
+        await connection.OpenAsync();
+
+        var sql = "SELECT Id, FullName, Position, RowVersion FROM Employees ORDER BY Id";
+
+        using var command = new SqliteCommand(sql, connection);
+        using var reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            employees.Add(new Employee
+            {
+                Id = reader.GetInt32(0),
+                FullName = reader.GetString(1),
+                Position = reader.GetString(2),
+                RowVersion = reader.IsDBNull(3) ? Array.Empty<byte>() : (byte[])reader[3]
+            });
+        }
+
+        return employees;
+    }
+
+    private async Task<Employee?> GetEmployeeByIdAsync(int id)
+    {
+        using var connection = new SqliteConnection(_connectionString);
+        await connection.OpenAsync();
+    
+        var sql = "SELECT Id, FullName, Position, RowVersion FROM Employees WHERE Id = $id";
+
+        using var command = new SqliteCommand(sql, connection);
+        command.Parameters.AddWithValue("$id", id);
+
+        using var reader = await command.ExecuteReaderAsync();
+
+        if (await reader.ReadAsync())
+        {
+            return new Employee
+            {
+                Id = reader.GetInt32(0),
+                FullName = reader.GetString(1),
+                Position = reader.GetString(2),
+                RowVersion = reader.IsDBNull(3) ? Array.Empty<byte>() : (byte[])reader[3]
+            };
+        }
+
+        return null;
     }
 
     public async Task<IActionResult> OnPostCreateAsync()
@@ -73,24 +126,32 @@ public class IndexModel : PageModel
         {
             ShowForm = true;
             IsEditMode = false;
-            Employees = await _context.Employees.ToListAsync();
+            Employees = await GetAllEmployeesAsync();
             return Page();
         }
 
         try
         {
-            var employee = new Employee
-            {
-                FullName = FullName.Trim(),
-                Position = Position.Trim(),
-                // Устанавливаем начальную версию
-                RowVersion = Guid.NewGuid().ToByteArray()
-            };
+            // Генерируем новую версию для RowVersion
+            var newRowVersion = Guid.NewGuid().ToByteArray();
 
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
 
-            TempData["Success"] = $"Сотрудник {employee.FullName} успешно добавлен";
+            var sql = @"
+                INSERT INTO Employees (FullName, Position, RowVersion) 
+                VALUES ($fullName, $position, $rowVersion);
+                SELECT last_insert_rowid();";
+
+            using var command = new SqliteCommand(sql, connection);
+            command.Parameters.AddWithValue("$fullName", FullName.Trim());
+            command.Parameters.AddWithValue("$position", Position.Trim());
+            command.Parameters.AddWithValue("$rowVersion", newRowVersion);
+
+            var newId = await command.ExecuteScalarAsync();
+
+            TempData["Success"] = $"Сотрудник {FullName.Trim()} успешно добавлен";
+
             return RedirectToPage("Index");
         }
         catch (Exception ex)
@@ -98,7 +159,7 @@ public class IndexModel : PageModel
             ModelState.AddModelError("", $"Ошибка при сохранении: {ex.Message}");
             ShowForm = true;
             IsEditMode = false;
-            Employees = await _context.Employees.ToListAsync();
+            Employees = await GetAllEmployeesAsync();
             return Page();
         }
     }
@@ -111,81 +172,110 @@ public class IndexModel : PageModel
         {
             ShowForm = true;
             IsEditMode = true;
-            Employees = await _context.Employees.ToListAsync();
+            Employees = await GetAllEmployeesAsync();
             return Page();
         }
 
         try
         {
-            var employee = await _context.Employees.FindAsync(EmployeeId);
-            if (employee == null)
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            // Проверяем существование записи и получаем текущую версию
+            var checkSql = "SELECT FullName, Position, RowVersion FROM Employees WHERE Id = $id";
+            Employee? currentEmployee = null;
+
+            using (var checkCommand = new SqliteCommand(checkSql, connection))
+            {
+                checkCommand.Parameters.AddWithValue("$id", EmployeeId);
+                using var reader = await checkCommand.ExecuteReaderAsync();
+
+                if (await reader.ReadAsync())
+                {
+                    currentEmployee = new Employee
+                    {
+                        Id = EmployeeId,
+                        FullName = reader.GetString(0),
+                        Position = reader.GetString(1),
+                        RowVersion = reader.IsDBNull(2) ? Array.Empty<byte>() : (byte[])reader[2]
+                    };
+                }
+            }
+
+            if (currentEmployee == null)
             {
                 TempData["Error"] = "Сотрудник не найден";
                 return RedirectToPage("Index");
             }
 
-            // Проверяем версию
-            if (RowVersion != null && !employee.RowVersion.SequenceEqual(RowVersion))
+            // Проверяем версию для обнаружения конфликтов
+            if (RowVersion != null && currentEmployee.RowVersion != null &&
+                !currentEmployee.RowVersion.SequenceEqual(RowVersion))
             {
-                // Конфликт версий - перезагружаем данные
-                var latestEmployee = await _context.Employees
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(e => e.Id == EmployeeId);
+                // Конфликт версий
+                FullName = currentEmployee.FullName;
+                Position = currentEmployee.Position;
+                RowVersion = currentEmployee.RowVersion;
 
+                ConcurrencyError = "Данные были изменены другим пользователем. Показаны актуальные данные.";
+                ShowForm = true;
+                IsEditMode = true;
+                Employees = await GetAllEmployeesAsync();
+                return Page();
+            }
+
+            // Генерируем новую версию и обновляем запись
+            var newRowVersion = Guid.NewGuid().ToByteArray();
+
+            var updateSql = @"
+                UPDATE Employees 
+                SET FullName = $fullName, 
+                    Position = $position, 
+                    RowVersion = $rowVersion 
+                WHERE Id = $id 
+                AND (RowVersion = $originalRowVersion)";
+
+            using var updateCommand = new SqliteCommand(updateSql, connection);
+            updateCommand.Parameters.AddWithValue("$fullName", FullName.Trim());
+            updateCommand.Parameters.AddWithValue("$position", Position.Trim());
+            updateCommand.Parameters.AddWithValue("$rowVersion", newRowVersion);
+            updateCommand.Parameters.AddWithValue("$id", EmployeeId);
+            updateCommand.Parameters.AddWithValue("$originalRowVersion", RowVersion ?? Array.Empty<byte>());
+
+            var rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
+            {
+                TempData["Success"] = $"Сотрудник {FullName.Trim()} обновлен";
+                return RedirectToPage("Index");
+            }
+            else
+            {
+                // Конфликт при обновлении - получаем актуальные данные
+                var latestEmployee = await GetEmployeeByIdAsync(EmployeeId);
                 if (latestEmployee != null)
                 {
                     FullName = latestEmployee.FullName;
                     Position = latestEmployee.Position;
                     RowVersion = latestEmployee.RowVersion;
 
-                    ConcurrencyError = "Данные были изменены другим пользователем. Показаны актуальные данные.";
+                    ConcurrencyError = "Конфликт при сохранении. Показаны актуальные данные.";
                     ShowForm = true;
                     IsEditMode = true;
-                    Employees = await _context.Employees.ToListAsync();
+                    Employees = await GetAllEmployeesAsync();
                     return Page();
                 }
+
+                TempData["Error"] = "Сотрудник был удален другим пользователем";
+                return RedirectToPage("Index");
             }
-
-            // Обновляем поля
-            employee.FullName = FullName.Trim();
-            employee.Position = Position.Trim();
-
-            // Обновляем версию при каждом изменении
-            employee.RowVersion = Guid.NewGuid().ToByteArray();
-
-            await _context.SaveChangesAsync();
-
-            TempData["Success"] = $"Сотрудник {employee.FullName} обновлен";
-            return RedirectToPage("Index");
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            var latestEmployee = await _context.Employees
-                .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Id == EmployeeId);
-
-            if (latestEmployee != null)
-            {
-                FullName = latestEmployee.FullName;
-                Position = latestEmployee.Position;
-                RowVersion = latestEmployee.RowVersion;
-
-                ConcurrencyError = "Конфликт при сохранении. Показаны актуальные данные.";
-                ShowForm = true;
-                IsEditMode = true;
-                Employees = await _context.Employees.ToListAsync();
-                return Page();
-            }
-
-            TempData["Error"] = "Сотрудник был удален другим пользователем";
-            return RedirectToPage("Index");
         }
         catch (Exception ex)
         {
             ModelState.AddModelError("", $"Ошибка при обновлении: {ex.Message}");
             ShowForm = true;
             IsEditMode = true;
-            Employees = await _context.Employees.ToListAsync();
+            Employees = await GetAllEmployeesAsync();
             return Page();
         }
     }
@@ -196,15 +286,51 @@ public class IndexModel : PageModel
     }
 
     public async Task<IActionResult> OnPostDeleteAsync(int deleteId)
-    {
+    {        
         try
         {
-            var employee = await _context.Employees.FindAsync(deleteId);
-            if (employee != null)
+            using var connection = new SqliteConnection(_connectionString);
+            await connection.OpenAsync();
+
+            // Проверяем наличие связанных записей в WorkLogs
+            var checkLogsSql = "SELECT COUNT(*) FROM WorkLogs WHERE EmployeeId = $id";
+            int workLogsCount = 0;
+
+            using (var checkCommand = new SqliteCommand(checkLogsSql, connection))
             {
-                _context.Employees.Remove(employee);
-                await _context.SaveChangesAsync();
-                TempData["Success"] = $"Сотрудник {employee.FullName} удален";
+                checkCommand.Parameters.AddWithValue("$id", deleteId);
+                workLogsCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+            }
+
+            if (workLogsCount > 0)
+            {
+                TempData["Error"] =
+                    $"Невозможно удалить сотрудника. У него есть {workLogsCount} " +
+                    $"записей в журнале работ. Пожалуйста, сначала удалите эти записи.";
+
+                return RedirectToPage("Index");
+            }
+
+            // Получаем имя сотрудника для сообщения
+            var getNameSql = "SELECT FullName FROM Employees WHERE Id = $id";
+            string? employeeName = null;
+
+            using (var getNameCommand = new SqliteCommand(getNameSql, connection))
+            {
+                getNameCommand.Parameters.AddWithValue("$id", deleteId);
+                employeeName = await getNameCommand.ExecuteScalarAsync() as string;
+            }
+
+            // Параметризированный DELETE запрос
+            var deleteSql = "DELETE FROM Employees WHERE Id = $id";
+            using var deleteCommand = new SqliteCommand(deleteSql, connection);
+            deleteCommand.Parameters.AddWithValue("$id", deleteId);
+
+            var rowsAffected = await deleteCommand.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0 && !string.IsNullOrEmpty(employeeName))
+            {
+                TempData["Success"] = $"Сотрудник {employeeName} удален";
             }
             else
             {
@@ -219,6 +345,7 @@ public class IndexModel : PageModel
         return RedirectToPage("Index");
     }
 }
+
 public class Testing
 {
     public static int Sum(int a, int b)

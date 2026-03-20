@@ -74,7 +74,6 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Название</th>
             <th>Цена за час</th>
             <th>Действия</th>
@@ -86,7 +85,6 @@
             @foreach (var item in Model.Items)
             {
                         <tr>
-                            <td>@item.Id</td>
                             <td>@item.Title</td>
                             <td>@item.PricePerHour.ToString("N2") руб.</td>
                             <td>
