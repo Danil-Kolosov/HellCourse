@@ -530,7 +530,7 @@ items:
       repo: http://localhost:8080/root/lab-project.git
     id: OnGetAsync
     path: buildingCompany/Pages/Employees/Index.cshtml.cs
-    startLine: 95
+    startLine: 94
   assemblies:
   - buildingCompany
   namespace: buildingCompany.Pages.Employees
@@ -551,7 +551,6 @@ items:
       description: Если указан, открывает форму для редактирования сотрудника с данным ID.
     return:
       type: System.Threading.Tasks.Task
-      description: Заタчу, представляющую асинхронную операцию.
     content.vb: Public Function OnGetAsync(create As Boolean?, editId As Integer?) As Task
   overload: buildingCompany.Pages.Employees.IndexModel.OnGetAsync*
   nameWithType.vb: IndexModel.OnGetAsync(Boolean?, Integer?)
@@ -575,7 +574,7 @@ items:
       repo: http://localhost:8080/root/lab-project.git
     id: OnPostCreateAsync
     path: buildingCompany/Pages/Employees/Index.cshtml.cs
-    startLine: 176
+    startLine: 175
   assemblies:
   - buildingCompany
   namespace: buildingCompany.Pages.Employees
@@ -603,7 +602,7 @@ items:
       repo: http://localhost:8080/root/lab-project.git
     id: OnPostUpdateAsync
     path: buildingCompany/Pages/Employees/Index.cshtml.cs
-    startLine: 235
+    startLine: 234
   assemblies:
   - buildingCompany
   namespace: buildingCompany.Pages.Employees
@@ -638,7 +637,7 @@ items:
       repo: http://localhost:8080/root/lab-project.git
     id: OnPostCancelAsync
     path: buildingCompany/Pages/Employees/Index.cshtml.cs
-    startLine: 351
+    startLine: 350
   assemblies:
   - buildingCompany
   namespace: buildingCompany.Pages.Employees
@@ -666,7 +665,7 @@ items:
       repo: http://localhost:8080/root/lab-project.git
     id: OnPostDeleteAsync
     path: buildingCompany/Pages/Employees/Index.cshtml.cs
-    startLine: 356
+    startLine: 355
   assemblies:
   - buildingCompany
   namespace: buildingCompany.Pages.Employees

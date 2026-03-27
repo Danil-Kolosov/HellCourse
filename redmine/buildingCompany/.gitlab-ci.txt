@@ -1,8 +1,9 @@
 # .gitlab-ci.yml
 stages:
   - build
-  - test
   - deploy
+  - test
+  - docs
 
 # Этап 1: Сборка (Build)
 build:
@@ -12,21 +13,12 @@ build:
     - pwd
     - dotnet build buildingCompany/buildingCompany/buildingCompany.csproj
 
-# Этап 2: Тестирование (Test)
-test:
-  stage: test
-  script:
-    - echo "===== ЗАПУСК ТЕСТОВ ====="
-    - dotnet test buildingCompany/Test/Test.csproj
-    - if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-  dependencies:
-    - build
-
-# Этап 3: Деплой (Deploy)
-deploy:
+# Этап 2: Деплой
+# Для dev окружения
+deploy_dev:
   stage: deploy
-  script:
-    - echo "===== ОСТАНОВКА СТАРОГО ПРИЛОЖЕНИЯ ====="
+  script:    
+    - echo "===== ДЕПЛОЙ НА DEV СРЕДУ ====="
     - |
       $process = Get-Process -Name "buildingCompany" -ErrorAction SilentlyContinue
       if ($process) {
@@ -35,17 +27,123 @@ deploy:
       } else {
         echo "Приложение не запущено"
       }
-
-    - echo "===== ДЕПЛОЙ НА СЕРВЕР ====="
-    - dotnet publish buildingCompany/buildingCompany/buildingCompany.csproj -c Release -o D:\myapp_deploy\ # собирает приложение в готовый к запуску вид (все .dll, .exe в одну папку) конфигурация Release (оптимизированная версия)
-
-    - echo "===== ПРИМЕНЕНИЕ МИГРАЦИЙ ====="
-    - dotnet ef database update --project buildingCompany/buildingCompany/buildingCompany.csproj --connection "Data Source=D:\myapp_deploy\construction.db"
-
-    - echo "===== ЗАПУСК НОВОГО ПРИЛОЖЕНИЯ ====="
-    # Запускаем с указанием рабочей директории
-    - Start-Process -FilePath "D:\myapp_deploy\buildingCompany.exe" -WorkingDirectory "D:\myapp_deploy" -WindowStyle Hidden
-    
-    - echo "===== ДЕПЛОЙ ЗАВЕРШЕН ====="
+    - echo "===== ПУБЛИКАЦИЯ ПРИЛОЖЕНИЯ ====="
+    - dotnet publish buildingCompany/buildingCompany/buildingCompany.csproj -c Release -o D:\myapp_deploy_dev\
+    - echo "===== ПРИМЕНЕНИЕ МИГРАЦИЙ FLYWAY ДЛЯ DEV ====="
+    - D:\tools\flyway\flyway.cmd -url="jdbc:sqlite:D:\myapp_deploy_dev\construction.db" -locations="filesystem:D:/pnrpu/redmine/lab-project/buildingCompany/buildingCompany/MigrationsSQL/dev" -baselineOnMigrate=true migrate
+    - echo "===== ЗАПУСК ПРИЛОЖЕНИЯ ====="
+    - Start-Process -FilePath "D:\myapp_deploy_dev\buildingCompany.exe" -WorkingDirectory "D:\myapp_deploy_dev" -WindowStyle Hidden
+    - echo "===== DEV ДЕПЛОЙ ЗАВЕРШЕН ====="
   only:
-    - main  # только когда пушим в main
+    - dev
+
+# Для test окружения    gррр
+deploy_test:
+  stage: deploy
+  script:
+    - echo "===== ДЕПЛОЙ НА TEST СРЕДУ ====="
+    - |
+      $process = Get-Process -Name "buildingCompany" -ErrorAction SilentlyContinue
+      if ($process) {
+        $process | Stop-Process -Force
+        echo "Приложение остановлено"
+      } else {
+        echo "Приложение не запущено"
+      }
+    - echo "===== ПУБЛИКАЦИЯ ПРИЛОЖЕНИЯ ====="
+    - dotnet publish buildingCompany/buildingCompany/buildingCompany.csproj -c Release -o D:\myapp_deploy_test\
+    - echo "===== ПРИМЕНЕНИЕ МИГРАЦИЙ FLYWAY ДЛЯ TEST ====="
+    - D:\tools\flyway\flyway.cmd -url="jdbc:sqlite:D:\myapp_deploy_test\construction.db" -locations="filesystem:D:/pnrpu/redmine/lab-project/buildingCompany/buildingCompany/MigrationsSQL/test" -baselineOnMigrate=true migrate
+    - echo "===== ЗАПУСК ПРИЛОЖЕНИЯ ====="
+    - Start-Process -FilePath "D:\myapp_deploy_test\buildingCompany.exe" -WorkingDirectory "D:\myapp_deploy_test" -WindowStyle Hidden
+    - echo "===== TEST ДЕПЛОЙ ЗАВЕРШЕН ====="
+  only:
+    - test
+
+# Для prod окружения
+deploy_prod:
+  stage: deploy
+  script:    
+    - echo "===== ДЕПЛОЙ НА PROD СРЕДУ ====="
+    - |
+      $process = Get-Process -Name "buildingCompany" -ErrorAction SilentlyContinue
+      if ($process) {
+        $process | Stop-Process -Force
+        echo "Приложение остановлено"
+      } else {
+        echo "Приложение не запущено"
+      }
+    - echo "===== ПУБЛИКАЦИЯ ПРИЛОЖЕНИЯ ====="
+    - dotnet publish buildingCompany/buildingCompany/buildingCompany.csproj -c Release -o D:\myapp_deploy\
+    - echo "===== ПРИМЕНЕНИЕ МИГРАЦИЙ FLYWAY ДЛЯ PROD ====="
+    - D:\tools\flyway\flyway.cmd -url="jdbc:sqlite:D:\myapp_deploy\construction.db" -locations="filesystem:D:/pnrpu/redmine/lab-project/buildingCompany/buildingCompany/MigrationsSQL/prod" -baselineOnMigrate=true migrate
+    - echo "===== ЗАПУСК ПРИЛОЖЕНИЯ ====="
+    - Start-Process -FilePath "D:\myapp_deploy\buildingCompany.exe" -WorkingDirectory "D:\myapp_deploy" -WindowStyle Hidden
+    - echo "===== PROD ДЕПЛОЙ ЗАВЕРШЕН ====="
+  only:
+    - main
+
+# Этап 3: Тестирование для DEV
+test_dev:
+  stage: test
+  script:
+    - echo "===== ОЖИДАНИЕ ЗАПУСКА ПРИЛОЖЕНИЯ DEV ====="
+    - Start-Sleep -Seconds 3
+    - echo "===== ЗАПУСК ТЕСТОВ ДЛЯ DEV ====="
+    - dotnet test buildingCompany/Test/Test.csproj
+    - if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+  dependencies:
+    - deploy_dev
+  only:
+    - dev
+
+# Этап 3: Тестирование для TEST
+test_test:
+  stage: test
+  script:
+    - echo "===== ОЖИДАНИЕ ЗАПУСКА ПРИЛОЖЕНИЯ TEST ====="
+    - Start-Sleep -Seconds 3
+    - echo "===== ЗАПУСК ТЕСТОВ ДЛЯ TEST ====="
+    - dotnet test buildingCompany/Test/Test.csproj
+    - if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+  dependencies:
+    - deploy_test
+  only:
+    - test
+
+# Этап 3: Тестирование для PROD
+test_prod:
+  stage: test
+  script:
+    - echo "===== ОЖИДАНИЕ ЗАПУСКА ПРИЛОЖЕНИЯ PROD ====="
+    - Start-Sleep -Seconds 3
+    - echo "===== ЗАПУСК ТЕСТОВ ДЛЯ PROD ====="
+    - dotnet test buildingCompany/Test/Test.csproj
+    - if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+  dependencies:
+    - deploy_prod
+  only:
+    - main
+
+# Этап 4: Документация (Docs)
+docs:
+  stage: docs
+  script:
+    - echo "===== ОСТАНОВКА СТАРОГО СЕРВЕРА ДОКУМЕНТАЦИИ ====="
+    - |
+      $processes = Get-Process -Name "docfx" -ErrorAction SilentlyContinue
+      if ($processes) {
+        $processes | Stop-Process -Force
+        echo "Старый сервер документации остановлен"
+      } else {
+        echo "Сервер документации не запущен"
+      }
+    - echo "===== ГЕНЕРАЦИЯ ДОКУМЕНТАЦИИ ====="
+    - cd buildingCompany
+    - docfx docfx.json
+    - echo "===== ЗАПУСК СЕРВЕРА ДОКУМЕНТАЦИИ ====="
+    - Start-Process -FilePath "docfx" -ArgumentList "serve _site --port 8081" -WindowStyle Hidden
+    - echo "===== ДОКУМЕНТАЦИЯ ДОСТУПНА ====="
+    - echo "http://localhost:8081"
+  only:
+    - main

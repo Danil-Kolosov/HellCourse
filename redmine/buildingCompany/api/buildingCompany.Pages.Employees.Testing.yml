@@ -20,7 +20,7 @@ items:
       repo: http://localhost:8080/root/lab-project.git
     id: Testing
     path: buildingCompany/Pages/Employees/Index.cshtml.cs
-    startLine: 417
+    startLine: 416
   assemblies:
   - buildingCompany
   namespace: buildingCompany.Pages.Employees
@@ -55,7 +55,7 @@ items:
       repo: http://localhost:8080/root/lab-project.git
     id: Sum
     path: buildingCompany/Pages/Employees/Index.cshtml.cs
-    startLine: 419
+    startLine: 418
   assemblies:
   - buildingCompany
   namespace: buildingCompany.Pages.Employees

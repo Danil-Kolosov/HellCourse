@@ -5,54 +5,53 @@
 }
 
 <div class="container mt-4">
-    <h1 class="mb-4">Строительная компания</h1>
+    <h1 id="page-title" class="mb-4">Строительная компания</h1>
 
     <div class="row mb-4">
         <div class="col-md-3 mb-2">
-            <a href="/BuildingSites" class="btn btn-primary w-100">Объекты</a>
+            <a id="link-building-sites" href="/BuildingSites" class="btn btn-primary w-100">Объекты</a>
         </div>
         <div class="col-md-3 mb-2">
-            <a href="/WorkTypes" class="btn btn-success w-100">Виды работ</a>
+            <a id="link-work-types" href="/WorkTypes" class="btn btn-success w-100">Виды работ</a>
         </div>
         <div class="col-md-3 mb-2">
-            <a href="/Employees" class="btn btn-info w-100">Сотрудники</a>
+            <a id="link-employees" href="/Employees" class="btn btn-info w-100">Сотрудники</a>
         </div>
         <div class="col-md-3 mb-2">
-            <a href="/WorkLogs" class="btn btn-warning w-100">Журнал работ</a>
+            <a id="link-work-logs" href="/WorkLogs" class="btn btn-warning w-100">Журнал работ</a>
         </div>
     </div>
 
-
     <div class="row mb-4">
         <div class="col-md-3">
-            <div class="card text-white bg-primary">
+            <div id="card-building-sites" class="card text-white bg-primary">
                 <div class="card-body">
                     <h5 class="card-title">Объекты</h5>
-                    <p class="card-text display-6">@Model.TotalBuildingSites</p>
+                    <p id="total-building-sites" class="card-text display-6">@Model.TotalBuildingSites</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-success">
+            <div id="card-work-types" class="card text-white bg-success">
                 <div class="card-body">
                     <h5 class="card-title">Виды работ</h5>
-                    <p class="card-text display-6">@Model.TotalWorkTypes</p>
+                    <p id="total-work-types" class="card-text display-6">@Model.TotalWorkTypes</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-info">
+            <div id="card-employees" class="card text-white bg-info">
                 <div class="card-body">
                     <h5 class="card-title">Сотрудники</h5>
-                    <p class="card-text display-6">@Model.TotalEmployees</p>
+                    <p id="total-employees" class="card-text display-6">@Model.TotalEmployees</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-warning">
+            <div id="card-active-works" class="card text-white bg-warning">
                 <div class="card-body">
                     <h5 class="card-title">Активные работы</h5>
-                    <p class="card-text display-6">@Model.ActiveWorkLogs</p>
+                    <p id="active-work-logs" class="card-text display-6">@Model.ActiveWorkLogs</p>
                 </div>
             </div>
         </div>

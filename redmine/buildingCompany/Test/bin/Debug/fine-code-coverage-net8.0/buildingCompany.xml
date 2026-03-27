@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>buildingCompany</name>
+    </assembly>
+    <members>
+        <member name="T:buildingCompany.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:buildingCompany.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:buildingCompany.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:buildingCompany.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:buildingCompany.Migrations.AddRowVersion">
+            <inheritdoc />
+        </member>
+        <member name="M:buildingCompany.Migrations.AddRowVersion.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:buildingCompany.Migrations.AddRowVersion.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:buildingCompany.Migrations.AddRowVersion.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:buildingCompany.Models.BuildingSite">
+            <summary>
+            Класс, представляющий строительный объект.
+            </summary>
+        </member>
+        <member name="T:buildingCompany.Pages.Employees.IndexModel">
+            <summary>
+            Страница управления сотрудниками строительной компании.
+            </summary>
+            <remarks>
+            <para>Страница поддерживает следующие операции:</para>
+            <list type="bullet">
+            <item><description>Просмотр списка всех сотрудников</description></item>
+            <item><description>Добавление нового сотрудника</description></item>
+            <item><description>Редактирование данных сотрудника</description></item>
+            <item><description>Удаление сотрудника с проверкой связей</description></item>
+            </list>
+            <para>Реализована оптимистическая блокировка (optimistic concurrency) через поле RowVersion.</para>
+            </remarks>
+        </member>
+        <member name="M:buildingCompany.Pages.Employees.IndexModel.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Инициализирует новый экземпляр страницы сотрудников.
+            </summary>
+            <param name="configuration">Конфигурация приложения для получения строки подключения к БД.</param>
+            <exception cref="T:System.ArgumentNullException">Выбрасывается, если configuration равен null.</exception>
+        </member>
+        <member name="P:buildingCompany.Pages.Employees.IndexModel.Employees">
+            <summary>
+            Список всех сотрудников для отображения на странице.
+            </summary>
+        </member>
+        <member name="P:buildingCompany.Pages.Employees.IndexModel.EmployeeId">
+            <summary>
+            Идентификатор редактируемого сотрудника.
+            </summary>
+        </member>
+        <member name="P:buildingCompany.Pages.Employees.IndexModel.FullName">
+            <summary>
+            Полное имя сотрудника (Фамилия Имя Отчество).
+            </summary>
+            <remarks>Поле обязательно для заполнения.</remarks>
+        </member>
+        <member name="P:buildingCompany.Pages.Employees.IndexModel.Position">
+            <summary>
+            Должность сотрудника.
+            </summary>
+            <example>Маляр, Плотник, Разнорабочий</example>
+        </member>
+        <member name="P:buildingCompany.Pages.Employees.IndexModel.RowVersion">
+            <summary>
+            Версия записи для оптимистической блокировки.
+            Используется для предотвращения конфликтов при одновременном редактировании.
+            </summary>
+        </member>
+        <member name="P:buildingCompany.Pages.Employees.IndexModel.ConcurrencyError">
+            <summary>
+            Сообщение об ошибке при конфликте версий.
+            </summary>
+        </member>
+        <member name="P:buildingCompany.Pages.Employees.IndexModel.ShowForm">
+            <summary>
+            Флаг отображения формы добавления/редактирования.
+            </summary>
+        </member>
+        <member name="P:buildingCompany.Pages.Employees.IndexModel.IsEditMode">
+            <summary>
+            Флаг, указывающий, находится ли форма в режиме редактирования.
+            </summary>
+        </member>
+        <member name="M:buildingCompany.Pages.Employees.IndexModel.OnGetAsync(System.Nullable{System.Boolean},System.Nullable{System.Int32})">
+            <summary>
+            Обработчик GET-запроса для страницы сотрудников.
+            </summary>
+            <param name="create">Если true, открывает форму для создания нового сотрудника.</param>
+            <param name="editId">Если указан, открывает форму для редактирования сотрудника с данным ID.</param>    
+            <remarks>
+            Метод загружает список всех сотрудников и, при необходимости,
+            открывает форму для создания или редактирования.
+            </remarks>
+        </member>
+        <member name="M:buildingCompany.Pages.Employees.IndexModel.OnPostUpdateAsync">
+            <summary>
+            Обработчик POST-запроса для обновления существующего сотрудника.
+            </summary>
+            <returns>Перенаправление на страницу списка сотрудников при успехе, иначе возврат к странице с ошибкой.</returns>
+            <remarks>
+            <para>Реализует оптимистическую блокировку (optimistic concurrency):</para>
+            <list type="bullet">
+            <item><description>Проверяет версию записи перед обновлением</description></item>
+            <item><description>При обнаружении конфликта отображает актуальные данные</description></item>
+            <item><description>Генерирует новую версию при успешном обновлении</description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="T:buildingCompany.Pages.IndexModel">
+            <summary>
+            Главная страница приложения.
+            Отображает приветствие и основную информацию о компании.
+            ТЕСТОВО
+            </summary>
+        </member>
+    </members>
+</doc>

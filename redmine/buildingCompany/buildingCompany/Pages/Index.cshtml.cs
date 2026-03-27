@@ -9,6 +9,7 @@ namespace buildingCompany.Pages
     /// <summary>
     /// Главная страница приложения.
     /// Отображает приветствие и основную информацию о компании.
+    /// 
     /// </summary>
     public class IndexModel : PageModel
     {
